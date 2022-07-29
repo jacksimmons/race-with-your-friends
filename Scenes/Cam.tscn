@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scripts/Game/Camera/cam.gd" type="Script" id=1]
 
-[node name="Spatial" type="Node2D"]
+[node name="Camera" type="Node2D"]
 
 [node name="Cam" type="Camera2D" parent="."]
 current = true

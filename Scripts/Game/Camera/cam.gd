@@ -17,7 +17,7 @@ func _ready():
 	if player.name != str(SteamGlobals.STEAM_ID):
 		spectating = true
 	
-	delta_angle = Global._find_vector_angle(player.position.x, Vector2.UP)
+	delta_angle = Global._find_vector_angle(player.transform.x, Vector2.UP)
 	rotating = true
 
 

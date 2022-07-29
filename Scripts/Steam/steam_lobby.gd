@@ -27,7 +27,7 @@ var map: Node2D
 var checkpoints: Node2D
 
 var time: float = 0
-var my_player: RigidBody = null
+var my_player = null
 var position_last_update: Vector2 = Vector2.ZERO
 var rotation_last_update: int = 0
 
