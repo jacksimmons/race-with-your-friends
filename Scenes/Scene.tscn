@@ -3,13 +3,13 @@
 [ext_resource path="res://Scripts/Game/UI/accelerometer.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Game/UI/timer.gd" type="Script" id=2]
 
-[node name="Scene" type="Node2D"]
+[node name="Scene" type="Spatial"]
 
 [node name="Background" type="Node2D" parent="."]
 
-[node name="Players" type="Node2D" parent="."]
+[node name="Players" type="Spatial" parent="."]
 
-[node name="Bots" type="Node2D" parent="."]
+[node name="Bots" type="Spatial" parent="."]
 
 [node name="Foreground" type="Node2D" parent="."]
 

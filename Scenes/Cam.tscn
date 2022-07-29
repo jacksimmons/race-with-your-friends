@@ -4,10 +4,6 @@
 
 [node name="Spatial" type="Spatial"]
 
-[node name="Cam" type="Camera2D" parent="."]
+[node name="Cam" type="Camera" parent="."]
 current = true
-drag_margin_left = 0.0
-drag_margin_top = 0.0
-drag_margin_right = 0.0
-drag_margin_bottom = 0.0
 script = ExtResource( 1 )

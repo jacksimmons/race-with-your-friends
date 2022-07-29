@@ -21,16 +21,13 @@ onready var gmSelectPopup = $GMSelectPopup
 onready var openCharSelect = $OpenCharSelect
 onready var closeCharSelect = $CharSelectPopup/CharSelect/CloseCharSelect
 
-onready var script_pl = preload("res://Scripts/Game/player.gd")
-onready var script_ai = preload("res://Scripts/Game/agent.gd")
-
 var host: bool = false
 
 var map: Node2D
 var checkpoints: Node2D
 
 var time: float = 0
-var my_player: Node2D = null
+var my_player: RigidBody = null
 var position_last_update: Vector2 = Vector2.ZERO
 var rotation_last_update: int = 0
 
@@ -75,9 +72,9 @@ func _process(delta):
 			if my_player.position != position_last_update:
 				send_P2P_Packet("all", {"position": my_player.position})
 				position_last_update = my_player.position
-			if my_player.rotation != rotation_last_update:
-				send_P2P_Packet("all", {"rotation": my_player.rotation})
-				rotation_last_update = my_player.rotation
+			if my_player.rotation.z != rotation_last_update:
+				send_P2P_Packet("all", {"rotation": my_player.rotation.z})
+				rotation_last_update = my_player.rotation.z
 	
 	for player_id in lerps:
 		var player = get_node("/root/Scene/Players/" + str(player_id))
@@ -405,8 +402,6 @@ func start_Pre_Config() -> void:
 		var cams = get_node("/root/Scene/Cameras")
 		my_player.add_child(my_cam)
 		
-		my_player.set_script(script_pl)
-		
 		var ids = SteamGlobals.PLAYER_DATA.keys()
 		# Load other Players and their Cameras
 		
@@ -418,8 +413,6 @@ func start_Pre_Config() -> void:
 				var player = load("res://Scenes/Vehicles/" + vehicle + ".tscn").instance()
 				player.set_name(str(player_id))
 				players.add_child(player)
-				
-				player.set_script(script_pl)
 				
 				var cam = preload("res://Scenes/Cam.tscn").instance()
 				cam.set_name("CAM_" + str(player_id))
@@ -436,9 +429,9 @@ func start_Bot_Config() -> void:
 	
 		var bot = load("res://Scenes/Vehicles/" + vehicle + ".tscn").instance()
 		bot.set_name("BOT" + str(i))
+		bot.bot = true
 		var bots = get_node("/root/Scene/Bots")
 		bots.add_child(bot)
-		bot.set_script(script_ai)
 		
 		var cam = preload("res://Scenes/Cam.tscn").instance()
 		cam.set_name("BOTCAM_" + str(i))

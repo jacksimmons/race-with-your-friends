@@ -5,10 +5,17 @@ var on_ice = false
 
 onready var on_ice_value = $"/root/Scene/Canvas/Stats/Physics/OnIce"
 
+var player
+
+
+func _ready():
+	player = get_node("/root/Scene/Players" + str(SteamGlobals.STEAM_ID))
+
 
 func _process(delta):
 	on_ice = len(ice_areas_in_contact_with_player) > 0
-	Global.PLAYER_ON_ICE = on_ice
+	if player != null:
+		player.on_ice = on_ice
 	on_ice_value.text = "On Ice: " + str(on_ice)
 
 

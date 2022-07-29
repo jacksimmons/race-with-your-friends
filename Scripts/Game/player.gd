@@ -1,34 +1,35 @@
-extends KinematicBody2D
+extends VehicleBody
 
 const min_crash_spd = 20 #mph
 
-### DEBUG
-
-onready var pos_value = get_node("../../Canvas/Stats/Position/PosValue")
-onready var pos_button = get_node("../../Canvas/Stats/Position/PosButton")
-
-onready var spd_value = get_node("../../Canvas/Stats/Speed/SpeedValue")
-onready var spd_button = get_node("../../Canvas/Stats/Speed/SpeedButton")
-onready var spd_0er = get_node("../../Canvas/Stats/Speed/SpeedZeroer")
-
-onready var max_spd_slider = get_node("../../Canvas/Stats/MaxSpeed/MaxSpdSlider")
-onready var max_spd_value = get_node("../../Canvas/Stats/MaxSpeed/MaxSpdValue")
-
-onready var acc_slider = get_node("../../Canvas/Stats/Acc/AccSlider")
-onready var acc_value = get_node("../../Canvas/Stats/Acc/AccValue")
-
-onready var turn_slider = get_node("../../Canvas/Stats/Turn/TurnSlider")
-onready var turn_value = get_node("../../Canvas/Stats/Turn/TurnValue")
-
-onready var e_slider = get_node("../../Canvas/Stats/Physics/CoRSlider")
-onready var e_value = get_node("../../Canvas/Stats/Physics/CoRValue")
-
-onready var friction_value = get_node("../../Canvas/Stats/Physics/Friction")
-
-onready var hp_value = get_node("../../Canvas/Stats/HP/Label")
+# Determines whether the player acts for a human or a bot.
+var bot = false
 
 var prev_max_spd_slider = null
 var prev_acc_slider = null
+
+var pos_value
+var pos_button
+
+var spd_value
+var spd_button
+var spd_0er
+
+var max_spd_slider
+var max_spd_value
+
+var acc_slider
+var acc_value
+
+var turn_slider
+var turn_value
+
+var e_slider
+var e_value
+
+var friction_value
+
+var hp_value
 
 ### END DEBUG
 
@@ -36,9 +37,11 @@ var prev_acc_slider = null
 var driving_direction: int = 0
 var moving_direction: int = 0
 
-var friction
 var std_friction = 0.8
 var ice_friction = 0.4
+
+var on_ice = false
+var ice_friction_applied = false
 
 # Text
 export (Color, RGB) var DEBUG_DEFAULT
@@ -48,21 +51,56 @@ var my_data: Dictionary
 var stats: Dictionary
 var velocity: Vector2
 
+var MAX_SPEED
+var ACCELERATION
+var HANDLING
+var HP
+
 var prev_max_spd
 
-func _ready():	
+func _ready():
 	# Variable definition
 	friction = std_friction
 	
 	# Get player data
-	if "BOT" in name:
-		my_data = SteamGlobals.BOT_DATA[name]
-		$PlayerName/Name.text = name
-	else:
+	print(name)
+	if !bot:
 		my_data = SteamGlobals.PLAYER_DATA[int(name)]
 		$PlayerName/Name.text = my_data["steam_name"]
+		
+		### DEBUG
+		pos_value = get_node("../../Canvas/Stats/Position/PosValue")
+		pos_button = get_node("../../Canvas/Stats/Position/PosButton")
 
-	stats = Global.VEHICLE_BASE_STATS[my_data["vehicle"]]
+		spd_value = get_node("../../Canvas/Stats/Speed/SpeedValue")
+		spd_button = get_node("../../Canvas/Stats/Speed/SpeedButton")
+		spd_0er = get_node("../../Canvas/Stats/Speed/SpeedZeroer")
+
+		max_spd_slider = get_node("../../Canvas/Stats/MaxSpeed/MaxSpdSlider")
+		max_spd_value = get_node("../../Canvas/Stats/MaxSpeed/MaxSpdValue")
+
+		acc_slider = get_node("../../Canvas/Stats/Acc/AccSlider")
+		acc_value = get_node("../../Canvas/Stats/Acc/AccValue")
+
+		turn_slider = get_node("../../Canvas/Stats/Turn/TurnSlider")
+		turn_value = get_node("../../Canvas/Stats/Turn/TurnValue")
+
+		e_slider = get_node("../../Canvas/Stats/Physics/CoRSlider")
+		e_value = get_node("../../Canvas/Stats/Physics/CoRValue")
+
+		friction_value = get_node("../../Canvas/Stats/Physics/Friction")
+
+		hp_value = get_node("../../Canvas/Stats/HP/Label")
+		
+	else:
+		my_data = SteamGlobals.BOT_DATA[name]
+		$PlayerName/Name.text = name
+
+	var STATS = Global.VEHICLE_BASE_STATS[my_data["vehicle"]]
+	MAX_SPEED     = STATS["SPD"]
+	ACCELERATION  = STATS["ACC"]
+	HANDLING      = STATS["HDL"]
+	HP            = STATS["HP"]
 
 	# When moving a kinematic body, you should not set its position directly.
 	# Instead, you use the move_and_collide() or move_and_slide() methods.
@@ -70,30 +108,19 @@ func _ready():
 	# stop if a collision is detected with another body. After the body has
 	# collided, any collision response must be coded manually.
 
-	velocity = Vector2.ZERO
-
 
 func _process(delta):
-	if Global.PLAYER_ON_ICE:
+	if on_ice:
 		friction = ice_friction
 	else:
 		friction = std_friction
-	_handle_debug()
+		
+	if !bot:
+		_handle_debug()
 
 
 func _physics_process(delta):
 	if int(name) == SteamGlobals.STEAM_ID:
-		var collision_info = move_and_collide(velocity * delta)
-		if collision_info:
-			# Collision
-			var speed_mph = velocity.length() * 0.08
-			if speed_mph >= min_crash_spd:
-				# If velocity >= 20mph:
-				var damage = int(ceil(speed_mph - min_crash_spd) / 10) + 1
-				stats["HP"] -= damage
-				
-			velocity *= -Global.e
-		
 		_handle_input()
 		if driving_direction == 0: _handle_friction()
 
@@ -102,51 +129,32 @@ var debug_setup = false
 func _handle_debug():
 	
 	if !debug_setup:
-		max_spd_slider.value = stats["SPD"]
-		acc_slider.value = stats["ACC"]
-		turn_slider.value = stats["HDL"]
+		max_spd_slider.value = MAX_SPEED
+		acc_slider.value = ACCELERATION
+		turn_slider.value = HANDLING
 		e_slider.value = Global.e
 		
 		debug_setup = true
 	
 	# Stats UI
-	# pos
-	if pos_button.pressed:
-		var pos_text = pos_value.text
-		if pos_text != str(position):
-			var y_entered = false
-			var x_value = ""
-			var y_value = ""
-			for i in range(0, len(pos_text)):
-				if pos_text[i] == ",":
-					y_entered = true
-				
-				if not y_entered and pos_text[i] != "," and pos_text[i] != "(":
-					x_value += pos_text[i]
-				
-				elif y_entered and pos_text[i] != "," and pos_text[i] != " " and pos_text[i] != ")":
-					y_value += pos_text[i]
-					
-			position = Vector2(float(x_value), float(y_value))
-			
-	elif position != Vector2.ZERO:
-		pos_value.text = "(" + str(stepify(position.x, 0.1)) + ", " + str(stepify(position.y, 0.1)) + ")"
+	pos_value.text = "(" + str(stepify(transform.origin.x, 0.1)) + ", " \
+	 + str(stepify(transform.origin.y, 0.1)) + ", " \
+	 + str(stepify(transform.origin.z, 0.1)) + ")"
 		
-	spd_value.text = str(velocity.length())
-	
+	spd_value.text = str(get_linear_velocity().length())
 	if spd_0er.pressed:
-		velocity = Vector2.ZERO
+		set_linear_velocity(Vector3.ZERO)
 	
 	# max speed
 	max_spd_value.text = str(max_spd_slider.value)
 	if prev_max_spd_slider != null and prev_max_spd_slider != max_spd_slider.value:
-		stats["SPD"] = max_spd_slider.value
+		MAX_SPEED = max_spd_slider.value
 	prev_max_spd_slider = max_spd_slider.value
 	
 	# acc
 	acc_value.text = str(acc_slider.value)
 	if prev_acc_slider != null and prev_acc_slider != acc_slider.value:
-		stats["ACC"] = acc_slider.value
+		ACCELERATION = acc_slider.value
 	prev_acc_slider = acc_slider.value
 	
 	if (acc_slider.value >= max_spd_slider.value
@@ -159,7 +167,7 @@ func _handle_debug():
 	
 	# turn
 	turn_value.text = str(turn_slider.value)
-	stats["HDL"] = turn_slider.value
+	HANDLING = turn_slider.value
 	
 	# e
 	e_value.text = str(e_slider.value)
@@ -169,17 +177,17 @@ func _handle_debug():
 	friction_value.text = "Friction: " + str(friction)
 	
 	# hp
-	hp_value.text = "HP: " + str(stats["HP"])
+	hp_value.text = "HP: " + str(HP)
 
 
 func _accelerate(acc, max_spd):
-	moving_direction = Global._find_vector_direction(velocity.normalized(), transform.x)
+	moving_direction = Global._find_vector_direction(get_linear_velocity().normalized(), transform.origin)
 	
 	if acc > 0 and moving_direction * velocity.length() + acc < max_spd:
-		velocity += acc * transform.x
+		velocity += acc * transform.origin.x
 			
 	elif acc < 0 and moving_direction * velocity.length() - acc > -max_spd:
-		velocity += acc * transform.x
+		velocity += acc * transform.origin.x
 			
 	else:
 		velocity = velocity.normalized() * max_spd
@@ -187,14 +195,14 @@ func _accelerate(acc, max_spd):
 
 func _turn(dir, hdl):
 	# d1
-	var previous_forward_vector = transform.x
+	var previous_forward_vector = transform.origin.x
 	var angle = hdl / 200
-	var rotation_vector = velocity.rotated(angle)
-	var rotation_angle = dir * (Global._find_vector_angle(velocity, rotation_vector))
+	var rotation_vector = get_linear_velocity().rotated(Vector3.BACK, angle)
+	var rotation_angle = dir * (Global._find_vector_angle(get_linear_velocity(), rotation_vector))
 	rotation += rotation_angle
 	
 	# d2
-	var new_forward_vector = transform.x
+	var new_forward_vector = transform.origin.x
 	
 	# Align the car's velocity with the direction it is now facing.
 	# d1->d2 = d2 - d1
@@ -215,14 +223,14 @@ func _handle_input():
 	# Movement
 	if Input.is_action_pressed("forward"):
 		driving_direction = 1
-		_accelerate(stats["ACC"] * 1, (200 + stats["SPD"] * 40))
+		#_accelerate(ACCELERATION * 1, (200 + MAX_SPEED * 40))
 	
 	if Input.is_action_just_released("forward"):
 		driving_direction = 0
 		
 	if Input.is_action_pressed("reverse"):
 		driving_direction = -1
-		_accelerate(-stats["ACC"] * 1, (200 + stats["SPD"] * 40))
+		#_accelerate(-ACCELERATION * 1, (200 + MAX_SPEED * 40))
 	
 	if Input.is_action_just_released("reverse"):
 		driving_direction = 0
@@ -230,32 +238,28 @@ func _handle_input():
 	# Turning	
 	if Input.is_action_pressed("left"):
 		if moving_direction == 1:
-			_turn(-1, stats["HDL"])
+			_turn(-1, HANDLING)
 		elif moving_direction == -1:
-			_turn(1, stats["HDL"])
+			_turn(1, HANDLING)
 		
 	if Input.is_action_pressed("right"):
 		if moving_direction == 1:
-			_turn(1, stats["HDL"])
+			_turn(1, HANDLING)
 		elif moving_direction == -1:
-			_turn(-1, stats["HDL"])
-	
-	# Debug
-	if Input.is_action_just_pressed("teleport"):
-		global_position = get_global_mouse_position()
+			_turn(-1, HANDLING)
 	
 	if Input.is_action_just_pressed("boost"):
-		stats["ACC"] *= 100
-		prev_max_spd = stats["SPD"]
-		stats["SPD"] = 10
+		ACCELERATION *= 100
+		prev_max_spd = MAX_SPEED
+		MAX_SPEED = 10
 	
 	if Input.is_action_just_released("boost"):
-		stats["ACC"] /= 100
-		stats["SPD"] = prev_max_spd
+		ACCELERATION /= 100
+		MAX_SPEED = prev_max_spd
 	
 	if Input.is_action_just_released("oil"):
-		stats["ACC"] /= 100
-		stats["SPD"] = prev_max_spd
+		ACCELERATION /= 100
+		MAX_SPEED = prev_max_spd
 	
 	if Input.is_action_just_pressed("grapple"):
 		var players = get_node("/root/Scene/Players")
@@ -278,7 +282,7 @@ func _handle_input():
 
 
 func _handle_friction():
-	var fraction_of_max_spd = velocity.length() / (200 + stats["SPD"] * 40)
+	var fraction_of_max_spd = velocity.length() / (200 + MAX_SPEED * 40)
 	var vel_dir = velocity.normalized()
 	
 	# Friction has a minimum value (friction) and increases with speed 
