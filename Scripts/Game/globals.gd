@@ -103,7 +103,19 @@ enum TimeFormat {
 
 
 # CONST FN
-func _find_vector_angle(v1: Vector3, v2: Vector3):
+func _v2_to_v3(v: Vector2, z: float) -> Vector3:
+	return Vector3(v.x, v.y, z)
+
+
+func _find_vector_angle(v1, v2):
+	# Works on v2 and v3.
+	
+	# Handle Vector2->Vector3 casting, errors throw for any other type.
+	if typeof(v1) == TYPE_VECTOR2:
+		v1 = _v2_to_v3(v1, 0)
+	if typeof(v2) == TYPE_VECTOR2:
+		v2 = _v2_to_v3(v2, 0)
+	
 	# Returns the angle between v1 and v2
 	if v1 != Vector3.ZERO and v2 != Vector3.ZERO:
 		# Cosine rule. Gives result in rads

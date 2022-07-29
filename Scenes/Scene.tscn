@@ -3,13 +3,13 @@
 [ext_resource path="res://Scripts/Game/UI/accelerometer.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Game/UI/timer.gd" type="Script" id=2]
 
-[node name="Scene" type="Spatial"]
+[node name="Scene" type="Node2D"]
 
 [node name="Background" type="Node2D" parent="."]
 
-[node name="Players" type="Spatial" parent="."]
+[node name="Players" type="Node2D" parent="."]
 
-[node name="Bots" type="Spatial" parent="."]
+[node name="Bots" type="Node2D" parent="."]
 
 [node name="Foreground" type="Node2D" parent="."]
 
@@ -20,18 +20,6 @@
 [node name="Canvas" type="CanvasLayer" parent="."]
 
 [node name="Stats" type="Control" parent="Canvas"]
-
-[node name="HP" type="Control" parent="Canvas/Stats"]
-margin_left = 5.0
-margin_top = 512.0
-margin_right = 45.0
-margin_bottom = 552.0
-
-[node name="Label" type="Label" parent="Canvas/Stats/HP"]
-margin_top = 27.0
-margin_right = 40.0
-margin_bottom = 41.0
-text = "HP:"
 
 [node name="Position" type="Control" parent="Canvas/Stats"]
 margin_right = 40.0
@@ -281,6 +269,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="CoefficientOfRestitution" type="Control" parent="Canvas/Stats"]
+margin_left = -0.707108
+margin_top = 53.033
+margin_right = 39.2929
+margin_bottom = 93.033
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Network" type="Control" parent="Canvas"]
 margin_right = 40.0
 margin_bottom = 40.0
@@ -291,6 +288,9 @@ __meta__ = {
 [node name="Race" type="Control" parent="Canvas"]
 margin_right = 40.0
 margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="LapCount" type="Label" parent="Canvas/Race"]
 margin_left = 7.77758

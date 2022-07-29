@@ -1,9 +1,10 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Sprites/Maps/temporary cock map.png" type="Texture" id=1]
-[ext_resource path="res://Sprites/Maps/temporary cock map.bg.png" type="Texture" id=2]
+[ext_resource path="res://Graphics/Maps/TempCock/temporary cock map.png" type="Texture" id=1]
+[ext_resource path="res://Graphics/Maps/TempCock/temporary cock map.bg.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Game/Activators/cp_handler.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/Game/Activators/cp.gd" type="Script" id=4]
+
 
 [sub_resource type="SegmentShape2D" id=1]
 a = Vector2( 87.6054, 0.00634766 )

@@ -47,20 +47,22 @@ b = Vector2( 162.182, -182.615 )
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 56.7605, 216.752 )
 
-[node name="ScorpionMap" type="Spatial"]
+[node name="ScorpionMap" type="Node2D"]
 script = ExtResource( 4 )
 
-[node name="MapSprite" type="Sprite3D" parent="."]
-axis = 1
+[node name="MapSprite" type="Sprite" parent="."]
+position = Vector2( -220.312, -130.57 )
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Concrete" type="StaticBody" parent="."]
+[node name="Concrete" type="StaticBody2D" parent="."]
+visible = false
 collision_layer = 4
 
-[node name="IceSlideCollision1" type="CollisionPolygon" parent="Concrete"]
+[node name="IceSlideCollision1" type="CollisionPolygon2D" parent="Concrete"]
+visible = false
 polygon = PoolVector2Array( 373.178, -719.587, 348.792, -902.061, 366.611, -1079.62, 461.105, -1211.91, 631.511, -1334.37, 853.257, -1404.93, 1028.39, -1430.13, 1212.33, -1430.13, 1270.61, -1403.96, 1397.85, -1371.85, 1525.1, -1270.58, 1611.37, -1150.37, 1667.94, -1023.09, 1706.12, -880.253, 1710.36, -687.92, 1672.42, -532.133, 1617.69, -390.426, 1514.38, -251.835, 1382.2, -143.801, 1231.4, -39.0328, 1179.02, 11.7641, 1071.07, 56.2113, 939.318, 75.2601, 801.214, 122.882, 637.712, 151.455, 361.504, 172.092, 362.261, 162.024, 637.2, 139.549, 800.516, 111.081, 944.5, 64.6362, 1070.64, 46.6158, 1178.1, 0.563843, 1228.15, -48.1578, 1380, -155.157, 1508.7, -259.809, 1603.45, -395.574, 1662, -539, 1697, -696, 1697, -882, 1654.97, -1023.93, 1600.27, -1147.61, 1516.83, -1266.53, 1393.17, -1363.35, 1269.5, -1395.45, 877.059, -1390.7, 790.247, -1374.05, 674.894, -1340.75, 613.055, -1305.07, 550.027, -1261.07, 481.053, -1209.94, 434.674, -1151.67, 393.052, -1095.77, 370.457, -1023.23, 364.511, -950.691, 365.7, -860.311, 375.214, -754.472, 389.355, -719.544 )
 
 [node name="IceSlideCollision2" type="CollisionPolygon2D" parent="Concrete"]

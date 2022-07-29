@@ -1,4 +1,4 @@
-extends VehicleBody
+extends KinematicBody2D
 
 const min_crash_spd = 20 #mph
 

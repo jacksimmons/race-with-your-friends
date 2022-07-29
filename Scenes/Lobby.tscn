@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Menus/lobby_player_count.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Menus/lobby.gd" type="Script" id=2]
+
+[node name="Lobby" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="LocalPlayerID" type="Label" parent="."]
+margin_left = 926.647
+margin_top = 5.82494
+margin_right = 1029.65
+margin_bottom = 32.8249
+text = "LocalPlayerID:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="WaitingLabel" type="Label" parent="CanvasLayer"]
+margin_left = 285.656
+margin_top = 272.307
+margin_right = 454.656
+margin_bottom = 286.307
+rect_scale = Vector2( 3, 3 )
+text = "Waiting for host..."
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NumPlayersLabel" type="Label" parent="CanvasLayer"]
+margin_left = 325.701
+margin_top = 321.696
+margin_right = 532.701
+margin_bottom = 335.696
+rect_scale = Vector2( 2, 2 )
+align = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
