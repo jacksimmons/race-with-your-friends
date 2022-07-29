@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "Long Limo.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 34, "h": 179 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 34, "h": 179 },
+    "sourceSize": { "w": 34, "h": 179 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.38-x64",
+  "image": "Long Limo.png",
+  "format": "RGBA8888",
+  "size": { "w": 34, "h": 179 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

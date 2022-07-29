@@ -1,0 +1,274 @@
+{ "frames": [
+   {
+    "filename": "Main menu (Flip Sighns) 0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 1.aseprite",
+    "frame": { "x": 960, "y": 0, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 2.aseprite",
+    "frame": { "x": 1920, "y": 0, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 3.aseprite",
+    "frame": { "x": 2880, "y": 0, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 4.aseprite",
+    "frame": { "x": 3840, "y": 0, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 5.aseprite",
+    "frame": { "x": 0, "y": 540, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 6.aseprite",
+    "frame": { "x": 0, "y": 540, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 7.aseprite",
+    "frame": { "x": 0, "y": 540, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 8.aseprite",
+    "frame": { "x": 960, "y": 540, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 9.aseprite",
+    "frame": { "x": 1920, "y": 540, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 10.aseprite",
+    "frame": { "x": 2880, "y": 540, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 11.aseprite",
+    "frame": { "x": 3840, "y": 540, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 12.aseprite",
+    "frame": { "x": 3840, "y": 540, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 13.aseprite",
+    "frame": { "x": 3840, "y": 540, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 14.aseprite",
+    "frame": { "x": 0, "y": 1080, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 15.aseprite",
+    "frame": { "x": 960, "y": 1080, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 16.aseprite",
+    "frame": { "x": 1920, "y": 1080, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 17.aseprite",
+    "frame": { "x": 2880, "y": 1080, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 18.aseprite",
+    "frame": { "x": 3840, "y": 1080, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 19.aseprite",
+    "frame": { "x": 0, "y": 1620, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 20.aseprite",
+    "frame": { "x": 0, "y": 1620, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 21.aseprite",
+    "frame": { "x": 0, "y": 1620, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 22.aseprite",
+    "frame": { "x": 960, "y": 1620, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 23.aseprite",
+    "frame": { "x": 1920, "y": 1620, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 24.aseprite",
+    "frame": { "x": 2880, "y": 1620, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 25.aseprite",
+    "frame": { "x": 3840, "y": 1620, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 26.aseprite",
+    "frame": { "x": 0, "y": 2160, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 27.aseprite",
+    "frame": { "x": 960, "y": 2160, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   },
+   {
+    "filename": "Main menu (Flip Sighns) 28.aseprite",
+    "frame": { "x": 1920, "y": 2160, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.38-x64",
+  "image": "Flip Sighns.png",
+  "format": "RGBA8888",
+  "size": { "w": 4800, "h": 2700 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

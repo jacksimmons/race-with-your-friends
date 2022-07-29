@@ -28,6 +28,10 @@ settings/fps/force_fps=60
 mouse_cursor/custom_image="res://Sprites/UI/car_arrow.png"
 window/snapping/use_gpu_pixel_snap=false
 
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/AsepriteWizard/plugin.cfg" )
+
 [global]
 
 collision=false

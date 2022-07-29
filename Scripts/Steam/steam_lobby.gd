@@ -21,6 +21,9 @@ onready var gmSelectPopup = $GMSelectPopup
 onready var openCharSelect = $OpenCharSelect
 onready var closeCharSelect = $CharSelectPopup/CharSelect/CloseCharSelect
 
+onready var script_pl = preload("res://Scripts/Game/player.gd")
+onready var script_ai = preload("res://Scripts/Game/agent.gd")
+
 var host: bool = false
 
 var map: Node2D
@@ -170,7 +173,7 @@ func add_Player_List(steam_id, steam_name) -> void:
 		var text = ""
 		
 		# Establish player state
-		if steam_id == Steam.getLobbyOwner(SteamGlobals.LOBBY_ID):
+		if MEMBER["steam_id"] == Steam.getLobbyOwner(SteamGlobals.LOBBY_ID):
 			text += "(HOST) "
 		
 		text += MEMBER["steam_name"]
@@ -402,6 +405,8 @@ func start_Pre_Config() -> void:
 		var cams = get_node("/root/Scene/Cameras")
 		my_player.add_child(my_cam)
 		
+		my_player.set_script(script_pl)
+		
 		var ids = SteamGlobals.PLAYER_DATA.keys()
 		# Load other Players and their Cameras
 		
@@ -413,6 +418,8 @@ func start_Pre_Config() -> void:
 				var player = load("res://Scenes/Vehicles/" + vehicle + ".tscn").instance()
 				player.set_name(str(player_id))
 				players.add_child(player)
+				
+				player.set_script(script_pl)
 				
 				var cam = preload("res://Scenes/Cam.tscn").instance()
 				cam.set_name("CAM_" + str(player_id))
@@ -429,9 +436,10 @@ func start_Bot_Config() -> void:
 	
 		var bot = load("res://Scenes/Vehicles/" + vehicle + ".tscn").instance()
 		bot.set_name("BOT" + str(i))
-		
 		var bots = get_node("/root/Scene/Bots")
 		bots.add_child(bot)
+		bot.set_script(script_ai)
+		
 		var cam = preload("res://Scenes/Cam.tscn").instance()
 		cam.set_name("BOTCAM_" + str(i))
 		bot.add_child(cam)
@@ -629,6 +637,7 @@ func _on_All_Ready():
 	start_Pre_Config()
 	var ids = SteamGlobals.PLAYER_DATA.keys()
 	var num_players = len(ids)
+	print(len(ids))
 	var num_bots = SteamGlobals.MAX_MEMBERS - num_players
 	if host:
 		for i in range(num_bots):

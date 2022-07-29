@@ -1,4 +1,4 @@
-extends Node
+extends KinematicBody2D
 
 
 # Declare member variables here. Examples:
@@ -6,13 +6,8 @@ extends Node
 # var b = "text"
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	var vehicles = Global.VEHICLE_BASE_STATS.keys()
-	var my_vehicle = vehicles[randi() % vehicles.size()]
-	var my_player = load("res://Scenes/Vehicles/" + my_vehicle + ".tscn").instance()
-	var players = get_node("/root/Scene/Players")
-	players.add_child(my_player)
+func _process(delta):
+	move_and_collide(Vector2(1, 0))
 	
 	# Spectating an AI:
 	#var my_cam = preload("res://Scenes/Cam.tscn").instance()

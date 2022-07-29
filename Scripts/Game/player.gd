@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+const min_crash_spd = 20 #mph
+
 ### DEBUG
 
 onready var pos_value = get_node("../../Canvas/Stats/Position/PosValue")
@@ -22,6 +24,8 @@ onready var e_slider = get_node("../../Canvas/Stats/Physics/CoRSlider")
 onready var e_value = get_node("../../Canvas/Stats/Physics/CoRValue")
 
 onready var friction_value = get_node("../../Canvas/Stats/Physics/Friction")
+
+onready var hp_value = get_node("../../Canvas/Stats/HP/Label")
 
 var prev_max_spd_slider = null
 var prev_acc_slider = null
@@ -81,6 +85,13 @@ func _physics_process(delta):
 	if int(name) == SteamGlobals.STEAM_ID:
 		var collision_info = move_and_collide(velocity * delta)
 		if collision_info:
+			# Collision
+			var speed_mph = velocity.length() * 0.08
+			if speed_mph >= min_crash_spd:
+				# If velocity >= 20mph:
+				var damage = int(ceil(speed_mph - min_crash_spd) / 10) + 1
+				stats["HP"] -= damage
+				
 			velocity *= -Global.e
 		
 		_handle_input()
@@ -155,7 +166,10 @@ func _handle_debug():
 	Global.e = e_slider.value
 	
 	# friction
-	friction_value.text = "Friction: " + str(friction)	
+	friction_value.text = "Friction: " + str(friction)
+	
+	# hp
+	hp_value.text = "HP: " + str(stats["HP"])
 
 
 func _accelerate(acc, max_spd):
