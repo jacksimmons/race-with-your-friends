@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-const min_crash_spd = 20 #mph
+const min_crash_spd = 20 #mps
 
 ### DEBUG
 
@@ -127,10 +127,10 @@ func _physics_process(delta):
 		var collision_info = move_and_collide(velocity * delta)
 		if collision_info:
 			# Collision
-			var speed_mph = velocity.length() * 0.08
-			if speed_mph >= min_crash_spd:
-				# If velocity >= 20mph:
-				var damage = int(ceil(speed_mph - min_crash_spd) / 10) + 1
+			var speed_mps = velocity.length() * 0.08
+			if speed_mps >= min_crash_spd:
+				# If velocity >= 20mps:
+				var damage = int(ceil(speed_mps - min_crash_spd) / 10) + 1
 				HP -= damage
 				
 			velocity *= -Global.e

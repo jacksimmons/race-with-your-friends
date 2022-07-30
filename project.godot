@@ -136,6 +136,10 @@ scroll_down={
 2d_physics/layer_4="tyre"
 2d_physics/layer_5="ice"
 2d_physics/layer_6="ramp"
+2d_physics/layer_29="LEVEL3"
+2d_physics/layer_30="LEVEL2"
+2d_physics/layer_31="LEVEL1"
+2d_physics/layer_32="LEVEL0"
 
 [physics]
 

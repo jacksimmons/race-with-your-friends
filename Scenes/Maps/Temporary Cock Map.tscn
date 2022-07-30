@@ -5,7 +5,6 @@
 [ext_resource path="res://Scripts/Game/Activators/cp_handler.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/Game/Activators/cp.gd" type="Script" id=4]
 
-
 [sub_resource type="SegmentShape2D" id=1]
 a = Vector2( 87.6054, 0.00634766 )
 b = Vector2( -98.8098, 0.00634766 )
