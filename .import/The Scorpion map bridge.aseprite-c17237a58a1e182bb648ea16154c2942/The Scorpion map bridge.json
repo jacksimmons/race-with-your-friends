@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "The Scorpion map bridge.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 415, "h": 275 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 415, "h": 275 },
+    "sourceSize": { "w": 415, "h": 275 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.38-x64",
+  "image": "The Scorpion map bridge.png",
+  "format": "RGBA8888",
+  "size": { "w": 415, "h": 275 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

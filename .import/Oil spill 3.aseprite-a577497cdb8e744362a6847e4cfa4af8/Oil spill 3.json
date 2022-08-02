@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "Oil spill 3.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 114, "h": 89 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 114, "h": 89 },
+    "sourceSize": { "w": 114, "h": 89 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.38-x64",
+  "image": "Oil spill 3.png",
+  "format": "RGBA8888",
+  "size": { "w": 114, "h": 89 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

@@ -1,0 +1,25 @@
+[gd_scene format=2]
+
+[node name="PlayerName" type="CenterContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -994.0
+margin_bottom = -586.0
+grow_horizontal = 2
+grow_vertical = 0
+rect_rotation = 90.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="Name" type="Label" parent="."]
+margin_left = 1.0
+margin_right = 28.0
+margin_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Test"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

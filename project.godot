@@ -11,13 +11,13 @@ config_version=4
 [application]
 
 config/name="Race with your friends"
-run/main_scene="res://Scenes/TitleScreen.tscn"
+run/main_scene="res://Scene/TitleScreen.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-Global="*res://Scripts/Game/globals.gd"
-SteamGlobals="*res://Scripts/Steam/steam_global.gd"
+Global="*res://Script/Game/globals.gd"
+SteamGlobals="*res://Script/Steam/steam_global.gd"
 
 [debug]
 

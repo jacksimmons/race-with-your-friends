@@ -1,0 +1,99 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Script/Menus/title_screen.gd" type="Script" id=1]
+[ext_resource path="res://Script/Menus/main_menu_signs.gd" type="Script" id=2]
+[ext_resource path="res://Sprite/MainMenu/Ground_&_People.png" type="Texture" id=3]
+
+[sub_resource type="StreamTexture" id=3]
+load_path = "res://.import/Flip Sighns.png-348c20a9908c2daf9541ae2ce6469350.stex"
+
+[sub_resource type="Animation" id=2]
+length = 2.9
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 5.0, 5.0, 6.0, 7.0, 8.0, 9.0, 9.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 15.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0 ]
+}
+
+[node name="TitleScreen" type="Node2D"]
+position = Vector2( 344, 147 )
+script = ExtResource( 1 )
+
+[node name="BG" type="Sprite" parent="."]
+position = Vector2( 168, 141 )
+scale = Vector2( 1.06667, 1.06667 )
+texture = ExtResource( 3 )
+
+[node name="MainMenuBase" type="Sprite" parent="."]
+position = Vector2( 167.388, 153 )
+scale = Vector2( 1.06377, 1.10741 )
+texture = SubResource( 3 )
+hframes = 5
+vframes = 5
+__meta__ = {
+"_editor_description_": "YXNlcHJpdGVfd2l6YXJkX2NvbmZpZwpwbGF5ZXJ8PU1haW5NZW51QmFzZS9BbmltYXRpb25QbGF5ZXIKc291cmNlfD1yZXM6Ly9TcHJpdGVzL0FzZXByaXRlIEZpbGVzL01haW4gbWVudS5hc2Vwcml0ZQpsYXllcnw9RmxpcCBTaWdobnMKb3BfZXhwfD1GYWxzZQpvX2ZvbGRlcnw9Cm9fbmFtZXw9Cm9ubHlfdmlzaWJsZXw9RmFsc2UKb19leF9wfD0K"
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MainMenuBase"]
+anims/default = SubResource( 2 )
+script = ExtResource( 2 )
+
+[node name="PlayButton" type="Button" parent="."]
+margin_left = 141.972
+margin_top = 142.055
+margin_right = 165.972
+margin_bottom = 162.055
+rect_min_size = Vector2( 24, 20 )
+size_flags_horizontal = 4
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="PlayLabel" type="Label" parent="PlayButton"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 27.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 0, 20 )
+size_flags_horizontal = 4
+text = "Play"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="QuitButton" type="Button" parent="."]
+margin_left = 142.686
+margin_top = 179.718
+margin_right = 166.686
+margin_bottom = 199.718
+rect_min_size = Vector2( 24, 20 )
+size_flags_horizontal = 4
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="QuitLabel" type="Label" parent="QuitButton"]
+margin_top = 1.0
+margin_right = 28.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 0, 20 )
+text = "Quit"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="MainMenuCarsAndText" type="Sprite" parent="."]
+visible = false
+position = Vector2( 117, 196 )
+texture = ExtResource( 3 )

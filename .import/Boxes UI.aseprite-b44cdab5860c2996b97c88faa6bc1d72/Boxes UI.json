@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "Boxes UI.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 555, "h": 372 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 555, "h": 372 },
+    "sourceSize": { "w": 555, "h": 372 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.38-x64",
+  "image": "Boxes UI.png",
+  "format": "RGBA8888",
+  "size": { "w": 555, "h": 372 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

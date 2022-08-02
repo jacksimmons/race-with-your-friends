@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprite/Cars/Cock/Cock.png" type="Texture" id=1]
+[ext_resource path="res://Script/Game/player.gd" type="Script" id=2]
+[ext_resource path="res://Scene/Vehicle/PlayerName.tscn" type="PackedScene" id=3]
+
+[node name="Player" type="KinematicBody2D"]
+collision_mask = 63
+script = ExtResource( 2 )
+__meta__ = {
+"_editor_description_": ""
+}
+DEBUG_DEFAULT = Color( 0.478431, 1, 0, 1 )
+DEBUG_WARN = Color( 1, 0, 0, 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+rotation = 1.5708
+texture = ExtResource( 1 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+rotation = 1.5708
+polygon = PoolVector2Array( 2.92107, 13.1796, 0.5542, 15.0733, -5.10266, 14.0126, -5.10271, 6.98576, -10.0083, 6.9416, -9.96408, 6.10191, -5.94241, 6.14607, -5.98003, 0.893865, -5.03509, 1.05135, -4.95638, -3.83085, -9.05114, -6.11443, -9.87511, -14.7499, -7.06261, -14.8749, 1.12493, -10.0625, 3.99991, -11.9375, 8.99991, -11.9376, 10.0624, -10.8751, 10.0624, -7.00007, 6.99997, -4.12505, 4.12497, -4.12503, 3.06247, -4.81252, 0.937476, -3.25001, 0.937492, -1.12501, 1.93749, -0.937514, 2.93753, 4.12498 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PlayerName" parent="." instance=ExtResource( 3 )]
+margin_left = -34.5709
+margin_top = 12.6629
+margin_right = -7.57091
+margin_bottom = 26.6629
+rect_rotation = -90.0

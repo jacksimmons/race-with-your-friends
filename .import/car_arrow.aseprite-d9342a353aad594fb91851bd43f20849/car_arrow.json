@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "car_arrow.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 25, "h": 27 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 25, "h": 27 },
+    "sourceSize": { "w": 25, "h": 27 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.38-x64",
+  "image": "car_arrow.png",
+  "format": "RGBA8888",
+  "size": { "w": 25, "h": 27 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}
