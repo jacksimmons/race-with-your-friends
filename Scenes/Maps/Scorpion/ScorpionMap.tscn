@@ -1,16 +1,32 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Graphics/Maps/Scorpion/The Scorpian map.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Game/Activators/cp.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/Game/Activators/lv.gd" type="Script" id=3]
-[ext_resource path="res://Scenes/Maps/Scorpion/ScorpionMap.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/Game/Activators/ice_handler.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/Game/Activators/ice.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/Game/Activators/cp_handler.gd" type="Script" id=7]
 [ext_resource path="res://Scripts/Game/Activators/lv_handler.gd" type="Script" id=8]
 [ext_resource path="res://Graphics/Maps/Scorpion/The Scorpion map bridge.png" type="Texture" id=9]
 
-[sub_resource type="LineShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 225.5, 206.5 )
+
+[sub_resource type="SegmentShape2D" id=15]
+a = Vector2( 116.144, -30.2296 )
+b = Vector2( -116.11, -21.626 )
+
+[sub_resource type="SegmentShape2D" id=13]
+a = Vector2( -94.2988, -2.60651 )
+b = Vector2( 71.2887, -1.56427 )
+
+[sub_resource type="SegmentShape2D" id=16]
+a = Vector2( -115.935, 6.79901 )
+b = Vector2( 105.421, -0.302734 )
+
+[sub_resource type="SegmentShape2D" id=14]
+a = Vector2( 98.3827, -0.709473 )
+b = Vector2( -70.6111, -2.65875 )
 
 [sub_resource type="SegmentShape2D" id=6]
 a = Vector2( -925.049, -1947.44 )
@@ -28,14 +44,18 @@ a = Vector2( 168.774, 61.2165 )
 b = Vector2( 162.182, -182.615 )
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 56.7605, 216.752 )
+extents = Vector2( 20, 216.752 )
 
 [node name="ScorpionMap" type="Node2D"]
-script = ExtResource( 4 )
 
 [node name="MapSprite" type="Sprite" parent="."]
 position = Vector2( -220.312, -130.57 )
 texture = ExtResource( 1 )
+
+[node name="Bridge (No Shadow)" type="Sprite" parent="MapSprite"]
+position = Vector2( 705, -548 )
+z_index = 1
+texture = ExtResource( 9 )
 
 [node name="Concrete" type="StaticBody2D" parent="."]
 collision_layer = 4
@@ -88,62 +108,64 @@ polygon = PoolVector2Array( -1159.24, -250.795, -1161.69, -253.914, -1166.81, -2
 [node name="Levels" type="Node2D" parent="."]
 script = ExtResource( 8 )
 
-[node name="0" type="Area2D" parent="Levels" groups=["Levels"]]
+[node name="0" type="Area2D" parent="Levels"]
+collision_layer = 2
 script = ExtResource( 3 )
 
+[node name="START" type="CollisionShape2D" parent="Levels/0"]
+position = Vector2( 137.5, -33.5 )
+shape = SubResource( 12 )
+one_way_collision = true
+
 [node name="BRIDGE_DOWN_REV" type="CollisionShape2D" parent="Levels/0"]
-position = Vector2( 358, -632 )
+position = Vector2( 311, -593 )
 rotation = 0.689405
 scale = Vector2( 0.6, 1 )
-shape = SubResource( 11 )
-one_way_collision = true
+shape = SubResource( 15 )
 
 [node name="BRIDGE_DOWN" type="CollisionShape2D" parent="Levels/0"]
-position = Vector2( 567, -767 )
+position = Vector2( 579, -777 )
 rotation = -2.45219
 scale = Vector2( 0.6, 1 )
-shape = SubResource( 11 )
-one_way_collision = true
+shape = SubResource( 13 )
 
-[node name="1" type="Area2D" parent="Levels" groups=["Levels"]]
+[node name="1" type="Area2D" parent="Levels"]
+collision_layer = 2
 script = ExtResource( 3 )
 
 [node name="BRIDGE_UP" type="CollisionShape2D" parent="Levels/1"]
-position = Vector2( 347, -621 )
+position = Vector2( 331, -617 )
 rotation = -2.45219
 scale = Vector2( 0.6, 1 )
-shape = SubResource( 11 )
-one_way_collision = true
+shape = SubResource( 16 )
 
 [node name="BRIDGE_UP_REV" type="CollisionShape2D" parent="Levels/1"]
-position = Vector2( 571, -770 )
+position = Vector2( 572, -770 )
 rotation = 0.689405
 scale = Vector2( 0.6, 1 )
-shape = SubResource( 11 )
-one_way_collision = true
+shape = SubResource( 14 )
 
-[node name="LevelWalls" type="Node2D" parent="."]
+[node name="LevelSpecific" type="Node2D" parent="."]
 
-[node name="0" type="StaticBody2D" parent="LevelWalls"]
+[node name="0" type="StaticBody2D" parent="LevelSpecific"]
 collision_layer = 2147483648
 collision_mask = 0
 
-[node name="UnderBridgeCol1" type="CollisionPolygon2D" parent="LevelWalls/0"]
-polygon = PoolVector2Array( 456.099, -595.485, 467.279, -602.66, 472.117, -606.331, 470.57, -609.206, 388.147, -721.89, 374.75, -720.75 )
+[node name="UnderBridgeCol1" type="CollisionPolygon2D" parent="LevelSpecific/0"]
+polygon = PoolVector2Array( 456.099, -595.485, 467.279, -602.66, 472.117, -606.331, 470.57, -609.206, 388.147, -721.89, 374.75, -720.75, 330, -694, 281, -661, 272, -653, 274, -649, 291, -653, 382.622, -708.628, 445.178, -612.302, 423, -602, 411, -598, 397, -588, 382, -573, 386, -569, 408, -590, 414.242, -590.712, 415, -588, 435, -589 )
 
-[node name="UnderBridgeCol2" type="CollisionPolygon2D" parent="LevelWalls/0"]
-polygon = PoolVector2Array( 559.299, -671.301, 552, -688, 514.088, -789.967, 520, -817, 572, -681 )
+[node name="UnderBridgeCol2" type="CollisionPolygon2D" parent="LevelSpecific/0"]
+polygon = PoolVector2Array( 559.299, -671.301, 552, -688, 517, -787, 517, -803, 521, -817, 551, -831, 566, -839, 574, -845, 594, -864, 597, -869, 628, -892, 640, -898, 646, -898, 649, -894, 649, -889, 637, -882, 617, -861, 606, -849, 601, -846, 586, -832, 575, -824, 564, -815, 548, -799, 531.584, -788.706, 566.128, -696.358, 586, -711, 598, -723, 619, -738, 622, -734, 599, -716, 590, -699, 572, -681 )
 
-[node name="1" type="StaticBody2D" parent="LevelWalls"]
+[node name="1" type="StaticBody2D" parent="LevelSpecific"]
+position = Vector2( -1, -1 )
 collision_layer = 1073741824
 collision_mask = 0
 
-[node name="OnBridgeCol1" type="CollisionPolygon2D" parent="LevelWalls/1"]
-visible = false
+[node name="OnBridgeCol1" type="CollisionPolygon2D" parent="LevelSpecific/1"]
 polygon = PoolVector2Array( 272.226, -652.587, 275.344, -649.023, 290.49, -651.473, 302.294, -656.373, 316.994, -666.841, 328.353, -673.968, 335.48, -679.982, 341.716, -683.546, 356.639, -691.786, 367.998, -698.023, 376.684, -703.591, 386.484, -709.604, 391.161, -710.495, 393.388, -713.168, 402.297, -714.95, 422.038, -725.033, 430.957, -730.087, 434.206, -732.256, 440.25, -736.5, 456.152, -744.226, 464.039, -748.275, 470.156, -751.138, 478.949, -756.25, 482.195, -757.125, 492.283, -762.198, 497.061, -763.201, 499.008, -764.145, 507.113, -768.092, 510.207, -770.169, 513.123, -772.246, 520.368, -778.182, 526.025, -781.453, 532.124, -786.402, 536.278, -789.408, 540.218, -792.307, 545.199, -795.254, 548.216, -797.218, 565.551, -815.083, 567.139, -815.282, 573.191, -821.334, 574.282, -821.135, 578.151, -824.31, 583.188, -828.125, 587.188, -831.25, 591.158, -834.175, 596.282, -839.324, 601.718, -845.888, 606.664, -849.595, 617.739, -860.6, 622.696, -866.737, 638.107, -882.535, 646.454, -886.63, 649.718, -890.709, 649.032, -895.381, 645.661, -898.378, 640.791, -898.378, 567, -839, 465.538, -772.426 )
 
-[node name="OnBridgeCol2" type="CollisionPolygon2D" parent="LevelWalls/1"]
-visible = false
+[node name="OnBridgeCol2" type="CollisionPolygon2D" parent="LevelSpecific/1"]
 polygon = PoolVector2Array( 599.107, -722.573, 582.689, -707.042, 560.44, -691.15, 542.165, -681.085, 529.981, -677.112, 520.446, -673.139, 508.262, -667.312, 498.197, -660.691, 489.986, -652.215, 482.305, -644.004, 474.889, -636.058, 469.856, -629.172, 462.175, -623.345, 455.292, -617.627, 447.613, -612.196, 437.312, -607.326, 432.443, -604.142, 429.071, -603.768, 426.075, -601.52, 417.834, -598.149, 411.986, -597.084, 406.647, -593.246, 403.476, -592.078, 399.972, -588.407, 398.137, -588.407, 384.169, -574.078, 384.319, -571.179, 386.737, -569.077, 387.893, -569.287, 623.301, -733.92, 622.133, -736.089, 619.63, -737.924, 614.791, -734.253, 608.618, -729.748, 601.443, -723.741 )
 
 [node name="Checkpoints" type="Node2D" parent="."]
@@ -183,10 +205,8 @@ shape = SubResource( 9 )
 script = ExtResource( 2 )
 
 [node name="col_0" type="CollisionShape2D" parent="Checkpoints/cp_0"]
-position = Vector2( -59.6784, -24.8489 )
+position = Vector2( -49, -24.8489 )
 shape = SubResource( 10 )
 
-[node name="Bridge (No Shadow)" type="Sprite" parent="."]
-visible = false
-position = Vector2( 457.579, -702.586 )
-texture = ExtResource( 9 )
+[connection signal="body_shape_entered" from="Levels/0" to="Levels/0" method="_on_body_shape_entered" binds= [ 0 ]]
+[connection signal="body_shape_entered" from="Levels/1" to="Levels/1" method="_on_body_shape_entered" binds= [ 1 ]]

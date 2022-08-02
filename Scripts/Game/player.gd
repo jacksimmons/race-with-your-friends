@@ -296,10 +296,6 @@ func _handle_input():
 		ACCELERATION /= 100
 		MAX_SPEED = prev_max_spd
 	
-	if Input.is_action_just_released("oil"):
-		ACCELERATION /= 100
-		MAX_SPEED = prev_max_spd
-	
 	if Input.is_action_just_pressed("grapple"):
 		var players = get_node("/root/Scene/Players")
 		var nearest_player: Node2D = null

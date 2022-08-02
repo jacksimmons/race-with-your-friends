@@ -9,7 +9,7 @@ var player
 
 
 func _ready():
-	player = get_node("/root/Scene/Players" + str(SteamGlobals.STEAM_ID))
+	player = get_node("/root/Scene/Players/" + str(SteamGlobals.STEAM_ID))
 
 
 func _process(delta):
