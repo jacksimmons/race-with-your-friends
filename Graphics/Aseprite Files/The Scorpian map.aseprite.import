@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/The Scorpian map.aseprite-b15ca5b849971f6f82ce8588136cad05.res"
+path="res://.import/The Scorpian map.aseprite-663742391783f4cd9f4bffb7a387937e.res"
 
 [deps]
 
-source_file="res://Sprites/Aseprite Files/The Scorpian map.aseprite"
-dest_files=[ "res://.import/The Scorpian map.aseprite-b15ca5b849971f6f82ce8588136cad05.res" ]
+source_file="res://Graphics/Aseprite Files/The Scorpian map.aseprite"
+dest_files=[ "res://.import/The Scorpian map.aseprite-663742391783f4cd9f4bffb7a387937e.res" ]
 
 [params]
 

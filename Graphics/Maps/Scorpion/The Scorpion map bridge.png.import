@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/The Scorpion map bridge.png-bf231e2d350218ecb49c6ea44d381d03.stex"
+path="res://.import/The Scorpion map bridge.png-54d8a68f975491a9537f826a9ccc53b2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Maps/Scorpion/The Scorpion map bridge.png"
-dest_files=[ "res://.import/The Scorpion map bridge.png-bf231e2d350218ecb49c6ea44d381d03.stex" ]
+source_file="res://Graphics/Maps/Scorpion/The Scorpion map bridge.png"
+dest_files=[ "res://.import/The Scorpion map bridge.png-54d8a68f975491a9537f826a9ccc53b2.stex" ]
 
 [params]
 

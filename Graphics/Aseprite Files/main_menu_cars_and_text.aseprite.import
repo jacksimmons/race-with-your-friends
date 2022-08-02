@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/main_menu_cars_and_text.aseprite-ba3ded81ed0bb2362844c03f006bb846.res"
+path="res://.import/main_menu_cars_and_text.aseprite-514c78d67895fd75b031b24e3f013f6b.res"
 
 [deps]
 
-source_file="res://Sprites/Aseprite Files/main_menu_cars_and_text.aseprite"
-dest_files=[ "res://.import/main_menu_cars_and_text.aseprite-ba3ded81ed0bb2362844c03f006bb846.res" ]
+source_file="res://Graphics/Aseprite Files/main_menu_cars_and_text.aseprite"
+dest_files=[ "res://.import/main_menu_cars_and_text.aseprite-514c78d67895fd75b031b24e3f013f6b.res" ]
 
 [params]
 

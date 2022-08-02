@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/Cock stuff.aseprite-0af44405940bb853213290c83f576d65.res"
+path="res://.import/Cock stuff.aseprite-b25665d03ce5a087c9f4fe2e6bed1799.res"
 
 [deps]
 
-source_file="res://Sprites/Aseprite Files/Cock stuff.aseprite"
-dest_files=[ "res://.import/Cock stuff.aseprite-0af44405940bb853213290c83f576d65.res" ]
+source_file="res://Graphics/Aseprite Files/Cock stuff.aseprite"
+dest_files=[ "res://.import/Cock stuff.aseprite-b25665d03ce5a087c9f4fe2e6bed1799.res" ]
 
 [params]
 

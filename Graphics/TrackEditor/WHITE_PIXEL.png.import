@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/WHITE_PIXEL.png-9cda0060f95dbbfd9b687f08d7d92e34.stex"
+path="res://.import/WHITE_PIXEL.png-33f2ecabd98469a57a20719719d2590d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/TrackEditor/WHITE_PIXEL.png"
-dest_files=[ "res://.import/WHITE_PIXEL.png-9cda0060f95dbbfd9b687f08d7d92e34.stex" ]
+source_file="res://Graphics/TrackEditor/WHITE_PIXEL.png"
+dest_files=[ "res://.import/WHITE_PIXEL.png-33f2ecabd98469a57a20719719d2590d.stex" ]
 
 [params]
 

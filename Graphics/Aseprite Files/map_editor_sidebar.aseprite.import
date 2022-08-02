@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/map_editor_sidebar.aseprite-877817dda3421a1db0ffbdfe596d5719.res"
+path="res://.import/map_editor_sidebar.aseprite-25008b5ed8111391cde5bb3f2d29d2d1.res"
 
 [deps]
 
-source_file="res://Sprites/Aseprite Files/map_editor_sidebar.aseprite"
-dest_files=[ "res://.import/map_editor_sidebar.aseprite-877817dda3421a1db0ffbdfe596d5719.res" ]
+source_file="res://Graphics/Aseprite Files/map_editor_sidebar.aseprite"
+dest_files=[ "res://.import/map_editor_sidebar.aseprite-25008b5ed8111391cde5bb3f2d29d2d1.res" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/temporary cock map.png-6fe0bc7d3ddcbcf4305e68751e8ee450.stex"
+path="res://.import/temporary cock map.png-8fb786167e0b956dabb509f64cb324cd.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Maps/TempCock/temporary cock map.png"
-dest_files=[ "res://.import/temporary cock map.png-6fe0bc7d3ddcbcf4305e68751e8ee450.stex" ]
+source_file="res://Graphics/Maps/TempCock/temporary cock map.png"
+dest_files=[ "res://.import/temporary cock map.png-8fb786167e0b956dabb509f64cb324cd.stex" ]
 
 [params]
 

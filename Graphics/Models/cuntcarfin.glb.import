@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/cuntcarfin.glb-847e3e03f28e0c56e5ecee1402414fcb.scn"
+path="res://.import/cuntcarfin.glb-ea63ec6bd5c3b68a1011e15163b2aa33.scn"
 
 [deps]
 
-source_file="res://Sprites/Models/cuntcarfin.glb"
-dest_files=[ "res://.import/cuntcarfin.glb-847e3e03f28e0c56e5ecee1402414fcb.scn" ]
+source_file="res://Graphics/Models/cuntcarfin.glb"
+dest_files=[ "res://.import/cuntcarfin.glb-ea63ec6bd5c3b68a1011e15163b2aa33.scn" ]
 
 [params]
 

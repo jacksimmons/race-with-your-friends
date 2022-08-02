@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Cock.png-f0d8d7691dca298ddd827de1d7be4ffe.stex"
+path="res://.import/Cock.png-e7cbfb253ce1f5a47f8a1fe251fead1c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cars/Cock/Cock.png"
-dest_files=[ "res://.import/Cock.png-f0d8d7691dca298ddd827de1d7be4ffe.stex" ]
+source_file="res://Graphics/Cars/Cock/Cock.png"
+dest_files=[ "res://.import/Cock.png-e7cbfb253ce1f5a47f8a1fe251fead1c.stex" ]
 
 [params]
 

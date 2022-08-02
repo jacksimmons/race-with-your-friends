@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "Grappling hook.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 359, "h": 210 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 359, "h": 210 },
+    "sourceSize": { "w": 359, "h": 210 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.38-x64",
+  "image": "Grappling hook.png",
+  "format": "RGBA8888",
+  "size": { "w": 359, "h": 210 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

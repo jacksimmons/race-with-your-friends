@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/DankaMobil.png-ef90be395aa08aec222b8e87d84fcf33.stex"
+path="res://.import/DankaMobil.png-77c048051edcc6d7be1d620696c6f9fd.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cars/DankaMobil/DankaMobil.png"
-dest_files=[ "res://.import/DankaMobil.png-ef90be395aa08aec222b8e87d84fcf33.stex" ]
+source_file="res://Graphics/Cars/DankaMobil/DankaMobil.png"
+dest_files=[ "res://.import/DankaMobil.png-77c048051edcc6d7be1d620696c6f9fd.stex" ]
 
 [params]
 

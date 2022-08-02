@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/Main menu.aseprite-7c76b043b3532b25c7b2f3419d802fb8.res"
+path="res://.import/Main menu.aseprite-c3c00578fb793f1fa04be53c24695f2a.res"
 
 [deps]
 
-source_file="res://Sprites/Aseprite Files/Main menu.aseprite"
-dest_files=[ "res://.import/Main menu.aseprite-7c76b043b3532b25c7b2f3419d802fb8.res" ]
+source_file="res://Graphics/Aseprite Files/Main menu.aseprite"
+dest_files=[ "res://.import/Main menu.aseprite-c3c00578fb793f1fa04be53c24695f2a.res" ]
 
 [params]
 

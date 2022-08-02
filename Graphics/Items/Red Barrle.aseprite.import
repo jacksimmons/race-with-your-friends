@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/Red Barrle.aseprite-249977a8f81c8d9a9cc934e9708c5771.res"
+path="res://.import/Red Barrle.aseprite-4d6806bd17696ca1a31f041a2d6cac86.res"
 
 [deps]
 
-source_file="res://Sprites/Items/Red Barrle.aseprite"
-dest_files=[ "res://.import/Red Barrle.aseprite-249977a8f81c8d9a9cc934e9708c5771.res" ]
+source_file="res://Graphics/Items/Red Barrle.aseprite"
+dest_files=[ "res://.import/Red Barrle.aseprite-4d6806bd17696ca1a31f041a2d6cac86.res" ]
 
 [params]
 

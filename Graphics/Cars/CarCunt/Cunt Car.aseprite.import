@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/Cunt Car.aseprite-a3002f34ba6d509f396ae32569ea0df5.res"
+path="res://.import/Cunt Car.aseprite-396c51189bf3318da5ba7b579cde9f32.res"
 
 [deps]
 
-source_file="res://Sprites/Cars/CarCunt/Cunt Car.aseprite"
-dest_files=[ "res://.import/Cunt Car.aseprite-a3002f34ba6d509f396ae32569ea0df5.res" ]
+source_file="res://Graphics/Cars/CarCunt/Cunt Car.aseprite"
+dest_files=[ "res://.import/Cunt Car.aseprite-396c51189bf3318da5ba7b579cde9f32.res" ]
 
 [params]
 

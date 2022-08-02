@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/brush.aseprite-3e40c325bbaa82cde04ecc1985337256.res"
+path="res://.import/brush.aseprite-b046736c1e6283e7b05058bb36cc6f5b.res"
 
 [deps]
 
-source_file="res://Sprites/TrackEditor/Brush/brush.aseprite"
-dest_files=[ "res://.import/brush.aseprite-3e40c325bbaa82cde04ecc1985337256.res" ]
+source_file="res://Graphics/TrackEditor/Brush/brush.aseprite"
+dest_files=[ "res://.import/brush.aseprite-b046736c1e6283e7b05058bb36cc6f5b.res" ]
 
 [params]
 

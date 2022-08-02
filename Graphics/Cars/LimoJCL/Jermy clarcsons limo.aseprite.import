@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/Jermy clarcsons limo.aseprite-b719e8190e696a6bebe03d647bbe10ac.res"
+path="res://.import/Jermy clarcsons limo.aseprite-9e6b21d1ab7702479475248e2331429f.res"
 
 [deps]
 
-source_file="res://Sprites/Cars/LimoJCL/Jermy clarcsons limo.aseprite"
-dest_files=[ "res://.import/Jermy clarcsons limo.aseprite-b719e8190e696a6bebe03d647bbe10ac.res" ]
+source_file="res://Graphics/Cars/LimoJCL/Jermy clarcsons limo.aseprite"
+dest_files=[ "res://.import/Jermy clarcsons limo.aseprite-9e6b21d1ab7702479475248e2331429f.res" ]
 
 [params]
 

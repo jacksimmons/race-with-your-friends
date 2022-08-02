@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/MiniCar.png-c2ae9140d634ddcb27f47a5bedc94bb2.stex"
+path="res://.import/MiniCar.png-878567872325c3f29574d72651c8b9b4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cars/CarMini/MiniCar.png"
-dest_files=[ "res://.import/MiniCar.png-c2ae9140d634ddcb27f47a5bedc94bb2.stex" ]
+source_file="res://Graphics/Cars/CarMini/MiniCar.png"
+dest_files=[ "res://.import/MiniCar.png-878567872325c3f29574d72651c8b9b4.stex" ]
 
 [params]
 

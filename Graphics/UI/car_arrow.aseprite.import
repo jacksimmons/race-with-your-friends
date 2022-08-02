@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/car_arrow.aseprite-a1bf632d68e17d188997f11d733bc8e6.res"
+path="res://.import/car_arrow.aseprite-19d997f52325a5ed190f83a55e1b1d69.res"
 
 [deps]
 
-source_file="res://Sprites/UI/car_arrow.aseprite"
-dest_files=[ "res://.import/car_arrow.aseprite-a1bf632d68e17d188997f11d733bc8e6.res" ]
+source_file="res://Graphics/UI/car_arrow.aseprite"
+dest_files=[ "res://.import/car_arrow.aseprite-19d997f52325a5ed190f83a55e1b1d69.res" ]
 
 [params]
 

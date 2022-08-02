@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/tilebox.aseprite-4995b221e5392a482606c24b7c9186df.res"
+path="res://.import/tilebox.aseprite-5953ba846960a67c829e85f4b254411d.res"
 
 [deps]
 
-source_file="res://Sprites/TrackEditor/UI/tilebox.aseprite"
-dest_files=[ "res://.import/tilebox.aseprite-4995b221e5392a482606c24b7c9186df.res" ]
+source_file="res://Graphics/TrackEditor/UI/tilebox.aseprite"
+dest_files=[ "res://.import/tilebox.aseprite-5953ba846960a67c829e85f4b254411d.res" ]
 
 [params]
 

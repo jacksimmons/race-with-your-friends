@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Cunt Car.png-3ab3bd3fe71a35573fd7749b49c3484a.stex"
+path="res://.import/Cunt Car.png-d9065ea17bae874a96a2b2c38525ad90.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cars/CarCunt/Cunt Car.png"
-dest_files=[ "res://.import/Cunt Car.png-3ab3bd3fe71a35573fd7749b49c3484a.stex" ]
+source_file="res://Graphics/Cars/CarCunt/Cunt Car.png"
+dest_files=[ "res://.import/Cunt Car.png-d9065ea17bae874a96a2b2c38525ad90.stex" ]
 
 [params]
 
