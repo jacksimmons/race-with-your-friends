@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/paint_bucket.png-f48c35a357e55c45ee4927b13e504863.stex"
+path="res://.import/paint_bucket.png-2445a1532167dde4815a247dd7a1e684.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/TrackEditor/Bucket/paint_bucket.png"
-dest_files=[ "res://.import/paint_bucket.png-f48c35a357e55c45ee4927b13e504863.stex" ]
+source_file="res://Sprites/TrackEditor/Bucket/paint_bucket.png"
+dest_files=[ "res://.import/paint_bucket.png-2445a1532167dde4815a247dd7a1e684.stex" ]
 
 [params]
 

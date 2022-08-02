@@ -30,6 +30,9 @@ func _on_cp_entered(body, cp_name):
 				lap += 1
 			elif lap == lap_count:
 				print("Race complete.")
+				var end = load("res://Scenes/RaceEnd.tscn").instance()
+				get_node("/root").add_child(end)
+				self.queue_free()
 		else:
 			# Either player went 1 -> 0 or cheated this lap.
 			# Don't count this lap, but count the next assuming player behaves.

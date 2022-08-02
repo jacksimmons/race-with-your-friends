@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/MiniCar.aseprite-8f0944c4fbb7b668df9e36c803494f7c.res"
+path="res://.import/MiniCar.aseprite-40bbf14ffa5316ab60da7e47481ad826.res"
 
 [deps]
 
-source_file="res://Graphics/Cars/CarMini/MiniCar.aseprite"
-dest_files=[ "res://.import/MiniCar.aseprite-8f0944c4fbb7b668df9e36c803494f7c.res" ]
+source_file="res://Sprites/Cars/CarMini/MiniCar.aseprite"
+dest_files=[ "res://.import/MiniCar.aseprite-40bbf14ffa5316ab60da7e47481ad826.res" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tilebox.png-82bb7687933b9b41226c48eb3940283f.stex"
+path="res://.import/tilebox.png-676bd17aeb763ed965a0f85c546ea9f4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/TrackEditor/UI/tilebox.png"
-dest_files=[ "res://.import/tilebox.png-82bb7687933b9b41226c48eb3940283f.stex" ]
+source_file="res://Sprites/TrackEditor/UI/tilebox.png"
+dest_files=[ "res://.import/tilebox.png-676bd17aeb763ed965a0f85c546ea9f4.stex" ]
 
 [params]
 

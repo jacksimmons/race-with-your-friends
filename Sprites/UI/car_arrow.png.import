@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/car_arrow.png-9338cc1deb490199f4dc3c464f96e05f.stex"
+path="res://.import/car_arrow.png-94a76c31a549954970b8e269d4be294c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/UI/car_arrow.png"
-dest_files=[ "res://.import/car_arrow.png-9338cc1deb490199f4dc3c464f96e05f.stex" ]
+source_file="res://Sprites/UI/car_arrow.png"
+dest_files=[ "res://.import/car_arrow.png-94a76c31a549954970b8e269d4be294c.stex" ]
 
 [params]
 

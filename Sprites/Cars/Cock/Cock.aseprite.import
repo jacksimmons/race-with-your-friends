@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/Cock.aseprite-0738bedc4bbe79316c114d24ae24a131.res"
+path="res://.import/Cock.aseprite-3a4a17cee7eeb5236ed1e38a0f9690ec.res"
 
 [deps]
 
-source_file="res://Graphics/Cars/Cock/Cock.aseprite"
-dest_files=[ "res://.import/Cock.aseprite-0738bedc4bbe79316c114d24ae24a131.res" ]
+source_file="res://Sprites/Cars/Cock/Cock.aseprite"
+dest_files=[ "res://.import/Cock.aseprite-3a4a17cee7eeb5236ed1e38a0f9690ec.res" ]
 
 [params]
 

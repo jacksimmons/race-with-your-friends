@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/The Scorpion map bridge.aseprite-2a3acd78830e8069209aa43a7b365f13.res"
+path="res://.import/The Scorpion map bridge.aseprite-46d07e2006c0eb5afe7d4bf4c4c12349.res"
 
 [deps]
 
-source_file="res://Graphics/Aseprite Files/The Scorpion map bridge.aseprite"
-dest_files=[ "res://.import/The Scorpion map bridge.aseprite-2a3acd78830e8069209aa43a7b365f13.res" ]
+source_file="res://Sprites/Aseprite Files/The Scorpion map bridge.aseprite"
+dest_files=[ "res://.import/The Scorpion map bridge.aseprite-46d07e2006c0eb5afe7d4bf4c4c12349.res" ]
 
 [params]
 

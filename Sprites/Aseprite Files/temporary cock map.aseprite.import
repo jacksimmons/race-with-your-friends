@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/temporary cock map.aseprite-4624fcfc9d4f32fe9c114ecb441e86c2.res"
+path="res://.import/temporary cock map.aseprite-5c25561752552d96203d7d66bf78f144.res"
 
 [deps]
 
-source_file="res://Graphics/Aseprite Files/temporary cock map.aseprite"
-dest_files=[ "res://.import/temporary cock map.aseprite-4624fcfc9d4f32fe9c114ecb441e86c2.res" ]
+source_file="res://Sprites/Aseprite Files/temporary cock map.aseprite"
+dest_files=[ "res://.import/temporary cock map.aseprite-5c25561752552d96203d7d66bf78f144.res" ]
 
 [params]
 

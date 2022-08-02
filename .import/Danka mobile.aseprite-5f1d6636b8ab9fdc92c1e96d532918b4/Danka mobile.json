@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "Danka mobile.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 32, "h": 68 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 68 },
+    "sourceSize": { "w": 32, "h": 68 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.38-x64",
+  "image": "Danka mobile.png",
+  "format": "RGBA8888",
+  "size": { "w": 32, "h": 68 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

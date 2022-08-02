@@ -2,14 +2,14 @@
 
 importer="wavefront_obj"
 type="Mesh"
-path="res://.import/Cunt Car.obj-a2dca343343036afdbc018505cbae674.mesh"
+path="res://.import/Cunt Car.obj-c746327060f57991550eaaa0ed3eb635.mesh"
 
 [deps]
 
-files=[ "res://.import/Cunt Car.obj-a2dca343343036afdbc018505cbae674.mesh" ]
+files=[ "res://.import/Cunt Car.obj-c746327060f57991550eaaa0ed3eb635.mesh" ]
 
-source_file="res://Graphics/Models/Cunt Car.obj"
-dest_files=[ "res://.import/Cunt Car.obj-a2dca343343036afdbc018505cbae674.mesh", "res://.import/Cunt Car.obj-a2dca343343036afdbc018505cbae674.mesh" ]
+source_file="res://Sprites/Models/Cunt Car.obj"
+dest_files=[ "res://.import/Cunt Car.obj-c746327060f57991550eaaa0ed3eb635.mesh", "res://.import/Cunt Car.obj-c746327060f57991550eaaa0ed3eb635.mesh" ]
 
 [params]
 

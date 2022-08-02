@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "main_menu_cars_and_text.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 804, "h": 324 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 804, "h": 324 },
+    "sourceSize": { "w": 804, "h": 324 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.38-x64",
+  "image": "main_menu_cars_and_text.png",
+  "format": "RGBA8888",
+  "size": { "w": 804, "h": 324 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/Long Limo.aseprite-538b18aef09be82ad21920d1a3528187.res"
+path="res://.import/Long Limo.aseprite-6a491806790f20a3ffff843b42fda7ec.res"
 
 [deps]
 
-source_file="res://Graphics/Cars/LimoLong/Long Limo.aseprite"
-dest_files=[ "res://.import/Long Limo.aseprite-538b18aef09be82ad21920d1a3528187.res" ]
+source_file="res://Sprites/Cars/LimoLong/Long Limo.aseprite"
+dest_files=[ "res://.import/Long Limo.aseprite-6a491806790f20a3ffff843b42fda7ec.res" ]
 
 [params]
 

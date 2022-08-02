@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Tyre arrow.png-0b245320a82fc2fb34ae706e4157bfdf.stex"
+path="res://.import/Tyre arrow.png-abff21ebc14f1b74f3690e9d7be796bb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/UI/Tyre arrow.png"
-dest_files=[ "res://.import/Tyre arrow.png-0b245320a82fc2fb34ae706e4157bfdf.stex" ]
+source_file="res://Sprites/UI/Tyre arrow.png"
+dest_files=[ "res://.import/Tyre arrow.png-abff21ebc14f1b74f3690e9d7be796bb.stex" ]
 
 [params]
 

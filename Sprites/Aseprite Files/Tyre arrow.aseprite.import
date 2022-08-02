@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/Tyre arrow.aseprite-d098d61426aaeab0407bec4e8278a329.res"
+path="res://.import/Tyre arrow.aseprite-d36463d3ca15ae364fce3063d58865a7.res"
 
 [deps]
 
-source_file="res://Graphics/Aseprite Files/Tyre arrow.aseprite"
-dest_files=[ "res://.import/Tyre arrow.aseprite-d098d61426aaeab0407bec4e8278a329.res" ]
+source_file="res://Sprites/Aseprite Files/Tyre arrow.aseprite"
+dest_files=[ "res://.import/Tyre arrow.aseprite-d36463d3ca15ae364fce3063d58865a7.res" ]
 
 [params]
 

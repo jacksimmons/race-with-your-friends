@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/LongLimo.png-cb05e3f2a210cdd87ac38ce9a7c094c6.stex"
+path="res://.import/LongLimo.png-196e50b3058bda481ed5c06ece5d1ee3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/Cars/LimoLong/LongLimo.png"
-dest_files=[ "res://.import/LongLimo.png-cb05e3f2a210cdd87ac38ce9a7c094c6.stex" ]
+source_file="res://Sprites/Cars/LimoLong/LongLimo.png"
+dest_files=[ "res://.import/LongLimo.png-196e50b3058bda481ed5c06ece5d1ee3.stex" ]
 
 [params]
 

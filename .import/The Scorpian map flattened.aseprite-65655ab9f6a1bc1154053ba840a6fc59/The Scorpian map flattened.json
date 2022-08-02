@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "The Scorpian map flattened.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 4096, "h": 3072 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 4096, "h": 3072 },
+    "sourceSize": { "w": 4096, "h": 3072 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.38-x64",
+  "image": "The Scorpian map flattened.png",
+  "format": "RGBA8888",
+  "size": { "w": 4096, "h": 3072 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

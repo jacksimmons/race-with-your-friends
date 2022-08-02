@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/Danka mobile.aseprite-706e38c7608a8cdf3dd87e01e3977723.res"
+path="res://.import/Danka mobile.aseprite-5f1d6636b8ab9fdc92c1e96d532918b4.res"
 
 [deps]
 
-source_file="res://Graphics/Cars/DankaMobil/Danka mobile.aseprite"
-dest_files=[ "res://.import/Danka mobile.aseprite-706e38c7608a8cdf3dd87e01e3977723.res" ]
+source_file="res://Sprites/Cars/DankaMobil/Danka mobile.aseprite"
+dest_files=[ "res://.import/Danka mobile.aseprite-5f1d6636b8ab9fdc92c1e96d532918b4.res" ]
 
 [params]
 

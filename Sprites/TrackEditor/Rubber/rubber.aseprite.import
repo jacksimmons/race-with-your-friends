@@ -2,12 +2,12 @@
 
 importer="aseprite.wizard.plugin"
 type="SpriteFrames"
-path="res://.import/rubber.aseprite-7eb7abc883aaf5f73805fb4381d4f76e.res"
+path="res://.import/rubber.aseprite-98c26ddc5fb8096430bb442db4ea36aa.res"
 
 [deps]
 
-source_file="res://Graphics/TrackEditor/Rubber/rubber.aseprite"
-dest_files=[ "res://.import/rubber.aseprite-7eb7abc883aaf5f73805fb4381d4f76e.res" ]
+source_file="res://Sprites/TrackEditor/Rubber/rubber.aseprite"
+dest_files=[ "res://.import/rubber.aseprite-98c26ddc5fb8096430bb442db4ea36aa.res" ]
 
 [params]
 

@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "Tyre arrow.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 167, "h": 167 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 167, "h": 167 },
+    "sourceSize": { "w": 167, "h": 167 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.38-x64",
+  "image": "Tyre arrow.png",
+  "format": "RGBA8888",
+  "size": { "w": 167, "h": 167 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}
