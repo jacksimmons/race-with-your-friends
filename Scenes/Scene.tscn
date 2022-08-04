@@ -1,0 +1,339 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Game/UI/accelerometer.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Game/UI/timer.gd" type="Script" id=2]
+
+[node name="Scene" type="Node2D"]
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="Bots" type="Node2D" parent="."]
+
+[node name="Foreground" type="Node2D" parent="."]
+
+[node name="Cameras" type="Node2D" parent="."]
+
+[node name="Particles" type="Node2D" parent="."]
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+
+[node name="Stats" type="Control" parent="Canvas"]
+
+[node name="HP" type="Control" parent="Canvas/Stats"]
+margin_left = 5.0
+margin_top = 512.0
+margin_right = 45.0
+margin_bottom = 552.0
+
+[node name="Label" type="Label" parent="Canvas/Stats/HP"]
+margin_top = 27.0
+margin_right = 40.0
+margin_bottom = 41.0
+text = "HP:"
+
+[node name="Position" type="Control" parent="Canvas/Stats"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="PosValue" type="TextEdit" parent="Canvas/Stats/Position"]
+margin_left = 4.0
+margin_top = 15.0
+margin_right = 106.0
+margin_bottom = 49.0
+text = "(0, 0)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PosButton" type="Button" parent="Canvas/Stats/Position"]
+margin_left = 110.828
+margin_top = 18.2109
+margin_right = 175.828
+margin_bottom = 40.2109
+text = "Teleport"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PosLabel" type="Label" parent="Canvas/Stats/Position"]
+margin_left = 5.0
+margin_right = 57.0
+margin_bottom = 14.0
+text = "Position"
+
+[node name="Speed" type="Control" parent="Canvas/Stats"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpeedValue" type="TextEdit" parent="Canvas/Stats/Speed"]
+margin_left = 4.43881
+margin_top = 68.6123
+margin_right = 105.439
+margin_bottom = 90.6123
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpeedButton" type="Button" parent="Canvas/Stats/Speed"]
+margin_left = 111.25
+margin_top = 79.6642
+margin_right = 176.25
+margin_bottom = 99.6642
+text = "Set"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpeedZeroer" type="Button" parent="Canvas/Stats/Speed"]
+margin_left = 111.0
+margin_top = 57.5
+margin_right = 176.0
+margin_bottom = 77.5
+text = "Zero"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpeedLabel" type="Label" parent="Canvas/Stats/Speed"]
+margin_left = 5.0
+margin_top = 52.7557
+margin_right = 57.0
+margin_bottom = 66.7557
+text = "Speed"
+
+[node name="MaxSpeed" type="Control" parent="Canvas/Stats"]
+margin_left = -0.707108
+margin_top = 53.033
+margin_right = 39.2929
+margin_bottom = 93.033
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MaxSpdSlider" type="HSlider" parent="Canvas/Stats/MaxSpeed"]
+margin_left = 5.52972
+margin_top = 52.0
+margin_right = 130.53
+margin_bottom = 92.0
+max_value = 20.0
+value = 5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MaxSpdValue" type="Label" parent="Canvas/Stats/MaxSpeed"]
+margin_left = 130.0
+margin_top = 64.0
+margin_right = 146.0
+margin_bottom = 78.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MaxSpdLabel" type="Label" parent="Canvas/Stats/MaxSpeed"]
+margin_left = 5.04538
+margin_top = 50.3095
+margin_right = 58.0454
+margin_bottom = 64.3095
+text = "Max Spd"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Acc" type="Control" parent="Canvas/Stats"]
+margin_left = -0.707108
+margin_top = 53.033
+margin_right = 39.2929
+margin_bottom = 93.033
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AccSlider" type="HSlider" parent="Canvas/Stats/Acc"]
+margin_left = 6.05948
+margin_top = 85.7621
+margin_right = 131.059
+margin_bottom = 125.762
+max_value = 5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AccValue" type="Label" parent="Canvas/Stats/Acc"]
+margin_left = 130.941
+margin_top = 98.4054
+margin_right = 144.941
+margin_bottom = 112.405
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AccLabel" type="Label" parent="Canvas/Stats/Acc"]
+margin_left = 6.0
+margin_top = 84.5838
+margin_right = 63.0
+margin_bottom = 98.5838
+text = "Acc"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Turn" type="Control" parent="Canvas/Stats"]
+margin_left = -0.707108
+margin_top = 53.033
+margin_right = 39.2929
+margin_bottom = 93.033
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TurnSlider" type="HSlider" parent="Canvas/Stats/Turn"]
+margin_left = 5.52971
+margin_top = 121.227
+margin_right = 130.53
+margin_bottom = 161.227
+max_value = 20.0
+value = 1.0
+
+[node name="TurnValue" type="Label" parent="Canvas/Stats/Turn"]
+margin_left = 132.178
+margin_top = 133.697
+margin_right = 149.178
+margin_bottom = 147.697
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TurnLabel" type="Label" parent="Canvas/Stats/Turn"]
+margin_left = 7.0
+margin_top = 119.346
+margin_right = 40.0
+margin_bottom = 133.346
+text = "Turn"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Physics" type="Control" parent="Canvas/Stats"]
+margin_left = -0.707108
+margin_top = 53.033
+margin_right = 39.2929
+margin_bottom = 93.033
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CoRSlider" type="HSlider" parent="Canvas/Stats/Physics"]
+margin_left = 6.47194
+margin_top = 156.38
+margin_right = 131.472
+margin_bottom = 196.38
+max_value = 1.0
+step = 0.05
+value = 0.1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CoRValue" type="Label" parent="Canvas/Stats/Physics"]
+margin_left = 131.0
+margin_top = 170.0
+margin_right = 144.0
+margin_bottom = 184.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CoRLabel" type="Label" parent="Canvas/Stats/Physics"]
+margin_left = 6.92223
+margin_top = 152.6
+margin_right = 96.9222
+margin_bottom = 166.6
+text = "Restitution (e)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Friction" type="Label" parent="Canvas/Stats/Physics"]
+margin_left = 9.02205
+margin_top = 223.255
+margin_right = 57.0221
+margin_bottom = 237.255
+text = "Friction:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OnIce" type="Label" parent="Canvas/Stats/Physics"]
+margin_left = 9.30243
+margin_top = 238.624
+margin_right = 56.3024
+margin_bottom = 252.624
+text = "On Ice:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Network" type="Control" parent="Canvas"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Race" type="Control" parent="Canvas"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="LapCount" type="Label" parent="Canvas/Race"]
+margin_left = 7.77758
+margin_top = 259.929
+margin_right = 37.7776
+margin_bottom = 273.929
+text = "Lap: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckpointCount" type="Label" parent="Canvas/Race"]
+margin_left = 6.77661
+margin_top = 243.563
+margin_right = 81.7766
+margin_bottom = 257.563
+text = "Checkpoint:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StageHeight" type="Label" parent="Canvas/Race"]
+margin_left = 8.48631
+margin_top = 307.727
+margin_right = 54.4863
+margin_bottom = 321.727
+text = "Height:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Label" parent="Canvas/Race"]
+margin_left = 5.0
+margin_top = 580.0
+margin_right = 159.0
+margin_bottom = 594.0
+text = "Time: 00:00:0000"
+script = ExtResource( 2 )
+
+[node name="Accelerometer" type="Label" parent="Canvas/Race"]
+margin_left = 6.0
+margin_top = 559.0
+margin_right = 46.0
+margin_bottom = 573.0
+text = "0 mph"
+script = ExtResource( 1 )

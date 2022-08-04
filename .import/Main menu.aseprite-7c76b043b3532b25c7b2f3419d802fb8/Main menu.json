@@ -263,7 +263,7 @@
  ],
  "meta": {
   "app": "https://www.aseprite.org/",
-  "version": "1.2.38-x64",
+  "version": "1.2.39-x64",
   "image": "Main menu.png",
   "format": "RGBA8888",
   "size": { "w": 4800, "h": 2700 },

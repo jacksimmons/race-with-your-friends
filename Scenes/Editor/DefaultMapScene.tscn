@@ -1,0 +1,11 @@
+[gd_scene format=2]
+
+[node name="Map" type="Node2D"]
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="MapSprite" type="Sprite" parent="Sprites"]
+
+[node name="Collision" type="Node2D" parent="."]
+
+[node name="Triggers" type="Node2D" parent="."]

@@ -11,7 +11,7 @@
  ],
  "meta": {
   "app": "https://www.aseprite.org/",
-  "version": "1.2.38-x64",
+  "version": "1.2.39-x64",
   "image": "map_editor_sidebar.png",
   "format": "RGBA8888",
   "size": { "w": 60, "h": 1080 },
