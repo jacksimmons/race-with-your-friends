@@ -1,5 +1,7 @@
 extends CanvasItem
 
+onready var editor = $"/root/Editor"
+
 var drawing = false
 var node: Node2D
 var points: PoolVector2Array
@@ -12,7 +14,20 @@ func _ready():
 
 func _draw():
 	if len(points) > 2:
-		draw_polygon(points, colours, PoolVector2Array())
+		if drawing:
+			draw_polygon(points, colours, PoolVector2Array())
+		else:
+			var collision = CollisionPolygon2D.new()
+			collision.polygon = points
+			
+			points = []
+			
+			for child in get_children():
+				if child.name != "Vertex":
+					remove_child(child)
+			
+			editor.current_node.add_child(collision)
+			editor.refresh_nodes()
 
 
 func _input(event):
@@ -20,8 +35,8 @@ func _input(event):
 		if event is InputEventMouseButton:
 			if event.is_pressed():
 				if event.button_index == BUTTON_LEFT:
-					var vertex = $Vertex.duplicate()
 					var mouse_pos = get_global_mouse_position()
+					var vertex = $Vertex.duplicate()
 					vertex.position = mouse_pos
 					add_child(vertex)
 					points.append(mouse_pos)

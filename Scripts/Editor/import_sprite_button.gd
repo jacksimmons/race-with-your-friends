@@ -31,5 +31,4 @@ func _on_FileDialog_file_selected(path: String):
 	
 	sprite_node.set_texture(img_tex)
 	
-	# Not the most efficient
 	editor.refresh_nodes()
