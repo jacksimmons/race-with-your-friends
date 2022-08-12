@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "Sock.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 138, "h": 187 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 138, "h": 187 },
+    "sourceSize": { "w": 138, "h": 187 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.39-x64",
+  "image": "Sock.png",
+  "format": "RGBA8888",
+  "size": { "w": 138, "h": 187 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/Game/UI/accelerometer.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Game/UI/timer.gd" type="Script" id=2]
 [ext_resource path="res://Sprites/TrackEditor/UI/tilebox.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Powerups/Red Barrle.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Powerups/Finished Egal.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Powerups/Sock.png" type="Texture" id=6]
 
 [node name="Scene" type="Node2D"]
 
@@ -348,4 +351,17 @@ margin_bottom = 40.0
 position = Vector2( 22, 18 )
 texture = ExtResource( 3 )
 
-[node name="Sprite" type="Sprite" parent="Canvas/Item/Box"]
+[node name="Oil" type="Sprite" parent="Canvas/Item/Box"]
+visible = false
+scale = Vector2( 0.0999997, 0.0999997 )
+texture = ExtResource( 4 )
+
+[node name="Eagle" type="Sprite" parent="Canvas/Item/Box"]
+visible = false
+scale = Vector2( 0.0566552, 0.0566552 )
+texture = ExtResource( 5 )
+
+[node name="Sock" type="Sprite" parent="Canvas/Item/Box"]
+visible = false
+scale = Vector2( 0.134058, 0.134058 )
+texture = ExtResource( 6 )

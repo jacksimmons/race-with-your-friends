@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "Red Barrle.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 150, "h": 217 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 150, "h": 217 },
+    "sourceSize": { "w": 150, "h": 217 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.39-x64",
+  "image": "Red Barrle.png",
+  "format": "RGBA8888",
+  "size": { "w": 150, "h": 217 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

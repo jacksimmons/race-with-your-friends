@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "Black Barrle.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 189, "h": 259 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 189, "h": 259 },
+    "sourceSize": { "w": 189, "h": 259 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.39-x64",
+  "image": "Black Barrle.png",
+  "format": "RGBA8888",
+  "size": { "w": 189, "h": 259 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}
