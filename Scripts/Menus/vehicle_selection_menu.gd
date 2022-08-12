@@ -10,7 +10,7 @@ func _ready():
 
 
 func _on_Button_Pressed(vehicle):
-	SteamGlobals.SELECTED_VEHICLE = vehicle
+	Game.SELECTED_VEHICLE = vehicle
 	
 	#if Server.active:
 	#	Server._upload_vehicle()

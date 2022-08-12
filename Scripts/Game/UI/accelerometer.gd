@@ -5,7 +5,7 @@ var player = null
 
 func _process(delta):
 	if player == null:
-		player = get_node("/root/Scenes/Players/" + str(SteamGlobals.STEAM_ID))
+		player = get_node("/root/Scene/Players/" + str(Game.STEAM_ID))
 
 
 func _physics_process(delta):

@@ -7,7 +7,7 @@ enum send_type {Unreliable, UnreliableNoDelay, Reliable, ReliableNoDelay}
 
 
 onready var steamName = $SteamName
-onready var lobbySetName = $Create/LobbyName
+onready var lobbySetName = $LobbyName
 onready var lobbyGetName = $Chat/Name
 onready var lobbyOutput = $Chat/MessageList
 onready var lobbyPopup = $LobbyPopup
@@ -17,14 +17,9 @@ onready var playerList = $Players/PlayerList
 onready var chatInput = $Message/TextEdit
 
 onready var charSelectPopup = $CharSelectPopup
-onready var gmSelectPopup = $GMSelectPopup
-onready var openCharSelect = $OpenCharSelect
-onready var closeCharSelect = $CharSelectPopup/CharSelect/CloseCharSelect
+onready var mapSelectPopup = $MapSelectPopup
 
 var host: bool = false
-
-var map: Node2D
-var checkpoints: Node2D
 
 var time: float = 0
 var my_player = null
@@ -41,7 +36,7 @@ var local_pre_config_done: bool = false
 
 func _ready():
 	# Set steam name on screen
-	steamName.text = SteamGlobals.STEAM_NAME
+	steamName.text = Game.STEAM_NAME
 	
 	# Steamwork Connections
 	Steam.connect("lobby_created", self, "_on_Lobby_Created")
@@ -62,10 +57,10 @@ func _ready():
 
 func _process(delta):
 	# If the player is connected, read packets
-	if SteamGlobals.LOBBY_ID > 0:
+	if Game.LOBBY_ID > 0:
 		read_All_P2P_Packets()
 	
-	if SteamGlobals.GAME_STARTED:
+	if Game.GAME_STARTED:
 		time += 1/(2.5*delta) # Will take 0.025 seconds
 		if time >= 1/delta:
 			time = 0
@@ -77,7 +72,7 @@ func _process(delta):
 				rotation_last_update = my_player.rotation.z
 	
 	for player_id in lerps:
-		var player = get_node("/root/Scenes/Players/" + str(player_id))
+		var player = get_node("/root/Scene/Players/" + str(player_id))
 		if lerps[player_id].has("position"):
 			player.position = lerp(player.position, lerps[player_id]["position"], 0.2)
 			
@@ -96,7 +91,7 @@ func _process(delta):
 
 
 func read_All_P2P_Packets(read_count: int = 0):
-	if read_count >= SteamGlobals.PACKET_READ_LIMIT:
+	if read_count >= Game.PACKET_READ_LIMIT:
 		return
 	if Steam.getAvailableP2PPacketSize(0) > 0:
 		read_P2P_Packet()
@@ -118,8 +113,8 @@ func get_random_vehicle():
 
 func create_Lobby() -> void:
 	# Check no other lobbies are running
-	if SteamGlobals.LOBBY_ID == 0:
-		Steam.createLobby(lobby_status.Public, SteamGlobals.MAX_MEMBERS)
+	if Game.LOBBY_ID == 0:
+		Steam.createLobby(lobby_status.Public, Game.MAX_MEMBERS)
 	host = true
 
 
@@ -131,7 +126,7 @@ func join_Lobby(lobbyID) -> void:
 	display_Message("Joining lobby " + str(name) + "...")
 	
 	# Clear prev. lobby members lists
-	SteamGlobals.LOBBY_MEMBERS.clear()
+	Game.LOBBY_MEMBERS.clear()
 	
 	# Steam join request
 	Steam.joinLobby(lobbyID)
@@ -139,17 +134,17 @@ func join_Lobby(lobbyID) -> void:
 
 func get_Lobby_Members() -> void:
 	# Clear prev. lobby members list
-	SteamGlobals.LOBBY_MEMBERS.clear()
+	Game.LOBBY_MEMBERS.clear()
 	
 	# Get number of members in lobby
-	var MEMBER_COUNT = Steam.getNumLobbyMembers(SteamGlobals.LOBBY_ID)
+	var MEMBER_COUNT = Steam.getNumLobbyMembers(Game.LOBBY_ID)
 	# Update player list count
 	playerCount.set_text("Players (" + str(MEMBER_COUNT) + ")")
 	
 	# Get members data
 	for MEMBER in range(0, MEMBER_COUNT):
 		# Member's Steam ID
-		var MEMBER_STEAM_ID = Steam.getLobbyMemberByIndex(SteamGlobals.LOBBY_ID, MEMBER)
+		var MEMBER_STEAM_ID = Steam.getLobbyMemberByIndex(Game.LOBBY_ID, MEMBER)
 		# Member's Steam Name
 		var MEMBER_STEAM_NAME = Steam.getFriendPersonaName(MEMBER_STEAM_ID)
 		# Add members to list
@@ -158,32 +153,32 @@ func get_Lobby_Members() -> void:
 
 func add_Player_List(steam_id, steam_name) -> void:
 	# Add players to list
-	SteamGlobals.LOBBY_MEMBERS.append({"steam_id" : steam_id, "steam_name" : steam_name})
+	Game.LOBBY_MEMBERS.append({"steam_id" : steam_id, "steam_name" : steam_name})
 	# Ensure list is cleared
 	playerList.clear()
 	
 	var vehicle = " "
 	
 	# Populate player list
-	for MEMBER in SteamGlobals.LOBBY_MEMBERS:
+	for MEMBER in Game.LOBBY_MEMBERS:
 		
 		var text = ""
 		
 		# Establish player state
-		if MEMBER["steam_id"] == Steam.getLobbyOwner(SteamGlobals.LOBBY_ID):
+		if MEMBER["steam_id"] == Steam.getLobbyOwner(Game.LOBBY_ID):
 			text += "(HOST) "
 		
 		text += MEMBER["steam_name"]
 		
-		if SteamGlobals.PLAYER_DATA.has(MEMBER["steam_id"]):
-			if SteamGlobals.PLAYER_DATA[MEMBER["steam_id"]].has("vehicle"):
-				text += " [" + SteamGlobals.PLAYER_DATA[MEMBER["steam_id"]]["vehicle"] + "]"
-			if SteamGlobals.PLAYER_DATA[MEMBER["steam_id"]].has("ready"):
-				var ready = SteamGlobals.PLAYER_DATA[MEMBER["steam_id"]]["ready"]
+		if Game.PLAYER_DATA.has(MEMBER["steam_id"]):
+			if Game.PLAYER_DATA[MEMBER["steam_id"]].has("vehicle"):
+				text += " [" + Game.PLAYER_DATA[MEMBER["steam_id"]]["vehicle"] + "]"
+			if Game.PLAYER_DATA[MEMBER["steam_id"]].has("ready"):
+				var ready = Game.PLAYER_DATA[MEMBER["steam_id"]]["ready"]
 				if ready:
 					text += " [READY]"
 		else:
-			SteamGlobals.PLAYER_DATA[MEMBER["steam_id"]] = {"steam_name": MEMBER["steam_name"]}
+			Game.PLAYER_DATA[MEMBER["steam_id"]] = {"steam_name": MEMBER["steam_name"]}
 			
 		playerList.add_text(text + "\n")
 
@@ -195,7 +190,7 @@ func send_Chat_Message() -> void:
 	# If the message is non-empty
 	if MESSAGE.length() > 0:
 		# Pass message to Steam
-		var SENT: bool = Steam.sendLobbyChatMsg(SteamGlobals.LOBBY_ID, MESSAGE)
+		var SENT: bool = Steam.sendLobbyChatMsg(Game.LOBBY_ID, MESSAGE)
 		
 		# Check message sent
 		if not SENT:
@@ -239,7 +234,7 @@ func read_P2P_Packet():
 			print("MESSAGE")
 			# Handshake - we send all our data with the newcomer.
 			if READABLE["message"] == "handshake":
-				var my_data = SteamGlobals.PLAYER_DATA[SteamGlobals.STEAM_ID]
+				var my_data = Game.PLAYER_DATA[Game.STEAM_ID]
 				if my_data.has("vehicle"):
 					send_P2P_Packet(str(PACKET_SENDER), {"vehicle": my_data["vehicle"]})
 				if my_data.has("ready"):
@@ -250,13 +245,13 @@ func read_P2P_Packet():
 		
 		# a "vehicle" packet.
 		if READABLE.has("vehicle"):
-			SteamGlobals.PLAYER_DATA[PACKET_SENDER]["vehicle"] = READABLE["vehicle"]
+			Game.PLAYER_DATA[PACKET_SENDER]["vehicle"] = READABLE["vehicle"]
 			get_Lobby_Members()
 		
 		# a "ready" packet. Can assume a steam_id will be provided
 		# Note: It is up to the final readier to send an "all_ready" packet.
 		if READABLE.has("ready"):
-			SteamGlobals.PLAYER_DATA[PACKET_SENDER]["ready"] = READABLE["ready"]
+			Game.PLAYER_DATA[PACKET_SENDER]["ready"] = READABLE["ready"]
 			get_Lobby_Members()
 		
 		# a "pre_config_complete" packet. Can assume a steam_id will be provided
@@ -264,23 +259,23 @@ func read_P2P_Packet():
 		# Note: It is up to the final readier to send an "all_pre_configs_complete" message packet.
 		if READABLE.has("pre_config_complete"):
 			var gets_to_pre_load = false
-			if !SteamGlobals.PLAYER_DATA[PACKET_SENDER].has("pre_config_complete"):
+			if !Game.PLAYER_DATA[PACKET_SENDER].has("pre_config_complete"):
 				gets_to_pre_load = true
-			elif !SteamGlobals.PLAYER_DATA[PACKET_SENDER]["pre_config_complete"]:
+			elif !Game.PLAYER_DATA[PACKET_SENDER]["pre_config_complete"]:
 				gets_to_pre_load = true
 			
 			if gets_to_pre_load:
-				SteamGlobals.PLAYER_DATA[PACKET_SENDER]["pre_config_complete"] = READABLE["pre_config_complete"]
+				Game.PLAYER_DATA[PACKET_SENDER]["pre_config_complete"] = READABLE["pre_config_complete"]
 			
 				# Our turn to handle preconfig
 				_on_All_Ready()
 				
 				var all_pre_configs_complete = true
-				var ids = SteamGlobals.PLAYER_DATA.keys()
+				var ids = Game.PLAYER_DATA.keys()
 				
 				for player_id in ids:
-					if SteamGlobals.PLAYER_DATA[player_id].has("pre_config_complete"):
-						if SteamGlobals.PLAYER_DATA[player_id]["pre_config_complete"]:
+					if Game.PLAYER_DATA[player_id].has("pre_config_complete"):
+						if Game.PLAYER_DATA[player_id]["pre_config_complete"]:
 							continue
 						else:
 							all_pre_configs_complete = false
@@ -297,21 +292,21 @@ func read_P2P_Packet():
 		# a "bot_vehicle" packet. Will be sent by the host to all clients. Is a Dictionary object.
 		if READABLE.has("bot_vehicle"):
 			var bot_vehicle: Dictionary = READABLE["bot_vehicle"]
-			if !bot_vehicle["name"] in SteamGlobals.BOT_DATA:
-				SteamGlobals.BOT_DATA[bot_vehicle["name"]] = {"vehicle": bot_vehicle["vehicle"]}
+			if !bot_vehicle["name"] in Game.BOT_DATA:
+				Game.BOT_DATA[bot_vehicle["name"]] = {"vehicle": bot_vehicle["vehicle"]}
 			else:
-				SteamGlobals.BOT_DATA[bot_vehicle["name"]]["vehicle"] = bot_vehicle["vehicle"]
+				Game.BOT_DATA[bot_vehicle["name"]]["vehicle"] = bot_vehicle["vehicle"]
 			
-			if SteamGlobals.BOT_DATA.size() == SteamGlobals.MAX_MEMBERS - SteamGlobals.PLAYER_DATA.size():
+			if Game.BOT_DATA.size() == Game.MAX_MEMBERS - Game.PLAYER_DATA.size():
 				start_Bot_Config()
 				
 		
 		## In-Game
 		# a "position" packet.
 		if READABLE.has("position"):
-			if PACKET_SENDER != SteamGlobals.STEAM_ID:
+			if PACKET_SENDER != Game.STEAM_ID:
 				# We don't want to update our correct position with the network's estimated position
-				var player = get_node("/root/Scenes/Players/" + str(PACKET_SENDER))
+				var player = get_node("/root/Scene/Players/" + str(PACKET_SENDER))
 				
 				if !lerps.has(PACKET_SENDER):
 					lerps[PACKET_SENDER] = {}
@@ -319,9 +314,9 @@ func read_P2P_Packet():
 		
 		# a "rotation" packet.
 		if READABLE.has("rotation"):
-			if PACKET_SENDER != SteamGlobals.STEAM_ID:
+			if PACKET_SENDER != Game.STEAM_ID:
 				# We don't want to update our correct rotation with the network's estimated rotation
-				var player = get_node("/root/Scenes/Players/" + str(PACKET_SENDER))
+				var player = get_node("/root/Scene/Players/" + str(PACKET_SENDER))
 				
 				if !lerps.has(PACKET_SENDER):
 					lerps[PACKET_SENDER] = {}
@@ -340,10 +335,10 @@ func send_P2P_Packet(target: String, packet_data: Dictionary) -> void:
 	# If sending a packet to everyone
 	if target == "all":
 		# If there is more than one user, send packets
-		if SteamGlobals.LOBBY_MEMBERS.size() > 1:
+		if Game.LOBBY_MEMBERS.size() > 1:
 			# Loop through all members that aren't you
-			for MEMBER in SteamGlobals.LOBBY_MEMBERS:
-				if MEMBER['steam_id'] != SteamGlobals.STEAM_ID:
+			for MEMBER in Game.LOBBY_MEMBERS:
+				if MEMBER['steam_id'] != Game.STEAM_ID:
 					Steam.sendP2PPacket(MEMBER['steam_id'], DATA, SEND_TYPE, CHANNEL)
 
 	# Else sending it to someone specific
@@ -353,23 +348,23 @@ func send_P2P_Packet(target: String, packet_data: Dictionary) -> void:
 
 func leave_Lobby() -> void:
 	# If we are in a lobby, leave it.
-	if SteamGlobals.LOBBY_ID != 0:
+	if Game.LOBBY_ID != 0:
 		display_Message("Leaving lobby...")
 		# Send leave request
-		Steam.leaveLobby(SteamGlobals.LOBBY_ID)
+		Steam.leaveLobby(Game.LOBBY_ID)
 		# Wipe Lobby ID (to show we aren't in a lobby anymore)
-		SteamGlobals.LOBBY_ID = 0
+		Game.LOBBY_ID = 0
 		
 		lobbyGetName.text = "Lobby Name"
 		playerCount.text = "Players (0)"
 		playerList.clear()
 		
 		# Close any possible sessions with other users
-		for MEMBERS in SteamGlobals.LOBBY_MEMBERS:
+		for MEMBERS in Game.LOBBY_MEMBERS:
 			Steam.closeP2PSessionWithUser(MEMBERS["steam_id"])
 		
 		# Clear lobby list
-		SteamGlobals.LOBBY_MEMBERS.clear()
+		Game.LOBBY_MEMBERS.clear()
 
 
 func display_Message(message) -> void:
@@ -379,58 +374,19 @@ func display_Message(message) -> void:
 
 func start_Pre_Config() -> void:
 	if !local_pre_config_done:
-		# Load Scene
-		var scene = load("res://Scenes/Scenes.tscn").instance()
-		get_node("/root").add_child(scene)
+		my_player = Global._setup_scene(Global.GameType.MULTI)
 		
-		# Load the Map
-		map = load("res://Scenes/Map/Scorpion/ScorpionMap.tscn").instance()
-		var maps = get_node("/root/Scenes/Background")
-		maps.add_child(map)
-		checkpoints = map.get_node("Checkpoints")
-		SteamGlobals.NUM_CHECKPOINTS = checkpoints.get_child_count()
-		
-		# Load my Player and Camera
-		var my_vehicle = SteamGlobals.PLAYER_DATA[SteamGlobals.STEAM_ID]["vehicle"]
-		my_player = load("res://Scenes/Vehicle/" + my_vehicle + ".tscn").instance()
-		my_player.set_name(str(SteamGlobals.STEAM_ID))
-		var players = get_node("/root/Scenes/Players")
-		players.add_child(my_player)
-		
-		var my_cam = preload("res://Scenes/Cam.tscn").instance()
-		my_cam.name = "CAM_" + str(SteamGlobals.STEAM_ID)
-		var cams = get_node("/root/Scenes/Cameras")
-		my_player.add_child(my_cam)
-		
-		var ids = SteamGlobals.PLAYER_DATA.keys()
-		# Load other Players and their Cameras
-		
-		var num_players = len(ids)
-		
-		for player_id in ids:
-			if int(player_id) != SteamGlobals.STEAM_ID:
-				var vehicle = SteamGlobals.PLAYER_DATA[player_id]["vehicle"]
-				var player = load("res://Scenes/Vehicle/" + vehicle + ".tscn").instance()
-				player.set_name(str(player_id))
-				players.add_child(player)
-				
-				var cam = preload("res://Scenes/Cam.tscn").instance()
-				cam.set_name("CAM_" + str(player_id))
-				player.add_child(cam)
-		
-		local_pre_config_done = true
+		var local_pre_config_done = true
 		send_P2P_Packet("all", {"pre_config_complete": true})
-		SteamGlobals.PLAYER_DATA[SteamGlobals.STEAM_ID]["pre_config_complete"] = true
 
 
 func start_Bot_Config() -> void:
-	for i in range(SteamGlobals.BOT_DATA.size()):
-		var vehicle = SteamGlobals.BOT_DATA["BOT" + str(i)]["vehicle"]
+	for i in range(Game.BOT_DATA.size()):
+		var vehicle = Game.BOT_DATA["BOT" + str(i)]["vehicle"]
 	
-		var bot = load("res://Scenes/Vehicle/" + vehicle + ".tscn").instance()
+		var bot = load("res://Scenes/Vehicles/" + vehicle + ".tscn").instance()
 		bot.set_name("BOT" + str(i))
-		bot.bot = true
-		var bots = get_node("/root/Scenes/Bots")
+		var bots = get_node("/root/Scene/Bots")
 		bots.add_child(bot)
 		
 		var cam = preload("res://Scenes/Cam.tscn").instance()
@@ -440,7 +396,7 @@ func start_Bot_Config() -> void:
 
 func start_Game() -> void:
 	# ! Need to set this to false whenever it ends.
-	SteamGlobals.GAME_STARTED = true
+	Game.GAME_STARTED = true
 
 
 ## Steam Callbacks
@@ -450,13 +406,13 @@ func start_Game() -> void:
 func _on_Lobby_Created(connect, lobbyID):
 	if connect == 1:
 		# Set Lobby ID
-		SteamGlobals.LOBBY_ID = lobbyID
+		Game.LOBBY_ID = lobbyID
 		
 		# Equivalent of printing into the chatbox
 		display_Message("Created lobby: " + lobbySetName.text)
 		
 		# Make it joinable (this should be done by default anyway)
-		Steam.setLobbyJoinable(SteamGlobals.LOBBY_ID, true)
+		Steam.setLobbyJoinable(Game.LOBBY_ID, true)
 		
 		# Set Lobby Data
 		Steam.setLobbyData(lobbyID, "name", lobbySetName.text)
@@ -470,7 +426,7 @@ func _on_Lobby_Joined(lobbyID, perms, locked, response) -> void:
 	# Success
 	if response == 1:
 		# Set lobby ID
-		SteamGlobals.LOBBY_ID = lobbyID
+		Game.LOBBY_ID = lobbyID
 		
 		# Get lobby name
 		var name = Steam.getLobbyData(lobbyID, "name")
@@ -628,20 +584,20 @@ func _on_All_Ready():
 	# Initially, only run by the last player to ready up. Then the others are notified in order and they each call this.
 	get_tree().set_pause(true)
 	start_Pre_Config()
-	var ids = SteamGlobals.PLAYER_DATA.keys()
+	var ids = Game.PLAYER_DATA.keys()
 	var num_players = len(ids)
 	print(len(ids))
-	var num_bots = SteamGlobals.MAX_MEMBERS - num_players
+	var num_bots = Game.MAX_MEMBERS - num_players
 	if host:
 		for i in range(num_bots):
 			var name = "BOT" + str(i)
 			var vehicle = get_random_vehicle()
-			if !(name in SteamGlobals.BOT_DATA):
-				SteamGlobals.BOT_DATA[name] = {"vehicle": vehicle}
+			if !(name in Game.BOT_DATA):
+				Game.BOT_DATA[name] = {"vehicle": vehicle}
 			else:
-				SteamGlobals.BOT_DATA[name]["vehicle"] = vehicle
+				Game.BOT_DATA[name]["vehicle"] = vehicle
 			send_P2P_Packet("all", {"bot_vehicle": {"name": "BOT" + str(i), "vehicle": vehicle}})
-		start_Bot_Config()
+		#start_Bot_Config()
 	get_tree().set_pause(false)
 
 
@@ -661,12 +617,12 @@ func check_Command_Line():
 	if ARGUMENTS.size() > 0:
 		for arg in ARGUMENTS:
 			# Invite arg passed
-			if SteamGlobals.LOBBY_INVITE_ARG:
+			if Game.LOBBY_INVITE_ARG:
 				join_Lobby(int(arg))
 			
 			# Steam connection arg
 			if arg == "+connect_lobby":
-				SteamGlobals.LOBBY_INVITE_ARG = true
+				Game.LOBBY_INVITE_ARG = true
 
 
 ## Button Signal Functions
@@ -705,58 +661,66 @@ func _on_CloseCharSelect_pressed():
 	charSelectPopup.hide()
 
 
-func _on_OpenGMSelect_pressed():
-	gmSelectPopup.popup()
-
-
-func _on_CloseGMSelect_pressed():
-	gmSelectPopup.hide()
-
-
 # Lobby (charselect popup)
 func _on_Vehicle_Selected(vehicle: String):
-	send_P2P_Packet("all", {"vehicle": vehicle})
-	SteamGlobals.PLAYER_DATA[SteamGlobals.STEAM_ID]["vehicle"] = vehicle
-	# Refresh the lobby as your vehicle has changed.
-	get_Lobby_Members()
-	charSelectPopup.hide()
+	if Game.LOBBY_ID != 0:
+		send_P2P_Packet("all", {"vehicle": vehicle})
+		Game.PLAYER_DATA[Game.STEAM_ID]["vehicle"] = vehicle
+		# Refresh the lobby as your vehicle has changed.
+		get_Lobby_Members()
+		charSelectPopup.hide()
 
 
 func _on_Start_pressed():
-	var all_ready = true
-	
-	if !SteamGlobals.PLAYER_DATA[SteamGlobals.STEAM_ID].has("vehicle"):
-		var vehicle = get_random_vehicle()
-		SteamGlobals.PLAYER_DATA[SteamGlobals.STEAM_ID]["vehicle"] = vehicle
-		send_P2P_Packet("all", {"vehicle": vehicle})
-	
-	if SteamGlobals.PLAYER_DATA[SteamGlobals.STEAM_ID].has("ready"):
-		var ready = SteamGlobals.PLAYER_DATA[SteamGlobals.STEAM_ID]["ready"]
-		send_P2P_Packet("all", {"ready": !ready})
-		SteamGlobals.PLAYER_DATA[SteamGlobals.STEAM_ID]["ready"] = !ready
-		# Refresh the lobby as your readiness has changed.
-		get_Lobby_Members()
-	else:
-		send_P2P_Packet("all", {"ready": true})
-		SteamGlobals.PLAYER_DATA[SteamGlobals.STEAM_ID]["ready"] = true
-		# Refresh the lobby as your readiness has changed.
-		get_Lobby_Members()
-	
-	for player_id in SteamGlobals.PLAYER_DATA:
-		if SteamGlobals.PLAYER_DATA[player_id].has("ready"):
-			if SteamGlobals.PLAYER_DATA[player_id].has("vehicle"):
-				if SteamGlobals.PLAYER_DATA[player_id]["ready"]:
-					continue
+	if Game.LOBBY_ID != 0:
+		var all_ready = true
+		
+		if !Game.PLAYER_DATA[Game.STEAM_ID].has("vehicle"):
+			var vehicle = get_random_vehicle()
+			Game.PLAYER_DATA[Game.STEAM_ID]["vehicle"] = vehicle
+			send_P2P_Packet("all", {"vehicle": vehicle})
+		
+		if Game.PLAYER_DATA[Game.STEAM_ID].has("ready"):
+			var ready = Game.PLAYER_DATA[Game.STEAM_ID]["ready"]
+			send_P2P_Packet("all", {"ready": !ready})
+			Game.PLAYER_DATA[Game.STEAM_ID]["ready"] = !ready
+			# Refresh the lobby as your readiness has changed.
+			get_Lobby_Members()
+		else:
+			send_P2P_Packet("all", {"ready": true})
+			Game.PLAYER_DATA[Game.STEAM_ID]["ready"] = true
+			# Refresh the lobby as your readiness has changed.
+			get_Lobby_Members()
+		
+		for player_id in Game.PLAYER_DATA:
+			if Game.PLAYER_DATA[player_id].has("ready"):
+				if Game.PLAYER_DATA[player_id].has("vehicle"):
+					if Game.PLAYER_DATA[player_id]["ready"]:
+						continue
+					else:
+						all_ready = false
+						break
 				else:
 					all_ready = false
 					break
 			else:
 				all_ready = false
 				break
-		else:
-			all_ready = false
-			break
-	
-	if all_ready:
-		# Secretly start the preconfig process, then after completing it, notify the others one by one.
-		_on_All_Ready()
+		
+		if all_ready:
+			# Secretly start the preconfig process, then after completing it, notify the others one by one.
+			_on_All_Ready()
+
+
+func _on_Back_pressed():
+	var scene = load("res://Scenes/MenuTitle.tscn").instance()
+	get_node("/root").add_child(scene)
+	self.queue_free()
+
+
+func _on_OpenMapSelect_pressed():
+	mapSelectPopup.popup()
+
+
+func _on_CloseMapSelect_pressed():
+	mapSelectPopup.hide()

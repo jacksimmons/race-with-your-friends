@@ -43,7 +43,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="mini_car" type="Sprite" parent="Panel/GridContainer/Button"]
+[node name="MiniCar" type="Sprite" parent="Panel/GridContainer/Button"]
 position = Vector2( 50, 50 )
 scale = Vector2( 5, 5 )
 texture = ExtResource( 7 )
@@ -56,7 +56,7 @@ margin_bottom = 100.0
 rect_min_size = Vector2( 100, 100 )
 script = ExtResource( 8 )
 
-[node name="cunt_car" type="Sprite" parent="Panel/GridContainer/Button2"]
+[node name="CuntCar" type="Sprite" parent="Panel/GridContainer/Button2"]
 position = Vector2( 50, 50 )
 texture = ExtResource( 1 )
 script = ExtResource( 10 )
@@ -68,7 +68,7 @@ margin_bottom = 100.0
 rect_min_size = Vector2( 100, 100 )
 script = ExtResource( 8 )
 
-[node name="dankamobil" type="Sprite" parent="Panel/GridContainer/Button3"]
+[node name="Dankamobil" type="Sprite" parent="Panel/GridContainer/Button3"]
 position = Vector2( 50, 50 )
 texture = ExtResource( 2 )
 script = ExtResource( 10 )
@@ -200,7 +200,7 @@ margin_bottom = 516.0
 rect_min_size = Vector2( 100, 100 )
 script = ExtResource( 8 )
 
-[node name="cock" type="Sprite" parent="Panel/GridContainer/Button21"]
+[node name="Cock" type="Sprite" parent="Panel/GridContainer/Button21"]
 position = Vector2( 50, 50 )
 texture = ExtResource( 4 )
 script = ExtResource( 10 )
@@ -223,7 +223,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="short_limo" type="Sprite" parent="Panel/GridContainer/Button23"]
+[node name="ShortLimo" type="Sprite" parent="Panel/GridContainer/Button23"]
 position = Vector2( 50, 50 )
 texture = ExtResource( 3 )
 script = ExtResource( 10 )
@@ -239,7 +239,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="long_limo" type="Sprite" parent="Panel/GridContainer/Button24"]
+[node name="LongLimo" type="Sprite" parent="Panel/GridContainer/Button24"]
 position = Vector2( 50, 50 )
 texture = ExtResource( 5 )
 script = ExtResource( 10 )
@@ -252,7 +252,7 @@ margin_bottom = 516.0
 rect_min_size = Vector2( 100, 100 )
 script = ExtResource( 8 )
 
-[node name="jcl" type="Sprite" parent="Panel/GridContainer/Button25"]
+[node name="JCL" type="Sprite" parent="Panel/GridContainer/Button25"]
 position = Vector2( 50, 50 )
 texture = ExtResource( 6 )
 script = ExtResource( 10 )

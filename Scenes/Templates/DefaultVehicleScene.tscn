@@ -2,8 +2,9 @@
 
 [ext_resource path="res://Scripts/Game/player.gd" type="Script" id=1]
 
-[node name="Player" type="Node2D"]
-rotation = 1.5708
+[node name="Vehicle" type="KinematicBody2D"]
+rotation = 3.14159
 script = ExtResource( 1 )
-DEBUG_DEFAULT = Color( 0.478431, 1, 0, 1 )
-DEBUG_WARN = Color( 1, 0, 0, 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+rotation = 1.5708

@@ -20,7 +20,7 @@ const VEHICLE_BASE_STATS = {
 	# Total stats: 20
 	# Note: most vehicles have mini_car stats as a placeholder
 	
-	"cock" : {
+	"Cock" : {
 		"HP" : 1,
 		"SPD" : 1,
 		"ACC" : 1,
@@ -29,16 +29,16 @@ const VEHICLE_BASE_STATS = {
 		"ITM" : 1
 	}, # 6
 	
-	#"mini_car" : {
-	#	"HP" : 1,
-	#	"SPD" : 1,
-	#	"ACC" : 5,
-	#	"HDL" : 5,
-	#	"WGT" : 1,
-	#	"ITM" : 3
-	#}, # 16
+	"MiniCar" : {
+		"HP" : 1,
+		"SPD" : 1,
+		"ACC" : 5,
+		"HDL" : 5,
+		"WGT" : 1,
+		"ITM" : 3
+	}, # 16
 	
-	"cunt_car" : {
+	"CuntCar" : {
 		"HP" : 1,
 		"SPD" : 1,
 		"ACC" : 5,
@@ -47,41 +47,41 @@ const VEHICLE_BASE_STATS = {
 		"ITM" : 3
 	}, # 17
 	
-	"dankamobil" : {
+	"Dankamobil" : {
 		"HP" : 1,
 		"SPD" : 1,
 		"ACC" : 5,
 		"HDL" : 2,
 		"WHT" : 3,
 		"ITM" : 3
-	} # 15
+	}, # 15
 	
-	#"short_limo" : {
-	#	"HP" : 2,
-	#	"SPD" : 2,
-	#	"ACC" : 4,
-	#	"HDL" : 4,
-	#	"WHT" : 3,
-	#	"ITM" : 3
-	#}, # 18
+	"ShortLimo" : {
+		"HP" : 2,
+		"SPD" : 2,
+		"ACC" : 4,
+		"HDL" : 4,
+		"WHT" : 3,
+		"ITM" : 3
+	}, # 18
 	
-	#"long_limo" : {
-	#	"HP" : 2,
-	#	"SPD" : 3,
-	#	"ACC" : 3,
-	#	"HDL" : 3,
-	#	"WHT" : 4,
-	#	"ITM" : 4
-	#}, # 19
+	"LongLimo" : {
+		"HP" : 2,
+		"SPD" : 3,
+		"ACC" : 3,
+		"HDL" : 3,
+		"WHT" : 4,
+		"ITM" : 4
+	}, # 19
 	
-	#"jcl" : {
-	#	"HP" : 2,
-	#	"SPD" : 3,
-	#	"ACC" : 2,
-	#	"HDL" : 2,
-	#	"WHT" : 5,
-	#	"ITM" : 5
-	#} # 20
+	"JCL" : {
+		"HP" : 2,
+		"SPD" : 3,
+		"ACC" : 2,
+		"HDL" : 2,
+		"WHT" : 5,
+		"ITM" : 5
+	} # 20
 }
 
 # Controls multi-layer levels (going under some stage elements)
@@ -101,8 +101,58 @@ enum TimeFormat {
 	MMSS = 4 | 2	
 }
 
+enum GameType { SINGLE, MULTI }
 
-# CONST FN
+
+func _setup_scene(game_type: int):
+	# Load Scene
+	var scene = load("res://Scenes/Scene.tscn").instance()
+	get_node("/root").add_child(scene)
+	
+	# Load the Map
+	var map = load("res://Scenes/Maps/Scorpion/ScorpionMap.tscn").instance()
+	var maps = get_node("/root/Scene/Map")
+	maps.add_child(map)
+	var checkpoints = map.get_node("Checkpoints")
+	
+	Game.NUM_CHECKPOINTS = checkpoints.get_child_count()
+	
+	# Load my Player and Camera
+	var vehicle = Game.PLAYER_DATA[Game.STEAM_ID]["vehicle"]
+	var my_player = load("res://Scenes/Vehicles/" + vehicle + ".tscn").instance()
+	my_player.set_name(str(Game.STEAM_ID))
+	var players = get_node("/root/Scene/Players")
+	players.add_child(my_player)
+	
+	var my_cam = preload("res://Scenes/Cam.tscn").instance()
+	my_cam.name = "CAM_" + str(Game.STEAM_ID)
+	my_player.add_child(my_cam)
+	
+	var ids = Game.PLAYER_DATA.keys()
+	# Load other Players and their Cameras
+	
+	var num_players = len(ids)
+	
+	if game_type == GameType.SINGLE:
+		pass
+	
+	elif game_type == GameType.MULTI:
+		for player_id in ids:
+			if int(player_id) != Game.STEAM_ID:
+				var friend_vehicle = Game.PLAYER_DATA[player_id]["vehicle"]
+				var friend = load("res://Scenes/Vehicles/" + friend_vehicle + ".tscn").instance()
+				friend.set_name(str(player_id))
+				players.add_child(friend)
+				
+				var cam = preload("res://Scenes/Cam.tscn").instance()
+				cam.set_name("CAM_" + str(player_id))
+				friend.add_child(cam)
+	
+	Game.PLAYER_DATA[Game.STEAM_ID]["pre_config_complete"] = true
+	
+	return my_player
+
+
 func _v2_to_v3(v: Vector2, z: float) -> Vector3:
 	return Vector3(v.x, v.y, z)
 

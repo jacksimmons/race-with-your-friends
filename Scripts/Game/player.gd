@@ -28,6 +28,7 @@ var friction_value
 var hp_value
 
 var bot = false
+var offline = true
 
 var MAX_SPEED
 var ACCELERATION
@@ -66,38 +67,31 @@ func _ready():
 	friction = std_friction
 	
 	# Get player data
-	print(name)
-	if !bot:
-		my_data = SteamGlobals.PLAYER_DATA[int(name)]
-		$PlayerName/Name.text = my_data["steam_name"]
-		
-		### DEBUG
-		pos_value = get_node("../../Canvas/Stats/Position/PosValue")
-		pos_button = get_node("../../Canvas/Stats/Position/PosButton")
+	my_data = Game.PLAYER_DATA[int(name)]
+	
+	### DEBUG
+	pos_value = get_node("../../Canvas/Stats/Position/PosValue")
+	pos_button = get_node("../../Canvas/Stats/Position/PosButton")
 
-		spd_value = get_node("../../Canvas/Stats/Speed/SpeedValue")
-		spd_button = get_node("../../Canvas/Stats/Speed/SpeedButton")
-		spd_0er = get_node("../../Canvas/Stats/Speed/SpeedZeroer")
+	spd_value = get_node("../../Canvas/Stats/Speed/SpeedValue")
+	spd_button = get_node("../../Canvas/Stats/Speed/SpeedButton")
+	spd_0er = get_node("../../Canvas/Stats/Speed/SpeedZeroer")
 
-		max_spd_slider = get_node("../../Canvas/Stats/MaxSpeed/MaxSpdSlider")
-		max_spd_value = get_node("../../Canvas/Stats/MaxSpeed/MaxSpdValue")
+	max_spd_slider = get_node("../../Canvas/Stats/MaxSpeed/MaxSpdSlider")
+	max_spd_value = get_node("../../Canvas/Stats/MaxSpeed/MaxSpdValue")
 
-		acc_slider = get_node("../../Canvas/Stats/Acc/AccSlider")
-		acc_value = get_node("../../Canvas/Stats/Acc/AccValue")
+	acc_slider = get_node("../../Canvas/Stats/Acc/AccSlider")
+	acc_value = get_node("../../Canvas/Stats/Acc/AccValue")
 
-		turn_slider = get_node("../../Canvas/Stats/Turn/TurnSlider")
-		turn_value = get_node("../../Canvas/Stats/Turn/TurnValue")
+	turn_slider = get_node("../../Canvas/Stats/Turn/TurnSlider")
+	turn_value = get_node("../../Canvas/Stats/Turn/TurnValue")
 
-		e_slider = get_node("../../Canvas/Stats/Physics/CoRSlider")
-		e_value = get_node("../../Canvas/Stats/Physics/CoRValue")
+	e_slider = get_node("../../Canvas/Stats/Physics/CoRSlider")
+	e_value = get_node("../../Canvas/Stats/Physics/CoRValue")
 
-		friction_value = get_node("../../Canvas/Stats/Physics/Friction")
+	friction_value = get_node("../../Canvas/Stats/Physics/Friction")
 
-		hp_value = get_node("../../Canvas/Stats/HP/Label")
-		
-	else:
-		my_data = SteamGlobals.BOT_DATA[name]
-		$PlayerName/Name.text = name
+	hp_value = get_node("../../Canvas/Stats/HP/Label")
 
 	var STATS = Global.VEHICLE_BASE_STATS[my_data["vehicle"]]
 	MAX_SPEED     = STATS["SPD"]
@@ -123,7 +117,7 @@ func _process(delta):
 
 
 func _physics_process(delta):
-	if int(name) == SteamGlobals.STEAM_ID:
+	if int(name) == Game.STEAM_ID:
 		var collision_info = move_and_collide(velocity * delta)
 		if collision_info:
 			# Collision
@@ -297,7 +291,7 @@ func _handle_input():
 		MAX_SPEED = prev_max_spd
 	
 	if Input.is_action_just_pressed("grapple"):
-		var players = get_node("/root/Scenes/Players")
+		var players = get_node("/root/Scene/Players")
 		var nearest_player: Node2D = null
 		var nearest_player_dist: float = 0
 		for player in players:

@@ -12,8 +12,7 @@ func _on_Button_pressed():
 	if starting_collision_drawing:
 		shape.drawing = true
 		shape.node = node
-		editor.refresh_nodes()
-		self.queue_free()
 	else:
-		shape.drawing = false
-		self.queue_free()
+		shape.stop_drawing()
+		
+	editor.refresh_nodes()

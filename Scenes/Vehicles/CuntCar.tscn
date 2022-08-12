@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Templates/DefaultVehicleScene.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Sprites/Cars/CarCunt/Cunt Car.png" type="Texture" id=2]
+
+[node name="Vehicle" instance=ExtResource( 1 )]
+
+[node name="Sprite" parent="." index="0"]
+rotation = -4.71238
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="1"]
+rotation = -4.71238
+polygon = PoolVector2Array( -15.0574, -20.9936, -13.0047, -22.947, -6.84561, -26.0375, 6.83027, -26.1118, 12.9608, -22.9625, 15.0315, -20.9636, 15.0235, -20.0266, 15.9723, -19.0509, 16.0669, -11.9996, 15.0946, -12.0438, 14.9898, 14.9282, 15.9689, 14.956, 15.9682, 22.0416, 15.0318, 22.0416, 15.0084, 23.9379, 12.9209, 26.0303, 9.97778, 26.0829, 9.95194, 27.0309, 8.82156, 27.0815, 8.87413, 28.921, 7.03467, 28.921, 7.03465, 27.0309, -9.96728, 27.0309, -9.9922, 26.0478, -13.0042, 26.0281, -15.0223, 23.9446, -15.0108, 21.996, -15.9875, 21.971, -16.0156, 14.956, -14.9984, 14.956, -14.9829, -11.9899, -15.9999, -12.0108, -16.0176, -18.9078, -15.0574, -20.0997 )

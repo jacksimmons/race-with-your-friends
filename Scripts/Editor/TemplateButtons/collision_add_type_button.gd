@@ -11,6 +11,10 @@ func _on_Button_pressed():
 	col.name = col_name
 	node.add_child(col)
 	
+	# Required for it to be saved under PackedScene
+	# Because this node didn't exist on startup.
+	col.owner = editor.project_root
+	
 	if col_type == "CollisionMaterial":
 		editor.mat_names.erase(col_name)
 	elif col_type == "TriggerType":

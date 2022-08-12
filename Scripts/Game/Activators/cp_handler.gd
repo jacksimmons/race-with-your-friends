@@ -5,7 +5,7 @@ var last_checkpoint = 0
 var count_lap = true
 var lap = 1
 var lap_count = 3
-onready var race_debug = $"/root/Scenes/Canvas/Race"
+onready var race_debug = $"/root/Scene/Canvas/Race"
 
 
 func _ready():

@@ -1,11 +1,12 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scripts/Game/UI/accelerometer.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Game/UI/timer.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/TrackEditor/UI/tilebox.png" type="Texture" id=3]
 
 [node name="Scene" type="Node2D"]
 
-[node name="Background" type="Node2D" parent="."]
+[node name="Map" type="Node2D" parent="."]
 
 [node name="Players" type="Node2D" parent="."]
 
@@ -28,9 +29,9 @@ margin_right = 45.0
 margin_bottom = 552.0
 
 [node name="Label" type="Label" parent="Canvas/Stats/HP"]
-margin_top = 27.0
+margin_top = -31.0
 margin_right = 40.0
-margin_bottom = 41.0
+margin_bottom = -17.0
 text = "HP:"
 
 [node name="Position" type="Control" parent="Canvas/Stats"]
@@ -324,16 +325,27 @@ __meta__ = {
 
 [node name="Timer" type="Label" parent="Canvas/Race"]
 margin_left = 5.0
-margin_top = 580.0
+margin_top = 522.0
 margin_right = 159.0
-margin_bottom = 594.0
+margin_bottom = 536.0
 text = "Time: 00:00:0000"
 script = ExtResource( 2 )
 
 [node name="Accelerometer" type="Label" parent="Canvas/Race"]
 margin_left = 6.0
-margin_top = 559.0
-margin_right = 46.0
-margin_bottom = 573.0
+margin_top = 501.0
+margin_right = 47.0
+margin_bottom = 515.0
 text = "0 mph"
 script = ExtResource( 1 )
+
+[node name="Item" type="Control" parent="Canvas"]
+margin_left = 920.0
+margin_right = 960.0
+margin_bottom = 40.0
+
+[node name="Box" type="Sprite" parent="Canvas/Item"]
+position = Vector2( 22, 18 )
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="Canvas/Item/Box"]

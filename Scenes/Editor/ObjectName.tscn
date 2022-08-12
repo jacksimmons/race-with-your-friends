@@ -1,0 +1,13 @@
+[gd_scene format=2]
+
+[node name="ObjectName" type="Control"]
+
+[node name="Label" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "Name:"
+
+[node name="TextEdit" type="TextEdit" parent="."]
+margin_top = 13.0
+margin_right = 225.0
+margin_bottom = 33.0

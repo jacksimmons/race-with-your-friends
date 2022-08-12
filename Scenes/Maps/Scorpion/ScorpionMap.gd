@@ -26,15 +26,15 @@ func _process(delta):
 			_change_collision_level("lv_0")
 			
 			if bridge != null:
-				for child in get_node("/root/Scenes/Foreground").get_children():
+				for child in get_node("/root/Scene/Foreground").get_children():
 					if child == bridge:
-						get_node("/root/Scenes/Foreground").remove_child(child)
+						get_node("/root/Scene/Foreground").remove_child(child)
 						break # We have found the bridge - exit
 		
 		if Global.STAGE_HEIGHT == -1:
 			_change_collision_level("lv_-1")
 			
 			bridge = load("res://Scenes/Maps/Scorpion/Bridge (No Shadow).tscn").instance()
-			get_node("/root/Scenes/Foreground").add_child(bridge)
+			get_node("/root/Scene/Foreground").add_child(bridge)
 	
 	prev_stage_height = Global.STAGE_HEIGHT

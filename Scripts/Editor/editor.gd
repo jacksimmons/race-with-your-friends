@@ -1,22 +1,70 @@
 extends Node
 
 var mat_names = ["Concrete", "Tyre", "Grass", "Ice", "Sand", "Lava"]
+var mat_names_to_colour = \
+{
+	"Concrete": Color.darkgray,
+	"Tyre": Color.black,
+	"Grass": Color.greenyellow,
+	"Ice": Color.aquamarine,
+	"Sand": Color.yellow,
+	"Lava": Color.orangered
+}
 var trig_names = ["Checkpoints", "Levels"]
 
+var current_file: String = ""
 var current_node: Node
-onready var buttons = $Canvas/Buttons
-onready var pan_speed_slider = $Canvas/PanSpeed/HSlider
-onready var pan_speed_label = $Canvas/PanSpeed/Label
-onready var cam_pos = $Canvas/CameraPos
+var current_pan: float
+
+var obj_sprite_loaded: bool = false
+
+onready var project_root = $Object
+
+onready var buttons = $Canvas/UI/Panel/Buttons
+
+onready var cam_pan = $Canvas/UI/Tabs/Camera/CamPan/CameraPan
+onready var cam_pos = $Canvas/UI/Tabs/Camera/CamPos/CameraPos
+onready var cam_zoom = $Canvas/UI/Tabs/Camera/CamZoom/CameraZoom
+onready var cam_pp = $Canvas/UI/Tabs/Camera/PixPerf/PixelPerfectButton
+onready var cam_rot_slider = $Canvas/UI/Tabs/Camera/CamRot/CameraRotation
+onready var cam_rot_label = $Canvas/UI/Tabs/Camera/CamRot/CameraRotationLabel
 
 onready var display = $CamOffset/Display
 onready var cam = $CamOffset/Camera2D
 onready var shape = $Canvas/Shape
+onready var path = $Canvas/UI/Path
+onready var tabs = $Canvas/UI/Tabs
 
+onready var save = $Canvas/UI/Tabs/File/Save
+
+onready var obj_sprite = $Map/Sprites/MapSprite
+
+var progress = true
 
 func _ready():
-	current_node = $Map
-	refresh_nodes()
+	current_node = $Object
+	_on_CameraPanApply_pressed()
+	cam_pp.set_pressed(true)
+
+
+func set_current_file(path:String):
+	current_file = path
+	save.get_popup().add_item("Save", 1)
+
+
+func clear_current_file():
+	# For when a New file is selected, or an internal game scene is opened.
+	# The user will have to save the scene as a new one, rather than overwriting.
+	current_file = ""
+	save.get_popup().remove_item(1)
+
+
+func replace_project_root(new_root:Node):
+	remove_child(project_root)
+	add_child(new_root)
+	move_child(new_root, 0)
+	project_root = new_root
+	current_node = project_root
 
 
 func add_button_font_colour_override(button:Button, colour:Color):
@@ -27,14 +75,32 @@ func add_button_font_colour_override(button:Button, colour:Color):
 	button.add_color_override("font_color_pressed", colour)
 
 
+func delete_all_children(node, exceptions=[]):
+	if node.get_child_count() > 0:
+		for child in node.get_children():
+			if not child.name in exceptions:
+				node.remove_child(child)
+
+
 func refresh_nodes():
-	if display.get_child_count() > 0:
-		for child in display.get_children():
-			display.remove_child(child)
+	var path_text = str(get_path_to(current_node)) + " [" + str(current_node.get_class()) + "]"
+	if current_file != "":
+		path_text += " (" + current_file + ")"
+	path.text = path_text
+	
+	#delete_all_children(tabs, ["Camera", "File"])
+			
 	var visible_node = current_node.duplicate()
 	visible_node.visible = true
 	visible_node.position = cam.get_parent().position # Place the node at the camera offset
 	display.add_child(visible_node)
+	
+	if obj_sprite and !obj_sprite_loaded:
+		var visible_sprite = obj_sprite.duplicate()
+		visible_sprite.visible = true
+		visible_sprite.position = cam.get_parent().position # Place the node at the camera offset
+		display.add_child(visible_sprite)
+		obj_sprite_loaded = true
 	
 	if buttons.get_child_count() > 0:
 		for button in buttons.get_children():
@@ -52,18 +118,21 @@ func refresh_nodes():
 		
 	var children = current_node.get_children()
 	for child in children:
-		# Make all the buttons necessary to display all children.
-		var button = preload("res://Scenes/Editor/NodeChangeButton.tscn").instance()
-		var button_text = child.get_name()
-		var child_count = child.get_child_count()
-		if child_count > 0:
-			button_text += " [" + str(child_count) + "]"
-		button.in_scene = true
-		button.node = child
-		button.text = button_text
-		buttons.add_child(button)
+		if child is Node2D:
+			# Make all the buttons necessary to display all children.
+			var button = preload("res://Scenes/Editor/NodeChangeButton.tscn").instance()
+			var button_text = child.get_name()
+			var child_count = child.get_child_count()
+			if child_count > 0:
+				button_text += " [" + str(child_count) + "]"
+			button.in_scene = true
+			button.node = child
+			button.text = button_text
+			buttons.add_child(button)
 	
 	if current_node is Sprite:
+		obj_sprite_loaded = false
+		
 		# Sprite management button.
 		if !current_node.texture:
 			var button = preload("res://Scenes/Editor/ImportSpriteButton.tscn").instance()
@@ -119,6 +188,9 @@ func refresh_nodes():
 			buttons.add_child(button)
 	
 	elif current_node is Area2D:
+		# We are about to draw collision.
+		shape.viewing = false
+		
 		if !shape.drawing:
 			var button = preload("res://Scenes/Editor/AddCollisionButton.tscn").instance()
 			button.text = "New Collision Shape"
@@ -129,23 +201,63 @@ func refresh_nodes():
 			var button = preload("res://Scenes/Editor/AddCollisionButton.tscn").instance()
 			button.text = "Finish"
 			button.starting_collision_drawing = false
-			add_button_font_colour_override(button, Color.red)
+			add_button_font_colour_override(button, Color.green)
 			buttons.add_child(button)
 	
 	elif current_node is CollisionPolygon2D:
+		shape.drawing = true
+		shape.points = current_node.polygon
 		
+		# We have already made the polygon, so view until user selects "edit".
+		shape.viewing = true
 		
-		var button = preload("res://Scenes/Editor/SetNameButton.tscn").instance()
-		button.text = "Set Name"
-		add_button_font_colour_override(button, Color.gold)
-		buttons.add_child(button)
+		var obj_name = preload("res://Scenes/Editor/ObjectName.tscn").instance()
+		tabs.add_child(obj_name)
+		
+		var set_name_button = preload("res://Scenes/Editor/SetNameButton.tscn").instance()
+		set_name_button.text = "Set Name"
+		set_name_button.node = current_node
+		add_button_font_colour_override(set_name_button, Color.gold)
+		buttons.add_child(set_name_button)
+		
+		var del_node_button = preload("res://Scenes/Editor/DeleteNodeButton.tscn").instance()
+		del_node_button.text = "Delete"
+		del_node_button.node = current_node
+		add_button_font_colour_override(del_node_button, Color.red)
+		buttons.add_child(del_node_button)
 	
 func _process(delta):
-	pan_speed_label.text = "Camera Pan Speed: " + str(pan_speed_slider.value)
-	cam.speed = pan_speed_slider.value
-	
+	cam.speed = current_pan
 	cam_pos.text = "Camera Position: " + str(cam.position)
+	cam_zoom.text = "Camera Zoom: " + str(cam.zoom.x) + "x"
+	cam.rotation_degrees = cam_rot_slider.value
+	cam_rot_label.text = "Camera Rotation: " + str(int(cam.rotation_degrees))
 
 
 func _on_CameraPosReset_pressed():
 	cam.position = Vector2.ZERO
+
+
+func _on_CameraZoomReset_pressed():
+	cam.zoom = cam.DEFAULT_ZOOM
+
+
+func _on_CameraPanApply_pressed():
+	current_pan = float(cam_pan.text)
+	cam_pan.text = str(current_pan)
+
+
+func _on_PixelPerfectButton_toggled(button_pressed):
+	if button_pressed:
+		cam.make_pixel_perfect()
+	else:
+		cam.pixel_perfect = false
+
+
+func _on_PlayerFocusButton_toggled(button_pressed):
+	if button_pressed:
+		var player_cam = get_node_or_null("/root/Scene/Players/" + str(Game.STEAM_ID) + "/Camera/Cam")
+		if player_cam:
+			player_cam.current = true
+	else:
+		cam.current = true

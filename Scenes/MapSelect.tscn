@@ -1,0 +1,32 @@
+[gd_scene format=2]
+
+[node name="MapSelect" type="Node2D"]
+
+[node name="Panel" type="Panel" parent="."]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 576.0
+margin_bottom = 221.0
+
+[node name="Label" type="Label" parent="Panel"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 570.0
+margin_bottom = 15.0
+text = "Select Map
+"
+align = 1
+
+[node name="CloseMapSelect" type="Button" parent="Panel"]
+margin_left = -3.15454
+margin_top = -2.94878
+margin_right = 112.846
+margin_bottom = 17.0512
+text = "Cancel"
+
+[node name="Scroll" type="ScrollContainer" parent="Panel"]
+margin_top = 19.0
+margin_right = 574.0
+margin_bottom = 221.0
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Scroll"]
