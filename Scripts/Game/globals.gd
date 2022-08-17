@@ -103,9 +103,22 @@ enum TimeFormat {
 
 enum GameType { SINGLE, MULTI }
 
+enum Surface {
+	PLAYER = 1,
+	CONTROL = 2,
+	CONCRETE = 3,
+	GRASS = 4,
+	SAND = 5,
+	ICE = 6,
+	WATER = 7,
+	LAVA = 8,
+	CONVEYOR = 9
+}
 
-func _setup_scene(game_type: int):
+
+func _setup_scene(game_type: int, my_id: int):
 	# Load Scene
+	
 	var scene = load("res://Scenes/Scene.tscn").instance()
 	get_node("/root").add_child(scene)
 	
@@ -118,14 +131,15 @@ func _setup_scene(game_type: int):
 	Game.NUM_CHECKPOINTS = checkpoints.get_child_count()
 	
 	# Load my Player and Camera
-	var vehicle = Game.PLAYER_DATA[Game.STEAM_ID]["vehicle"]
+	var vehicle = Game.PLAYER_DATA[my_id]["vehicle"]
 	var my_player = load("res://Scenes/Vehicles/" + vehicle + ".tscn").instance()
-	my_player.set_name(str(Game.STEAM_ID))
+	
+	my_player.set_name(str(my_id))
 	var players = get_node("/root/Scene/Players")
 	players.add_child(my_player)
 	
 	var my_cam = preload("res://Scenes/Cam.tscn").instance()
-	my_cam.name = "CAM_" + str(Game.STEAM_ID)
+	my_cam.name = "CAM_" + str(my_id)
 	my_player.add_child(my_cam)
 	
 	var ids = Game.PLAYER_DATA.keys()
@@ -138,7 +152,7 @@ func _setup_scene(game_type: int):
 	
 	elif game_type == GameType.MULTI:
 		for player_id in ids:
-			if int(player_id) != Game.STEAM_ID:
+			if int(player_id) != my_id:
 				var friend_vehicle = Game.PLAYER_DATA[player_id]["vehicle"]
 				var friend = load("res://Scenes/Vehicles/" + friend_vehicle + ".tscn").instance()
 				friend.set_name(str(player_id))
@@ -148,7 +162,7 @@ func _setup_scene(game_type: int):
 				cam.set_name("CAM_" + str(player_id))
 				friend.add_child(cam)
 	
-	Game.PLAYER_DATA[Game.STEAM_ID]["pre_config_complete"] = true
+	Game.PLAYER_DATA[my_id]["pre_config_complete"] = true
 	
 	return my_player
 

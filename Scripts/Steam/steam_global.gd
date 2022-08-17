@@ -35,7 +35,12 @@ func _ready():
 	
 	ONLINE = Steam.loggedOn()
 	STEAM_ID = Steam.getSteamID()
+
 	STEAM_NAME = Steam.getPersonaName()
+	
+	print("STEAMID: " + str(STEAM_ID))
+	print("STEAMNAME: " + str(STEAM_NAME))
+
 	OWNED = Steam.isSubscribed()
 	
 	if !OWNED:

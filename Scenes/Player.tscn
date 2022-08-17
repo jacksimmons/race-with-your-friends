@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://Scripts/Game/player.gd" type="Script" id=1]
-
-[node name="Player" type="Node2D"]
-rotation = 1.5708
-script = ExtResource( 1 )
-DEBUG_DEFAULT = Color( 0.478431, 1, 0, 1 )
-DEBUG_WARN = Color( 1, 0, 0, 1 )

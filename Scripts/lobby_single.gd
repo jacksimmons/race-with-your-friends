@@ -2,6 +2,12 @@ extends Node
 
 onready var mapSelectPopup = $MapSelectPopup
 
+var host = true
+
+
+func send_race_position(pos: Dictionary):
+	pass
+
 
 func _on_Back_pressed():
 	var scene = load("res://Scenes/MenuTitle.tscn").instance()
@@ -22,4 +28,4 @@ func _on_OpenCharSelect_pressed():
 
 
 func _on_Start_pressed():
-	Global._setup_scene(Global.GameType.SINGLE)
+	Global._setup_scene(Global.GameType.SINGLE, Game.STEAM_ID)

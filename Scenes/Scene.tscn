@@ -15,11 +15,9 @@
 
 [node name="Bots" type="Node2D" parent="."]
 
-[node name="Foreground" type="Node2D" parent="."]
+[node name="Powerups" type="Node2D" parent="."]
 
 [node name="Cameras" type="Node2D" parent="."]
-
-[node name="Particles" type="Node2D" parent="."]
 
 [node name="Canvas" type="CanvasLayer" parent="."]
 
@@ -275,15 +273,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OnIce" type="Label" parent="Canvas/Stats/Physics"]
+[node name="OnMaterial" type="Label" parent="Canvas/Stats/Physics"]
 margin_left = 9.30243
 margin_top = 238.624
 margin_right = 56.3024
 margin_bottom = 252.624
-text = "On Ice:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+text = "On Material:"
 
 [node name="Network" type="Control" parent="Canvas"]
 margin_right = 40.0
@@ -341,6 +336,12 @@ margin_right = 47.0
 margin_bottom = 515.0
 text = "0 mph"
 script = ExtResource( 1 )
+
+[node name="Position" type="Label" parent="Canvas/Race"]
+margin_left = 6.0
+margin_top = 461.0
+margin_right = 46.0
+margin_bottom = 475.0
 
 [node name="Item" type="Control" parent="Canvas"]
 margin_left = 920.0

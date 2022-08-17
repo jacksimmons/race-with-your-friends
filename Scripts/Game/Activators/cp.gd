@@ -7,4 +7,4 @@ func _ready():
 
 func _on_body_entered(body):
 	# All Checkpoint areas must follow the convention cp_{Number}
-	get_parent()._on_cp_entered(body, name.substr(3))
+	get_parent()._on_cp_entered(body, name)

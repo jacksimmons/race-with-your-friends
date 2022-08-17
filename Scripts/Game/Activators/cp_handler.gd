@@ -5,6 +5,8 @@ var last_checkpoint = 0
 var count_lap = true
 var lap = 1
 var lap_count = 3
+
+onready var players = $"/root/Scene/Players"
 onready var race_debug = $"/root/Scene/Canvas/Race"
 
 
@@ -22,6 +24,12 @@ func _process(delta):
 
 func _on_cp_entered(body, cp_name):
 	race_debug.get_node("CheckpointCount").text = "Checkpoint: " + cp_name + "/" + str(len(checkpoints) - 1)
+	body.cur_checkpoint = int(cp_name)
+	
+	if int(cp_name) < len(checkpoints) - 1:
+		body.next_checkpoint = int(cp_name) + 1
+	else:
+		body.next_checkpoint = 0
 
 	# 0 -> 4 -> 0 is a problem
 	if int(cp_name) == 0:

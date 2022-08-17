@@ -25,8 +25,11 @@ var time: float = 0
 var my_player = null
 var position_last_update: Vector2 = Vector2.ZERO
 var rotation_last_update: int = 0
+var race_position_last_update: Dictionary = {}
 
 var lerps: Dictionary = {}
+var race_positions: Dictionary = {}
+var race_placements: Array = []
 
 var all_ready: bool = false
 var all_pre_configs_complete: bool = false
@@ -55,7 +58,7 @@ func _ready():
 	check_Command_Line()
 
 
-func _process(delta):
+func _process(delta):	
 	# If the player is connected, read packets
 	if Game.LOBBY_ID > 0:
 		read_All_P2P_Packets()
@@ -70,6 +73,21 @@ func _process(delta):
 			if my_player.rotation.z != rotation_last_update:
 				send_P2P_Packet("all", {"rotation": my_player.rotation.z})
 				rotation_last_update = my_player.rotation.z
+			if my_player.race_position != race_position_last_update:
+				send_P2P_Packet("all", {"race_pos": my_player.race_position})
+			
+			# Race placements (to be done by host only)
+			if host:
+				var sorted_checkpoints = {}
+				for pos in race_positions:
+					# Add the player ID to the checkpoint key they are at.
+					sorted_checkpoints[pos["checkpoints"]].append(pos)
+				
+				var sorted_distances = []
+				for cp_val in sorted_checkpoints.keys().sort():
+					for id in sorted_checkpoints[cp_val]:
+						sorted_distances.append(race_positions[id]["distance_from_next"])
+				sorted_distances.sort()
 	
 	for player_id in lerps:
 		var player = get_node("/root/Scene/Players/" + str(player_id))
@@ -321,6 +339,11 @@ func read_P2P_Packet():
 				if !lerps.has(PACKET_SENDER):
 					lerps[PACKET_SENDER] = {}
 				lerps[PACKET_SENDER]["rotation"] = READABLE["rotation"]
+		
+		if READABLE.has("race_pos"):
+			if PACKET_SENDER != Game.STEAM_ID:
+				race_positions[PACKET_SENDER]["checkpoints"] = READABLE["checkpoints"]
+				race_positions[PACKET_SENDER]["distance_from_next"] = READABLE["distance_from_next"]
 
 
 func send_P2P_Packet(target: String, packet_data: Dictionary) -> void:
@@ -374,7 +397,7 @@ func display_Message(message) -> void:
 
 func start_Pre_Config() -> void:
 	if !local_pre_config_done:
-		my_player = Global._setup_scene(Global.GameType.MULTI)
+		my_player = Global._setup_scene(Global.GameType.MULTI, Game.STEAM_ID)
 		
 		var local_pre_config_done = true
 		send_P2P_Packet("all", {"pre_config_complete": true})

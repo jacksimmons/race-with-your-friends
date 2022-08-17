@@ -22,6 +22,14 @@ Game="*res://Scripts/Steam/steam_global.gd"
 [debug]
 
 settings/fps/force_fps=60
+gdscript/completion/autocomplete_setters_and_getters=true
+gdscript/warnings/unused_class_variable=true
+gdscript/warnings/unsafe_property_access=true
+gdscript/warnings/unsafe_method_access=true
+gdscript/warnings/unsafe_cast=true
+gdscript/warnings/unsafe_call_argument=true
+shapes/collision/shape_color=Color( 0, 0.6, 0.701961, 0.419608 )
+shapes/collision/contact_color=Color( 1, 0.2, 0.101961, 0.8 )
 
 [display]
 
@@ -146,19 +154,23 @@ reset_zoom={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":61,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
-draw_collision_vertex={
+eagle={
 "deadzone": 0.5,
-"events": [  ]
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
 }
 
 [layer_names]
 
-2d_physics/layer_1="PLAYER"
-2d_physics/layer_2="CONTROL"
-2d_physics/layer_3="MAT:CONCRETE"
-2d_physics/layer_4="MAT:TYRE"
-2d_physics/layer_5="MAT:ICE"
-2d_physics/layer_6="RAMP"
+2d_physics/layer_1="player"
+2d_physics/layer_2="control"
+2d_physics/layer_3="CONCRETE"
+2d_physics/layer_4="GRASS"
+2d_physics/layer_5="SAND"
+2d_physics/layer_6="ICE"
+2d_physics/layer_7="WATER"
+2d_physics/layer_8="LAVA"
+2d_physics/layer_9="MOVING"
 2d_physics/layer_29="LEVEL3"
 2d_physics/layer_30="LEVEL2"
 2d_physics/layer_31="LEVEL1"

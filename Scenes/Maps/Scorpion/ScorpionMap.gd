@@ -22,7 +22,6 @@ func _process(delta):
 	if prev_stage_height != Global.STAGE_HEIGHT:
 	# Ensuring we don't endlessly execute this code
 		if Global.STAGE_HEIGHT == 0:
-			print("HI")
 			_change_collision_level("lv_0")
 			
 			if bridge != null:

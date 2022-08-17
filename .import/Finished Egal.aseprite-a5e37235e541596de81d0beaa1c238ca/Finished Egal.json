@@ -1,11 +1,11 @@
 { "frames": [
    {
     "filename": "Finished Egal.aseprite",
-    "frame": { "x": 0, "y": 0, "w": 468, "h": 267 },
+    "frame": { "x": 0, "y": 0, "w": 463, "h": 265 },
     "rotated": false,
     "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 468, "h": 267 },
-    "sourceSize": { "w": 468, "h": 267 },
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 463, "h": 265 },
+    "sourceSize": { "w": 463, "h": 265 },
     "duration": 100
    }
  ],
@@ -14,7 +14,7 @@
   "version": "1.2.39-x64",
   "image": "Finished Egal.png",
   "format": "RGBA8888",
-  "size": { "w": 468, "h": 267 },
+  "size": { "w": 463, "h": 265 },
   "scale": "1",
   "frameTags": [
   ]

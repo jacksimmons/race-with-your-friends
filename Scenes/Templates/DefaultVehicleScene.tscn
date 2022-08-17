@@ -1,10 +1,14 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Scripts/Game/player.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Game/Players/player.gd" type="Script" id=1]
 
-[node name="Vehicle" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D"]
 rotation = 3.14159
+collision_mask = 259
 script = ExtResource( 1 )
+DEBUG_DEFAULT = Color( 0.478431, 1, 0, 1 )
+DEBUG_WARN = Color( 1, 0, 0, 1 )
+SURFACE_FRICTION_VALUES = [ null, null, null, 1.0, 2.0, 1.5, 0.5, 3.0, 5.0 ]
 
 [node name="Sprite" type="Sprite" parent="."]
-rotation = 1.5708
+rotation = -4.71239
