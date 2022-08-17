@@ -119,7 +119,7 @@ enum Surface {
 func _setup_scene(game_type: int, my_id: int):
 	# Load Scene
 	
-	var scene = load("res://Scenes/Scene.tscn").instance()
+	var scene = preload("res://Scenes/Scene.tscn").instance()
 	get_node("/root").add_child(scene)
 	
 	# Load the Map

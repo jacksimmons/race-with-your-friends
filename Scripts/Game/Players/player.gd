@@ -23,6 +23,8 @@ onready var race_pos_value = get_node("../../Canvas/Race/Position")
 
 onready var on_mat = $"/root/Scene/Canvas/Stats/Physics/OnMaterial"
 
+onready var drawing = $"/root/Scene/Canvas/Object"
+onready var hook = $HookSprite
 
 onready var lobby = get_node("/root/Lobby")
 onready var checkpoints = get_node("/root/Scene/Map/ScorpionMap/Checkpoints")
@@ -278,6 +280,24 @@ func _unhandled_input(event):
 		input_flags |= InputFlags.RIGHT_DOWN
 	elif event.is_action_released("right"):
 		input_flags ^= InputFlags.RIGHT_DOWN
+	
+	elif event.is_action_pressed("hook"):
+		_handle_hook()
+
+
+func _handle_hook():
+	var targets = get_node("/root/Scene/Map/ScorpionMap/GrapplePoints")
+	
+	# Simple Djkstra's
+	var shortest_path = INF
+	var shortest_path_target
+	for target in targets.get_children():
+		if (position - target.position).length() < shortest_path:
+			shortest_path_target = target
+	
+	print(shortest_path_target.position)
+	
+	drawing.lines.append({"from": position, "to": shortest_path_target.position, "col": Color.black})
 
 
 func _handle_input():

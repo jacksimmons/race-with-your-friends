@@ -366,3 +366,7 @@ texture = ExtResource( 5 )
 visible = false
 scale = Vector2( 0.134058, 0.134058 )
 texture = ExtResource( 6 )
+
+[node name="Object" type="Control" parent="Canvas"]
+margin_right = 958.0
+margin_bottom = 539.0

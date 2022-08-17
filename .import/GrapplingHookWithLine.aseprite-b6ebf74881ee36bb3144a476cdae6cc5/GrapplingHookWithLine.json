@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "GrapplingHookWithLine.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 93, "h": 94 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 93, "h": 94 },
+    "sourceSize": { "w": 93, "h": 94 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.39-x64",
+  "image": "GrapplingHookWithLine.png",
+  "format": "RGBA8888",
+  "size": { "w": 93, "h": 94 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}
