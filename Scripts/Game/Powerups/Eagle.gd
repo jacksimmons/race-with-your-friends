@@ -2,7 +2,7 @@ extends Node2D
 
 
 var target_player: Vector2
-var speed: float = 1
+var speed: float = 3
 
 
 func _process(delta):

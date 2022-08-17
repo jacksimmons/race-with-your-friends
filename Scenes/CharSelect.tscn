@@ -14,8 +14,8 @@
 [node name="CharSelect" type="Node2D"]
 
 [node name="Panel" type="Panel" parent="."]
-margin_right = 1023.0
-margin_bottom = 598.0
+margin_right = 953.0
+margin_bottom = 539.0
 
 [node name="Label" type="Label" parent="Panel"]
 margin_right = 1023.0
