@@ -28,4 +28,4 @@ func _on_OpenCharSelect_pressed():
 
 
 func _on_Start_pressed():
-	Global._setup_scene(Global.GameType.SINGLE, Game.STEAM_ID)
+	Global._setup_scene(Global.GameMode.SINGLE, Game.STEAM_ID)

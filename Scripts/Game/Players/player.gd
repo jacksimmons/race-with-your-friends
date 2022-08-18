@@ -31,7 +31,6 @@ onready var checkpoints = get_node("/root/Scene/Map/ScorpionMap/Checkpoints")
 onready var powerups = get_node("/root/Scene/Powerups")
 
 var bot = false
-var offline = true
 
 var MAX_SPEED
 var ACCELERATION
@@ -86,7 +85,7 @@ var prev_max_spd
 
 var scene_loaded: bool = false
 
-func _ready():	
+func _ready():
 	# Get player data
 	my_data = Game.PLAYER_DATA[int(name)]
 

@@ -101,7 +101,8 @@ enum TimeFormat {
 	MMSS = 4 | 2	
 }
 
-enum GameType { SINGLE, MULTI }
+enum GameMode { SINGLE, MULTI, EDITOR }
+var GAME_MODE
 
 enum Surface {
 	PLAYER = 1,
@@ -116,9 +117,10 @@ enum Surface {
 }
 
 
-func _setup_scene(game_type: int, my_id: int):
-	# Load Scene
+func _setup_scene(game_mode: int, my_id: int):
+	# Sets up a game scene using Global and Game data.
 	
+	# Load Scene
 	var scene = preload("res://Scenes/Scene.tscn").instance()
 	get_node("/root").add_child(scene)
 	
@@ -142,15 +144,13 @@ func _setup_scene(game_type: int, my_id: int):
 	my_cam.name = "CAM_" + str(my_id)
 	my_player.add_child(my_cam)
 	
-	var ids = Game.PLAYER_DATA.keys()
-	# Load other Players and their Cameras
-	
-	var num_players = len(ids)
-	
-	if game_type == GameType.SINGLE:
+	if game_mode == GameMode.SINGLE:
 		pass
 	
-	elif game_type == GameType.MULTI:
+	elif game_mode == GameMode.MULTI:
+		var ids = Game.PLAYER_DATA.keys()
+		var num_players = len(ids)
+		
 		for player_id in ids:
 			if int(player_id) != my_id:
 				var friend_vehicle = Game.PLAYER_DATA[player_id]["vehicle"]
@@ -163,6 +163,7 @@ func _setup_scene(game_type: int, my_id: int):
 				friend.add_child(cam)
 	
 	Game.PLAYER_DATA[my_id]["pre_config_complete"] = true
+	Game.game_mode = game_mode
 	
 	return my_player
 
@@ -234,5 +235,7 @@ func _format_time(time:float, time_format: int = TimeFormat.HHMMSSMSMS) -> Strin
 	return printable
 
 
-#func _explosion(position: Vector2, size: float):
-#	var 
+# RUNNING CODE
+func _unhandled_key_input(event):
+	if event.is_action_pressed("fullscreen"):
+		OS.window_fullscreen = !OS.window_fullscreen

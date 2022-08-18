@@ -95,20 +95,20 @@ func _on_item_pressed(id):
 				there_is_a_map = true
 			
 			if there_is_a_map:
+				var my_id = 0
+				
 				var vehicle_name = get_popup().get_item_text(selected_id)
 				var vehicle = load("res://Scenes/Vehicles/" + vehicle_name + ".tscn").instance()
 				var scene = preload("res://Scenes/Scene.tscn").instance()
 				var map = editor.project_root.get_node("Map")
 				var cam = preload("res://Scenes/Cam.tscn").instance()
 				
-				vehicle.my_data = {"vehicle": vehicle_name}
+				Game.PLAYER_DATA[my_id] = {"vehicle": vehicle_name}
+				Global._setup_scene(Global.GAME_MODE.EDITOR, my_id)
 				
-				vehicle.add_child(cam)
-				scene.get_node("Map").add_child(map)
-				scene.get_node("Game").add_child(vehicle)
-				
-				get_node("/root").add_child(scene)
-				
+				if Game.NUM_CHECKPOINTS == 0:
+					pass
+					
 			else:
 				no_map_dialog.popup()
 

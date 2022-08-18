@@ -261,3 +261,10 @@ func _on_PlayerFocusButton_toggled(button_pressed):
 			player_cam.current = true
 	else:
 		cam.current = true
+
+
+func _on_TabsToggleButton_toggled(button_pressed):
+	if button_pressed:
+		tabs.show()
+	else:
+		tabs.hide()

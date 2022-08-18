@@ -397,7 +397,7 @@ func display_Message(message) -> void:
 
 func start_Pre_Config() -> void:
 	if !local_pre_config_done:
-		my_player = Global._setup_scene(Global.GameType.MULTI, Game.STEAM_ID)
+		my_player = Global._setup_scene(Global.GameMode.MULTI, Game.STEAM_ID)
 		
 		var local_pre_config_done = true
 		send_P2P_Packet("all", {"pre_config_complete": true})

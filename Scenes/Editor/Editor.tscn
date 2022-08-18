@@ -5,7 +5,7 @@
 [ext_resource path="res://Scripts/Editor/dialog_no_scene.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/Editor/shape_drawing.gd" type="Script" id=4]
 [ext_resource path="res://Sprites/Editor/WHITE_PIXEL.png" type="Texture" id=5]
-[ext_resource path="res://Scripts/Editor/scene_management_button.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/Editor/TemplateButtons/scene_management_button.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/Editor/dialog_unsaved_progress.gd" type="Script" id=7]
 
 [node name="Editor" type="Control"]
@@ -34,7 +34,15 @@ margin_bottom = 540.0
 
 [node name="Buttons" type="VBoxContainer" parent="Canvas/UI/Panel"]
 margin_right = 223.0
+margin_bottom = 508.0
+
+[node name="TabsToggleButton" type="CheckButton" parent="Canvas/UI/Panel"]
+margin_left = 1.0
+margin_top = 499.0
+margin_right = 221.0
 margin_bottom = 539.0
+pressed = true
+text = "Toggle Tabs"
 
 [node name="Tabs" type="TabContainer" parent="Canvas/UI"]
 margin_left = 224.0
@@ -44,7 +52,6 @@ margin_bottom = 173.0
 tab_align = 0
 
 [node name="File" type="VBoxContainer" parent="Canvas/UI/Tabs"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -223,6 +230,7 @@ step = 10.0
 ticks_on_borders = true
 
 [node name="Test" type="VBoxContainer" parent="Canvas/UI/Tabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -293,6 +301,7 @@ script = ExtResource( 2 )
 [node name="Display" type="Node2D" parent="CamOffset"]
 position = Vector2( -960, -540 )
 
+[connection signal="toggled" from="Canvas/UI/Panel/TabsToggleButton" to="." method="_on_TabsToggleButton_toggled"]
 [connection signal="file_selected" from="Canvas/UI/Tabs/File/Open/FileDialog" to="Canvas/UI/Tabs/File/Open" method="_on_FileDialog_file_selected"]
 [connection signal="file_selected" from="Canvas/UI/Tabs/File/Save/FileDialog" to="Canvas/UI/Tabs/File/Save" method="_on_FileDialog_file_selected"]
 [connection signal="pressed" from="Canvas/UI/Tabs/Camera/CamPos/CameraPosReset" to="." method="_on_CameraPosReset_pressed"]
