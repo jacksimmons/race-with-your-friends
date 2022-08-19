@@ -9,3 +9,7 @@
 [node name="Collision" type="Node2D" parent="."]
 
 [node name="Checkpoints" type="Node2D" parent="."]
+
+[node name="Layers" type="Node2D" parent="."]
+
+[node name="Objects" type="Node2D" parent="."]

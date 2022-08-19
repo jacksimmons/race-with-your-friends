@@ -10,10 +10,4 @@ func _ready():
 
 
 func _on_Button_Pressed(vehicle):
-	Game.SELECTED_VEHICLE = vehicle
-	
-	#if Server.active:
-	#	Server._upload_vehicle()
-	#else:
-	#	Server._pre_config()
-	#self.queue_free()
+	Game.PLAYER_DATA[Game.STEAM_ID]["vehicle"] = vehicle

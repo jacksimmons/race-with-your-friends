@@ -78,9 +78,6 @@ margin_top = 68.6123
 margin_right = 105.439
 margin_bottom = 90.6123
 text = "0"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="SpeedButton" type="Button" parent="Canvas/Stats/Speed"]
 margin_left = 111.25
@@ -125,9 +122,6 @@ margin_right = 130.53
 margin_bottom = 92.0
 max_value = 20.0
 value = 5.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MaxSpdValue" type="Label" parent="Canvas/Stats/MaxSpeed"]
 margin_left = 130.0
@@ -135,9 +129,6 @@ margin_top = 64.0
 margin_right = 146.0
 margin_bottom = 78.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MaxSpdLabel" type="Label" parent="Canvas/Stats/MaxSpeed"]
 margin_left = 5.04538
@@ -173,9 +164,6 @@ margin_left = 130.941
 margin_top = 98.4054
 margin_right = 144.941
 margin_bottom = 112.405
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="AccLabel" type="Label" parent="Canvas/Stats/Acc"]
 margin_left = 6.0
@@ -192,9 +180,6 @@ margin_left = -0.707108
 margin_top = 53.033
 margin_right = 39.2929
 margin_bottom = 93.033
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TurnSlider" type="HSlider" parent="Canvas/Stats/Turn"]
 margin_left = 5.52971
@@ -209,9 +194,6 @@ margin_left = 132.178
 margin_top = 133.697
 margin_right = 149.178
 margin_bottom = 147.697
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TurnLabel" type="Label" parent="Canvas/Stats/Turn"]
 margin_left = 7.0
@@ -259,24 +241,18 @@ margin_top = 152.6
 margin_right = 96.9222
 margin_bottom = 166.6
 text = "Restitution (e)"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Friction" type="Label" parent="Canvas/Stats/Physics"]
 margin_left = 9.02205
 margin_top = 223.255
-margin_right = 57.0221
+margin_right = 61.022
 margin_bottom = 237.255
 text = "Friction:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="OnMaterial" type="Label" parent="Canvas/Stats/Physics"]
 margin_left = 9.30243
 margin_top = 238.624
-margin_right = 56.3024
+margin_right = 88.3024
 margin_bottom = 252.624
 text = "On Material:"
 

@@ -1,11 +1,16 @@
 extends Node
 
-# CONST VAR
+var g = 9.81
 var COEFFICIENT_OF_RESTITUTION = 0.1
 var e = COEFFICIENT_OF_RESTITUTION
 
 var SELECTED_VEHICLE
 var SELECTED_MAP
+
+# Settings
+var NETWORK_REFRESH_INTERVAL = 0.1
+
+var PLAYER_ID = 0
 
 # Stats:
 # HP
@@ -15,7 +20,7 @@ var SELECTED_MAP
 #
 # ITM: Luck and Ability
 
-const VEHICLE_BASE_STATS = {
+const VEHICLE_BASE_STATS: Dictionary = {
 	
 	# Total stats: 20
 	# Note: most vehicles have mini_car stats as a placeholder
@@ -52,7 +57,7 @@ const VEHICLE_BASE_STATS = {
 		"SPD" : 1,
 		"ACC" : 5,
 		"HDL" : 2,
-		"WHT" : 3,
+		"WGT" : 3,
 		"ITM" : 3
 	}, # 15
 	
@@ -61,7 +66,7 @@ const VEHICLE_BASE_STATS = {
 		"SPD" : 2,
 		"ACC" : 4,
 		"HDL" : 4,
-		"WHT" : 3,
+		"WGT" : 3,
 		"ITM" : 3
 	}, # 18
 	
@@ -70,7 +75,7 @@ const VEHICLE_BASE_STATS = {
 		"SPD" : 3,
 		"ACC" : 3,
 		"HDL" : 3,
-		"WHT" : 4,
+		"WGT" : 4,
 		"ITM" : 4
 	}, # 19
 	
@@ -79,7 +84,7 @@ const VEHICLE_BASE_STATS = {
 		"SPD" : 3,
 		"ACC" : 2,
 		"HDL" : 2,
-		"WHT" : 5,
+		"WGT" : 5,
 		"ITM" : 5
 	} # 20
 }
@@ -98,7 +103,7 @@ enum TimeFormat {
 	SSMSMS = 2 | 1
 	
 	HHMMSS = 8 | 4 | 2,
-	MMSS = 4 | 2	
+	MMSS = 4 | 2
 }
 
 enum GameMode { SINGLE, MULTI, EDITOR }
@@ -117,8 +122,16 @@ enum Surface {
 }
 
 
-func _setup_scene(game_mode: int, my_id: int):
+func get_random_vehicle() -> String:
+	var valid_vehicles: Array = Global.VEHICLE_BASE_STATS.keys()
+	randomize()
+	var vehicle = valid_vehicles[randi() % valid_vehicles.size()]
+	return vehicle
+
+
+func _setup_scene(game_mode: int):
 	# Sets up a game scene using Global and Game data.
+	var my_id = Game.STEAM_ID
 	
 	# Load Scene
 	var scene = preload("res://Scenes/Scene.tscn").instance()
@@ -163,7 +176,7 @@ func _setup_scene(game_mode: int, my_id: int):
 				friend.add_child(cam)
 	
 	Game.PLAYER_DATA[my_id]["pre_config_complete"] = true
-	Game.game_mode = game_mode
+	GAME_MODE = game_mode
 	
 	return my_player
 

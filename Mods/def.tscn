@@ -1,0 +1,23 @@
+[gd_scene format=2]
+
+[node name="Map" type="Node2D"]
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="MapSprite" type="Sprite" parent="Sprites"]
+
+[node name="Collision" type="Node2D" parent="."]
+
+[node name="Concrete" type="Area2D" parent="Collision"]
+
+[node name="Tyre" type="Area2D" parent="Collision"]
+
+[node name="Grass" type="Area2D" parent="Collision"]
+
+[node name="Ice" type="Area2D" parent="Collision"]
+
+[node name="Sand" type="Area2D" parent="Collision"]
+
+[node name="Lava" type="Area2D" parent="Collision"]
+
+[node name="Checkpoints" type="Node2D" parent="."]

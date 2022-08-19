@@ -1,6 +1,7 @@
 extends Node
 
 onready var mapSelectPopup = $MapSelectPopup
+onready var charSelectPopup = $CharSelectPopup
 
 var host = true
 
@@ -24,8 +25,26 @@ func _on_CloseMapSelect_pressed():
 
 
 func _on_OpenCharSelect_pressed():
-	pass # Replace with function body.
+	charSelectPopup.popup()
+
+
+func _on_CloseCharSelect_pressed():
+	charSelectPopup.hide()
+
+
+func _on_Vehicle_Selected(vehicle: String):
+	Game.PLAYER_DATA[Game.STEAM_ID]["vehicle"] = vehicle
+	charSelectPopup.hide()
 
 
 func _on_Start_pressed():
-	Global._setup_scene(Global.GameMode.SINGLE, Game.STEAM_ID)
+	if !Game.PLAYER_DATA[Game.STEAM_ID].has("vehicle"):
+		var random_vehicle = Global.get_random_vehicle()
+		Game.PLAYER_DATA[Game.STEAM_ID]["vehicle"] = random_vehicle
+	
+	Global._setup_scene(Global.GameMode.SINGLE)
+
+
+func _ready():
+	# Add the player data dictionary
+	Game.PLAYER_DATA[Game.STEAM_ID] = {}

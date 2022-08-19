@@ -5,13 +5,12 @@
 
 [node name="Vehicle" instance=ExtResource( 1 )]
 
-[node name="HookSprite" parent="." index="0"]
+[node name="VehicleSprite" parent="." index="0"]
+texture = ExtResource( 2 )
+
+[node name="HookSprite" parent="." index="1"]
 position = Vector2( 27.8407, -0.299394 )
 scale = Vector2( 0.576638, 0.576638 )
-
-[node name="VehicleSprite" parent="." index="1"]
-rotation = -1.5708
-texture = ExtResource( 2 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="2"]
 rotation = -1.57079

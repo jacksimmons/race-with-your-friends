@@ -64,8 +64,8 @@ func _process(delta):
 		read_All_P2P_Packets()
 	
 	if Game.GAME_STARTED:
-		time += 1/(2.5*delta) # Will take 0.025 seconds
-		if time >= 1/delta:
+		time += delta / Global.NETWORK_REFRESH_INTERVAL
+		if time >= delta:
 			time = 0
 			if my_player.position != position_last_update:
 				send_P2P_Packet("all", {"position": my_player.position})
@@ -114,16 +114,6 @@ func read_All_P2P_Packets(read_count: int = 0):
 	if Steam.getAvailableP2PPacketSize(0) > 0:
 		read_P2P_Packet()
 		read_All_P2P_Packets(read_count + 1)
-
-
-## Frequency Functions
-
-
-func get_random_vehicle():
-	var valid_vehicles: Array = Global.VEHICLE_BASE_STATS.keys()
-	randomize()
-	var vehicle = valid_vehicles[randi() % valid_vehicles.size()]
-	return vehicle
 
 
 ## Self-Made Functions
@@ -397,7 +387,7 @@ func display_Message(message) -> void:
 
 func start_Pre_Config() -> void:
 	if !local_pre_config_done:
-		my_player = Global._setup_scene(Global.GameMode.MULTI, Game.STEAM_ID)
+		my_player = Global._setup_scene(Global.GameMode.MULTI)
 		
 		var local_pre_config_done = true
 		send_P2P_Packet("all", {"pre_config_complete": true})
@@ -614,7 +604,7 @@ func _on_All_Ready():
 	if host:
 		for i in range(num_bots):
 			var name = "BOT" + str(i)
-			var vehicle = get_random_vehicle()
+			var vehicle = Global.get_random_vehicle()
 			if !(name in Game.BOT_DATA):
 				Game.BOT_DATA[name] = {"vehicle": vehicle}
 			else:
@@ -684,7 +674,6 @@ func _on_CloseCharSelect_pressed():
 	charSelectPopup.hide()
 
 
-# Lobby (charselect popup)
 func _on_Vehicle_Selected(vehicle: String):
 	if Game.LOBBY_ID != 0:
 		send_P2P_Packet("all", {"vehicle": vehicle})
@@ -699,7 +688,7 @@ func _on_Start_pressed():
 		var all_ready = true
 		
 		if !Game.PLAYER_DATA[Game.STEAM_ID].has("vehicle"):
-			var vehicle = get_random_vehicle()
+			var vehicle = Global.get_random_vehicle()
 			Game.PLAYER_DATA[Game.STEAM_ID]["vehicle"] = vehicle
 			send_P2P_Packet("all", {"vehicle": vehicle})
 		

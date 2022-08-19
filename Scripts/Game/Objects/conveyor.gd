@@ -3,7 +3,6 @@ extends Node
 export (int, 360) var direction
 export (float) var speed
 
-var velocity
 var current_velocity # Used to remove the previous vel vec.
 var my_object_vector_index = null
 

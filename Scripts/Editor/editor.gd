@@ -256,7 +256,7 @@ func _on_PixelPerfectButton_toggled(button_pressed):
 
 func _on_PlayerFocusButton_toggled(button_pressed):
 	if button_pressed:
-		var player_cam = get_node_or_null("/root/Scene/Players/" + str(Game.STEAM_ID) + "/Camera/Cam")
+		var player_cam = get_node_or_null("/root/Scene/Players/" + str(Global.PLAYER_ID) + "/Camera/Cam")
 		if player_cam:
 			player_cam.current = true
 	else:
