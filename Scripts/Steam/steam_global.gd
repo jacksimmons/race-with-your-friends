@@ -26,22 +26,22 @@ var GAME_STARTED := false
 func _ready():
 	# Initialise steam
 	var INIT := Steam.steamInit()
-	
+
 	if INIT["status"] != 1:
 		# E.g. If user tries to load the game without being signed into Steam
 		print("Failed to initialise Steam. " + str(INIT["verbal"]) + " Shutting down...")
 		get_tree().quit()
-	
+
 	ONLINE = Steam.loggedOn()
 	STEAM_ID = Steam.getSteamID()
 
 	STEAM_NAME = Steam.getPersonaName()
-	
+
 	print("STEAMID: " + str(STEAM_ID))
 	print("STEAMNAME: " + str(STEAM_NAME))
 
 	OWNED = Steam.isSubscribed()
-	
+
 	if !OWNED:
 		print("User doesn't own this game.")
 		get_tree().quit()

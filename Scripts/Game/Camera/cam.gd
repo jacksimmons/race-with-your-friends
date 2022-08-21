@@ -14,7 +14,7 @@ var check_player_name = true
 
 func _ready():
 	zoom = Vector2(DEFAULT_ZOOM, DEFAULT_ZOOM)
-	
+
 	rotation = Global._find_vector_angle(player.transform.x, Vector2.UP)
 	rotating = true
 
@@ -26,7 +26,7 @@ func _input(event):
 				# Zoom In
 				if event.button_index == BUTTON_WHEEL_UP and zoom - SCROLL_INC > SCROLL_MIN:
 					zoom -= SCROLL_INC
-					
+
 				# Zoom out
 				elif event.button_index == BUTTON_WHEEL_DOWN and zoom + SCROLL_INC < SCROLL_MAX:
 					zoom += SCROLL_INC

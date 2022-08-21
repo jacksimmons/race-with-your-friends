@@ -9,7 +9,7 @@ var selected_id: int
 func _ready():
 	selected_id = -1
 	var new_popup = get_popup()
-	
+
 	for vehicle in Global.VEHICLE_BASE_STATS.keys():
 		new_popup.add_item(vehicle)
 
@@ -19,10 +19,10 @@ func _ready():
 
 func _on_item_pressed(id):
 	selected_id = id
-	
+
 	if editor.progress and editor.project_root.get_child_count() == 0:
 		no_scene_dialog.popup()
-	
+
 	var vehicle = load("res://Scenes/Vehicles/" + get_popup().get_item_text(id))
 
 
@@ -54,7 +54,7 @@ func _save(path: String):
 	var packed_scene = PackedScene.new()
 	packed_scene.pack(editor.project_root)
 	ResourceSaver.save(path, packed_scene)
-	editor.set_current_file(path)	
+	editor.set_current_file(path)
 
 
 func _save_as():

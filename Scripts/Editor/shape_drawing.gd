@@ -20,25 +20,25 @@ func stop_drawing():
 	if len(points) > 2:
 		var collision = CollisionPolygon2D.new()
 		collision.polygon = points
-		
+
 		# Updates the current node
 		var staticBody :StaticBody = StaticBody.new()
 		editor.current_node.add_child(collision)
-		
+
 		# Need to use this so that it is saved under PackedScene
 		# Because this node didn't exist on startup.
 		collision.owner = editor.project_root
-		
+
 	else:
 		# Updates the current node
 		editor.current_node = editor.current_node
-	
+
 	points = []
-	
+
 	for child in get_children():
 		if child.name != "Vertex":
 			remove_child(child)
-	
+
 	drawing = false
 
 
@@ -62,7 +62,7 @@ func _input(event):
 						var vertex = $Vertex.duplicate()
 						vertex.position = mouse_pos
 						add_child(vertex)
-						
+
 						# Need to place where the camera is + mouse pos
 						points.append(mouse_pos + cam.position)
 

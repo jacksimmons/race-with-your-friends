@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "RigidBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Scripts/Game/Players/player.gd"
+} ]
+_global_script_class_icons={
+"Player": ""
+}
+
 [application]
 
 config/name="Race with your friends"
@@ -48,6 +58,7 @@ enabled=PoolStringArray( "res://addons/AsepriteWizard/plugin.cfg" )
 
 collision=false
 fps=false
+Inspector=false
 
 [importer_defaults]
 
@@ -181,6 +192,8 @@ fullscreen={
 2d_physics/layer_7="WATER"
 2d_physics/layer_8="LAVA"
 2d_physics/layer_9="MOVING"
+2d_physics/layer_10="WALL"
+2d_physics/layer_11="BOUNCY_WALL"
 2d_physics/layer_29="LEVEL3"
 2d_physics/layer_30="LEVEL2"
 2d_physics/layer_31="LEVEL1"

@@ -1,7 +1,9 @@
 extends Node
 
-var mat_names = ["Concrete", "Tyre", "Grass", "Ice", "Sand", "Lava"]
-var mat_names_to_colour = \
+
+var ground_names = ["Concrete", "Tyre", "Grass", "Ice", "Sand", "Lava"]
+var ground_names_already_present = []
+var ground_names_to_colour = \
 {
 	"Concrete": Color.darkgray,
 	"Tyre": Color.black,
@@ -10,7 +12,14 @@ var mat_names_to_colour = \
 	"Sand": Color.yellow,
 	"Lava": Color.orangered
 }
-var trig_names = ["Checkpoints", "Levels"]
+
+var wall_names = ["Solid", "Bouncy"]
+var wall_names_already_present = []
+
+var highest_layer_no: int = -1
+var max_layers: int = 4
+
+var highest_checkpoint_no: int = -1
 
 var current_file: String = ""
 var current_node: Node
@@ -35,11 +44,11 @@ onready var shape = $Canvas/Shape
 onready var path = $Canvas/UI/Path
 onready var tabs = $Canvas/UI/Tabs
 
-onready var save = $Canvas/UI/Tabs/File/Save
+onready var save: MenuButton = $Canvas/UI/Panel/File/Save
 
 onready var obj_sprite = $Map/Sprites/MapSprite
 
-var progress = true
+var progress = false
 
 func _ready():
 	current_node = $Object
@@ -47,16 +56,11 @@ func _ready():
 	cam_pp.set_pressed(true)
 
 
-func set_current_file(path:String):
-	current_file = path
-	save.get_popup().add_item("Save", 1)
-
-
 func clear_current_file():
 	# For when a New file is selected, or an internal game scene is opened.
 	# The user will have to save the scene as a new one, rather than overwriting.
 	current_file = ""
-	save.get_popup().remove_item(1)
+	save.get_popup().remove_item(2)
 
 
 func replace_project_root(new_root:Node):
@@ -65,6 +69,12 @@ func replace_project_root(new_root:Node):
 	move_child(new_root, 0)
 	project_root = new_root
 	current_node = project_root
+
+	if current_node.name == "Map":
+		for ggchild in current_node.get_node("Ground").get_children():
+			ground_names_already_present.append(ggchild.name)
+		for ggchild in current_node.get_node("Walls").get_children():
+			wall_names_already_present.append(ggchild.name)
 
 
 func add_button_font_colour_override(button:Button, colour:Color):
@@ -83,29 +93,30 @@ func delete_all_children(node, exceptions=[]):
 
 
 func refresh_nodes():
+	progress = true
 	var path_text = str(get_path_to(current_node)) + " [" + str(current_node.get_class()) + "]"
 	if current_file != "":
 		path_text += " (" + current_file + ")"
 	path.text = path_text
-	
+
 	#delete_all_children(tabs, ["Camera", "File"])
-			
+
 	var visible_node = current_node.duplicate()
 	visible_node.visible = true
 	visible_node.position = cam.get_parent().position # Place the node at the camera offset
 	display.add_child(visible_node)
-	
+
 	if obj_sprite and !obj_sprite_loaded:
 		var visible_sprite = obj_sprite.duplicate()
 		visible_sprite.visible = true
 		visible_sprite.position = cam.get_parent().position # Place the node at the camera offset
 		display.add_child(visible_sprite)
 		obj_sprite_loaded = true
-	
+
 	if buttons.get_child_count() > 0:
 		for button in buttons.get_children():
 			buttons.remove_child(button)
-	
+
 	if current_node.get_parent() != self:
 		# If the node has a viewable parent...
 		var current_parent = current_node.get_parent()
@@ -115,7 +126,7 @@ func refresh_nodes():
 		button.node = current_parent
 		button.text = button_text
 		buttons.add_child(button)
-		
+
 	var children = current_node.get_children()
 	for child in children:
 		if child is Node2D:
@@ -129,10 +140,10 @@ func refresh_nodes():
 			button.node = child
 			button.text = button_text
 			buttons.add_child(button)
-	
+
 	if current_node is Sprite:
 		obj_sprite_loaded = false
-		
+
 		# Sprite management button.
 		if !current_node.texture:
 			var button = preload("res://Scenes/Editor/ImportSpriteButton.tscn").instance()
@@ -146,7 +157,7 @@ func refresh_nodes():
 			import_button.sprite_node = current_node
 			add_button_font_colour_override(import_button, Color.red)
 			buttons.add_child(import_button)
-			
+
 			var flip_h_button = preload("res://Scenes/Editor/FlipSpriteButton.tscn").instance()
 			flip_h_button.text = "Flip Sprite Horizontally"
 			if current_node.flip_h:
@@ -155,7 +166,7 @@ func refresh_nodes():
 			flip_h_button.flip_dir = "h"
 			add_button_font_colour_override(flip_h_button, Color.hotpink)
 			buttons.add_child(flip_h_button)
-			
+
 			var flip_v_button = preload("res://Scenes/Editor/FlipSpriteButton.tscn").instance()
 			flip_v_button.text = "Flip Sprite Vertically"
 			if current_node.flip_v:
@@ -164,33 +175,59 @@ func refresh_nodes():
 			flip_v_button.flip_dir = "v"
 			add_button_font_colour_override(flip_v_button, Color.hotpink)
 			buttons.add_child(flip_v_button)
-	
-	elif current_node is Node2D and current_node.name == "Collision":
+
+	elif current_node is Node2D and current_node.name == "Ground":
 		# Collision management buttons.
-		for mat in mat_names:
-			var button = preload("res://Scenes/Editor/AddCollisionTypeButton.tscn").instance()
-			button.col_name = mat
-			button.text = "Add new material: " + mat
-			button.node = current_node
-			button.col_type = "CollisionMaterial"
-			add_button_font_colour_override(button, Color.cornflower)
-			buttons.add_child(button)
-	
-	elif current_node is Node2D and current_node.name == "Triggers":
+		for mat in ground_names:
+			if not mat in ground_names_already_present:
+				var button = preload("res://Scenes/Editor/AddCollisionTypeButton.tscn").instance()
+				button.col_name = mat
+				button.text = "Add new material: " + mat
+				button.node = current_node
+				button.col_type = "Ground"
+				add_button_font_colour_override(button, Color.cornflower)
+				buttons.add_child(button)
+
+	elif current_node is Node2D and current_node.name == "Walls":
 		# Collision management buttons.
-		for trig in trig_names:
-			var button = preload("res://Scenes/Editor/AddCollisionTypeButton.tscn").instance()
-			button.col_name = trig
-			button.text = "Add new trigger type: " + trig
+		for mat in wall_names:
+			if not mat in wall_names_already_present:
+				var button = preload("res://Scenes/Editor/AddCollisionTypeButton.tscn").instance()
+				button.col_name = mat
+				button.text = "Add new material: " + mat
+				button.node = current_node
+				button.col_type = "Wall"
+				add_button_font_colour_override(button, Color.brown)
+				buttons.add_child(button)
+
+	elif current_node is Node2D and current_node.name == "Checkpoints":
+		# Collision management buttons.
+		var button = preload("res://Scenes/Editor/AddCheckpointButton.tscn").instance()
+		button.obj_name = str(highest_checkpoint_no + 1)
+		button.text = "Add new checkpoint: Checkpoint " + str(button.obj_name)
+		button.node = current_node
+		add_button_font_colour_override(button, Color.yellow)
+		buttons.add_child(button)
+
+	elif current_node is Node2D and current_node.name == "Layers":
+		# Collision management buttons.
+		if highest_layer_no < max_layers - 1:
+			var button = preload("res://Scenes/Editor/AddLayerButton.tscn").instance()
+			button.obj_name = str(highest_layer_no + 1)
+			button.text = "Add new layer: Layer " + str(button.obj_name)
 			button.node = current_node
-			button.col_type = "TriggerType"
-			add_button_font_colour_override(button, Color.yellow)
+			add_button_font_colour_override(button, Color.blueviolet)
 			buttons.add_child(button)
-	
+		else:
+			var button = Button.new()
+			button.text = "Max layers reached: " + str(max_layers)
+			add_button_font_colour_override(button, Color.red)
+			buttons.add_child(button)
+
 	elif current_node is Area2D:
 		# We are about to draw collision.
 		shape.viewing = false
-		
+
 		if !shape.drawing:
 			var button = preload("res://Scenes/Editor/AddCollisionButton.tscn").instance()
 			button.text = "New Collision Shape"
@@ -203,29 +240,29 @@ func refresh_nodes():
 			button.starting_collision_drawing = false
 			add_button_font_colour_override(button, Color.green)
 			buttons.add_child(button)
-	
+
 	elif current_node is CollisionPolygon2D:
 		shape.drawing = true
 		shape.points = current_node.polygon
-		
+
 		# We have already made the polygon, so view until user selects "edit".
 		shape.viewing = true
-		
+
 		var obj_name = preload("res://Scenes/Editor/ObjectName.tscn").instance()
 		tabs.add_child(obj_name)
-		
+
 		var set_name_button = preload("res://Scenes/Editor/SetNameButton.tscn").instance()
 		set_name_button.text = "Set Name"
 		set_name_button.node = current_node
 		add_button_font_colour_override(set_name_button, Color.gold)
 		buttons.add_child(set_name_button)
-		
+
 		var del_node_button = preload("res://Scenes/Editor/DeleteNodeButton.tscn").instance()
 		del_node_button.text = "Delete"
 		del_node_button.node = current_node
 		add_button_font_colour_override(del_node_button, Color.red)
 		buttons.add_child(del_node_button)
-	
+
 func _process(delta):
 	cam.speed = current_pan
 	cam_pos.text = "Camera Position: " + str(cam.position)

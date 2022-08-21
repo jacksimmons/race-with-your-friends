@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "The main track prototype 1.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 4626, "h": 3764 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 4626, "h": 3764 },
+    "sourceSize": { "w": 4626, "h": 3764 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.39-x64",
+  "image": "The main track prototype 1.png",
+  "format": "RGBA8888",
+  "size": { "w": 4626, "h": 3764 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

@@ -20,7 +20,7 @@ func _input(event):
 			# Zoom In
 			if event.button_index == BUTTON_WHEEL_UP and zoom - SCROLL_INC >= SCROLL_MIN:
 				zoom -= SCROLL_INC
-				
+
 			# Zoom out
 			elif event.button_index == BUTTON_WHEEL_DOWN and zoom + SCROLL_INC <= SCROLL_MAX:
 				zoom += SCROLL_INC
@@ -29,33 +29,33 @@ func _input(event):
 func _process(delta):
 	if Input.is_action_pressed("reset_zoom"):
 		zoom = DEFAULT_ZOOM
-	
+
 	if Input.is_action_pressed("pan_left"):
 		var multiplier = speed * zoom
 		if pixel_perfect:
 			multiplier = Vector2(int(multiplier.x), int(multiplier.y))
-			
+
 		position += Vector2.LEFT * multiplier
-	
+
 	if Input.is_action_pressed("pan_right"):
 		var multiplier = speed * zoom
 		if pixel_perfect:
 			multiplier = Vector2(int(multiplier.x), int(multiplier.y))
-			
+
 		position += Vector2.RIGHT * multiplier
 
 	if Input.is_action_pressed("pan_up"):
 		var multiplier = speed * zoom
 		if pixel_perfect:
 			multiplier = Vector2(int(multiplier.x), int(multiplier.y))
-			
+
 		position += Vector2.UP * multiplier
-	
+
 	if Input.is_action_pressed("pan_down"):
 		var multiplier = speed * zoom
 		if pixel_perfect:
 			multiplier = Vector2(int(multiplier.x), int(multiplier.y))
-			
+
 		position += Vector2.DOWN * multiplier
 
 

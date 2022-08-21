@@ -4,6 +4,8 @@
 [ext_resource path="res://Sprites/Cars/Cock/Cock.png" type="Texture" id=2]
 
 [node name="Vehicle" instance=ExtResource( 1 )]
+DEBUG_DEFAULT = Color( 0, 0, 0, 1 )
+DEBUG_WARN = Color( 0, 0, 0, 1 )
 
 [node name="VehicleSprite" parent="." index="0"]
 texture = ExtResource( 2 )
@@ -13,5 +15,5 @@ position = Vector2( 27.8407, -0.299394 )
 scale = Vector2( 0.576638, 0.576638 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="2"]
-rotation = -1.57079
+rotation = 1.5708
 polygon = PoolVector2Array( -10, -15, -10, -9, -9, -6, -8, -5, -6, -4, -5, -4, -6, 1, -6, 6, -10, 6, -10, 7, -5, 7, -5, 14, 0, 15, 1, 15, 3, 13, 3, 4, 2, -1, 1, -4, 2, -4, 2, -5, 4, -5, 4, -4, 7, -4, 10, -7, 10, -11, 9, -12, 4, -12, 2, -11, 2, -10, 1, -10, 1, -11, -7, -15 )

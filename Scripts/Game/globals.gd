@@ -21,10 +21,10 @@ var PLAYER_ID = 0
 # ITM: Luck and Ability
 
 const VEHICLE_BASE_STATS: Dictionary = {
-	
+
 	# Total stats: 20
 	# Note: most vehicles have mini_car stats as a placeholder
-	
+
 	"Cock" : {
 		"HP" : 1,
 		"SPD" : 1,
@@ -33,7 +33,7 @@ const VEHICLE_BASE_STATS: Dictionary = {
 		"WGT" : 1,
 		"ITM" : 1
 	}, # 6
-	
+
 	"MiniCar" : {
 		"HP" : 1,
 		"SPD" : 1,
@@ -42,7 +42,7 @@ const VEHICLE_BASE_STATS: Dictionary = {
 		"WGT" : 1,
 		"ITM" : 3
 	}, # 16
-	
+
 	"CuntCar" : {
 		"HP" : 1,
 		"SPD" : 1,
@@ -51,7 +51,7 @@ const VEHICLE_BASE_STATS: Dictionary = {
 		"WGT" : 2,
 		"ITM" : 3
 	}, # 17
-	
+
 	"Dankamobil" : {
 		"HP" : 1,
 		"SPD" : 1,
@@ -60,7 +60,7 @@ const VEHICLE_BASE_STATS: Dictionary = {
 		"WGT" : 3,
 		"ITM" : 3
 	}, # 15
-	
+
 	"ShortLimo" : {
 		"HP" : 2,
 		"SPD" : 2,
@@ -69,7 +69,7 @@ const VEHICLE_BASE_STATS: Dictionary = {
 		"WGT" : 3,
 		"ITM" : 3
 	}, # 18
-	
+
 	"LongLimo" : {
 		"HP" : 2,
 		"SPD" : 3,
@@ -78,7 +78,7 @@ const VEHICLE_BASE_STATS: Dictionary = {
 		"WGT" : 4,
 		"ITM" : 4
 	}, # 19
-	
+
 	"JCL" : {
 		"HP" : 2,
 		"SPD" : 3,
@@ -97,11 +97,11 @@ enum TimeFormat {
 	MINUTES = 4,
 	SECONDS = 2,
 	MILLISECONDS = 1,
-	
+
 	HHMMSSMSMS = 8 | 4 | 2 | 1,
 	MMSSMSMS = 4 | 2 | 1,
 	SSMSMS = 2 | 1
-	
+
 	HHMMSS = 8 | 4 | 2,
 	MMSS = 4 | 2
 }
@@ -129,55 +129,54 @@ func get_random_vehicle() -> String:
 	return vehicle
 
 
-func _setup_scene(game_mode: int):
+func _setup_scene(game_mode: int, map: Node2D):
 	# Sets up a game scene using Global and Game data.
 	var my_id = Game.STEAM_ID
-	
+
 	# Load Scene
 	var scene = preload("res://Scenes/Scene.tscn").instance()
 	get_node("/root").add_child(scene)
-	
+
 	# Load the Map
-	var map = load("res://Scenes/Maps/Scorpion/ScorpionMap.tscn").instance()
-	var maps = get_node("/root/Scene/Map")
-	maps.add_child(map)
+	scene.get_node("Map").replace_by(map)
 	var checkpoints = map.get_node("Checkpoints")
-	
+
 	Game.NUM_CHECKPOINTS = checkpoints.get_child_count()
-	
+
 	# Load my Player and Camera
 	var vehicle = Game.PLAYER_DATA[my_id]["vehicle"]
 	var my_player = load("res://Scenes/Vehicles/" + vehicle + ".tscn").instance()
-	
+
 	my_player.set_name(str(my_id))
 	var players = get_node("/root/Scene/Players")
 	players.add_child(my_player)
-	
+
 	var my_cam = preload("res://Scenes/Cam.tscn").instance()
 	my_cam.name = "CAM_" + str(my_id)
 	my_player.add_child(my_cam)
-	
+
 	if game_mode == GameMode.SINGLE:
 		pass
-	
+
 	elif game_mode == GameMode.MULTI:
 		var ids = Game.PLAYER_DATA.keys()
 		var num_players = len(ids)
-		
+
 		for player_id in ids:
 			if int(player_id) != my_id:
 				var friend_vehicle = Game.PLAYER_DATA[player_id]["vehicle"]
 				var friend = load("res://Scenes/Vehicles/" + friend_vehicle + ".tscn").instance()
 				friend.set_name(str(player_id))
 				players.add_child(friend)
-				
+
 				var cam = preload("res://Scenes/Cam.tscn").instance()
 				cam.set_name("CAM_" + str(player_id))
 				friend.add_child(cam)
-	
+
 	Game.PLAYER_DATA[my_id]["pre_config_complete"] = true
 	GAME_MODE = game_mode
-	
+
+
 	return my_player
 
 
@@ -187,13 +186,13 @@ func _v2_to_v3(v: Vector2, z: float) -> Vector3:
 
 func _find_vector_angle(v1, v2):
 	# Works on v2 and v3.
-	
+
 	# Handle Vector2->Vector3 casting, errors throw for any other type.
 	if typeof(v1) == TYPE_VECTOR2:
 		v1 = _v2_to_v3(v1, 0)
 	if typeof(v2) == TYPE_VECTOR2:
 		v2 = _v2_to_v3(v2, 0)
-	
+
 	# Returns the angle between v1 and v2
 	if v1 != Vector3.ZERO and v2 != Vector3.ZERO:
 		# Cosine rule. Gives result in rads
@@ -219,7 +218,7 @@ func _multiply_str(string: String, times: int) -> String:
 
 func _format_time(time:float, time_format: int = TimeFormat.HHMMSSMSMS) -> String:
 	# A function for converting seconds into HH:MM:SS, MM:SS or SS with an optional MSMS.
-	
+
 	var seconds = int(time)
 	var printable = ""
 	if time_format & TimeFormat.HOURS && seconds != 0:
@@ -244,7 +243,7 @@ func _format_time(time:float, time_format: int = TimeFormat.HHMMSSMSMS) -> Strin
 	if time_format & TimeFormat.MILLISECONDS:
 		var ms = time - seconds
 		printable += ":" + str(ms * 1000)
-	
+
 	return printable
 
 

@@ -17,15 +17,13 @@ func _ready():
 
 
 func _process(delta):
-	#if Server.ready:
-	#	get_tree().call_group("Checkpoints", "on_cp_body_entered")
 	pass
 
 
 func _on_cp_entered(body, cp_name):
 	race_debug.get_node("CheckpointCount").text = "Checkpoint: " + cp_name + "/" + str(len(checkpoints) - 1)
 	body.cur_checkpoint = int(cp_name)
-	
+
 	if int(cp_name) < len(checkpoints) - 1:
 		body.next_checkpoint = int(cp_name) + 1
 	else:
@@ -50,6 +48,6 @@ func _on_cp_entered(body, cp_name):
 	and int(cp_name) != int(last_checkpoint) - 1:
 		# The player cheated, or the checkpoints are badly designed.
 		count_lap = false
-	
+
 	race_debug.get_node("LapCount").text = "Lap: " + str(lap) + "/" + str(lap_count)
 	last_checkpoint = cp_name

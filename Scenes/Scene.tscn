@@ -73,10 +73,10 @@ __meta__ = {
 }
 
 [node name="SpeedValue" type="TextEdit" parent="Canvas/Stats/Speed"]
-margin_left = 4.43881
-margin_top = 68.6123
-margin_right = 105.439
-margin_bottom = 90.6123
+margin_left = 4.0
+margin_top = 67.0
+margin_right = 105.0
+margin_bottom = 101.0
 text = "0"
 
 [node name="SpeedButton" type="Button" parent="Canvas/Stats/Speed"]
@@ -186,8 +186,9 @@ margin_left = 5.52971
 margin_top = 121.227
 margin_right = 130.53
 margin_bottom = 161.227
-max_value = 20.0
-value = 1.0
+max_value = 1.5
+step = 0.05
+value = 0.1
 
 [node name="TurnValue" type="Label" parent="Canvas/Stats/Turn"]
 margin_left = 132.178
@@ -344,5 +345,6 @@ scale = Vector2( 0.134058, 0.134058 )
 texture = ExtResource( 6 )
 
 [node name="Object" type="Control" parent="Canvas"]
+visible = false
 margin_right = 958.0
 margin_bottom = 539.0

@@ -41,8 +41,11 @@ func _on_Start_pressed():
 	if !Game.PLAYER_DATA[Game.STEAM_ID].has("vehicle"):
 		var random_vehicle = Global.get_random_vehicle()
 		Game.PLAYER_DATA[Game.STEAM_ID]["vehicle"] = random_vehicle
-	
-	Global._setup_scene(Global.GameMode.SINGLE)
+
+	var map = preload("res://Scenes/Maps/Scorpion/ScorpionMap.tscn").instance()
+	Global._setup_scene(Global.GameMode.SINGLE, map)
+
+	self.queue_free()
 
 
 func _ready():

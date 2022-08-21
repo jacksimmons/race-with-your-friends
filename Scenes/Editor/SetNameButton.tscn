@@ -1,6 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scripts/Editor/TemplateButtons/node_rename_button.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Editor/TemplateButtons/RenameNodeButton.gd" type="Script" id=1]
+
 
 [sub_resource type="Theme" id=1]
 
