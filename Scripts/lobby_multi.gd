@@ -74,8 +74,8 @@ func _process(delta):
 				send_P2P_Packet("all", {"position": my_player.position})
 				position_last_update = my_player.position
 			if my_player.rotation != rotation_last_update:
-				send_P2P_Packet("all", {"rotation": my_player.rotation.z})
-				rotation_last_update = my_player.rotation.z
+				send_P2P_Packet("all", {"rotation": my_player.rotation})
+				rotation_last_update = my_player.rotation
 
 			# Race placements (to be done by host only)
 			if host:
