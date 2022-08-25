@@ -90,8 +90,9 @@ func _process(delta):
 					else:
 						var unplaced = true
 						while unplaced:
-							ordered_positions = _sort_positions(SortCondition.LAP, ordered_positions, pos)
-							ordered_positions = _sort_positions(SortCondition.POSITION, ordered_positions, pos)
+							var dict = {"lap": lap, "pos": pos}
+							ordered_positions = _sort_positions(SortCondition.LAP, ordered_positions, dict)
+							ordered_positions = _sort_positions(SortCondition.POSITION, ordered_positions, dict)
 
 					var packet = {"all_race_positions": ordered_positions}
 					send_P2P_Packet("all", packet)
