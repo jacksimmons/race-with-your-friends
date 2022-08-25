@@ -416,6 +416,9 @@ func leave_Lobby() -> void:
 		# Clear lobby list
 		Game.LOBBY_MEMBERS.clear()
 
+		# Reset host status
+		host = false
+
 
 func display_Message(message) -> void:
 	# Adds a new message to the chat box.
