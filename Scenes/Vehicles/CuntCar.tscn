@@ -3,6 +3,11 @@
 [ext_resource path="res://Scenes/Templates/DefaultVehicleScene.tscn" type="PackedScene" id=1]
 
 [node name="Vehicle" instance=ExtResource( 1 )]
+MAX_SPEED = 3.0
+ACCELERATION = 3.0
+HANDLING = 3.0
+WEIGHT = 3.0
+HP = 3.0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="1"]
 rotation = -4.71238

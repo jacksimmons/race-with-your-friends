@@ -30,9 +30,10 @@ margin_right = 45.0
 margin_bottom = 552.0
 
 [node name="Label" type="Label" parent="Canvas/Stats/HP"]
-margin_top = -31.0
-margin_right = 40.0
-margin_bottom = -17.0
+margin_left = -1.0
+margin_top = 9.0
+margin_right = 39.0
+margin_bottom = 23.0
 text = "HP:"
 
 [node name="Position" type="Control" parent="Canvas/Stats"]
@@ -106,155 +107,24 @@ margin_right = 57.0
 margin_bottom = 66.7557
 text = "Speed"
 
-[node name="MaxSpeed" type="Control" parent="Canvas/Stats"]
-margin_left = -0.707108
-margin_top = 53.033
-margin_right = 39.2929
-margin_bottom = 93.033
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MaxSpdSlider" type="HSlider" parent="Canvas/Stats/MaxSpeed"]
-margin_left = 5.52972
-margin_top = 52.0
-margin_right = 130.53
-margin_bottom = 92.0
-max_value = 20.0
-value = 5.0
-
-[node name="MaxSpdValue" type="Label" parent="Canvas/Stats/MaxSpeed"]
-margin_left = 130.0
-margin_top = 64.0
-margin_right = 146.0
-margin_bottom = 78.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-
-[node name="MaxSpdLabel" type="Label" parent="Canvas/Stats/MaxSpeed"]
-margin_left = 5.04538
-margin_top = 50.3095
-margin_right = 58.0454
-margin_bottom = 64.3095
-text = "Max Spd"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Acc" type="Control" parent="Canvas/Stats"]
-margin_left = -0.707108
-margin_top = 53.033
-margin_right = 39.2929
-margin_bottom = 93.033
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AccSlider" type="HSlider" parent="Canvas/Stats/Acc"]
-margin_left = 6.05948
-margin_top = 85.7621
-margin_right = 131.059
-margin_bottom = 125.762
-max_value = 5.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AccValue" type="Label" parent="Canvas/Stats/Acc"]
-margin_left = 130.941
-margin_top = 98.4054
-margin_right = 144.941
-margin_bottom = 112.405
-
-[node name="AccLabel" type="Label" parent="Canvas/Stats/Acc"]
-margin_left = 6.0
-margin_top = 84.5838
-margin_right = 63.0
-margin_bottom = 98.5838
-text = "Acc"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Turn" type="Control" parent="Canvas/Stats"]
-margin_left = -0.707108
-margin_top = 53.033
-margin_right = 39.2929
-margin_bottom = 93.033
-
-[node name="TurnSlider" type="HSlider" parent="Canvas/Stats/Turn"]
-margin_left = 5.52971
-margin_top = 121.227
-margin_right = 130.53
-margin_bottom = 161.227
-max_value = 1.5
-step = 0.05
-value = 0.1
-
-[node name="TurnValue" type="Label" parent="Canvas/Stats/Turn"]
-margin_left = 132.178
-margin_top = 133.697
-margin_right = 149.178
-margin_bottom = 147.697
-
-[node name="TurnLabel" type="Label" parent="Canvas/Stats/Turn"]
-margin_left = 7.0
-margin_top = 119.346
-margin_right = 40.0
-margin_bottom = 133.346
-text = "Turn"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Physics" type="Control" parent="Canvas/Stats"]
 margin_left = -0.707108
 margin_top = 53.033
 margin_right = 39.2929
 margin_bottom = 93.033
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CoRSlider" type="HSlider" parent="Canvas/Stats/Physics"]
-margin_left = 6.47194
-margin_top = 156.38
-margin_right = 131.472
-margin_bottom = 196.38
-max_value = 1.0
-step = 0.05
-value = 0.1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CoRValue" type="Label" parent="Canvas/Stats/Physics"]
-margin_left = 131.0
-margin_top = 170.0
-margin_right = 144.0
-margin_bottom = 184.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CoRLabel" type="Label" parent="Canvas/Stats/Physics"]
-margin_left = 6.92223
-margin_top = 152.6
-margin_right = 96.9222
-margin_bottom = 166.6
-text = "Restitution (e)"
 
 [node name="Friction" type="Label" parent="Canvas/Stats/Physics"]
-margin_left = 9.02205
-margin_top = 223.255
-margin_right = 61.022
-margin_bottom = 237.255
+margin_left = 8.02205
+margin_top = 87.255
+margin_right = 60.022
+margin_bottom = 101.255
 text = "Friction:"
 
 [node name="OnMaterial" type="Label" parent="Canvas/Stats/Physics"]
-margin_left = 9.30243
-margin_top = 238.624
-margin_right = 88.3024
-margin_bottom = 252.624
+margin_left = 7.70711
+margin_top = 102.967
+margin_right = 86.7071
+margin_bottom = 116.967
 text = "On Material:"
 
 [node name="Network" type="Control" parent="Canvas"]
@@ -265,8 +135,10 @@ __meta__ = {
 }
 
 [node name="Race" type="Control" parent="Canvas"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = -1.0
+margin_top = -136.0
+margin_right = 39.0
+margin_bottom = -96.0
 
 [node name="LapCount" type="Label" parent="Canvas/Race"]
 margin_left = 7.77758
@@ -291,23 +163,20 @@ margin_top = 307.727
 margin_right = 54.4863
 margin_bottom = 321.727
 text = "Height:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Timer" type="Label" parent="Canvas/Race"]
 margin_left = 5.0
-margin_top = 522.0
+margin_top = 642.0
 margin_right = 159.0
-margin_bottom = 536.0
+margin_bottom = 656.0
 text = "Time: 00:00:0000"
 script = ExtResource( 2 )
 
 [node name="Accelerometer" type="Label" parent="Canvas/Race"]
-margin_left = 6.0
-margin_top = 501.0
-margin_right = 47.0
-margin_bottom = 515.0
+margin_left = 5.0
+margin_top = 626.0
+margin_right = 46.0
+margin_bottom = 640.0
 text = "0 mph"
 script = ExtResource( 1 )
 

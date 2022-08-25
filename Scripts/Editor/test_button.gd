@@ -10,7 +10,7 @@ func _ready():
 	selected_id = -1
 	var new_popup = get_popup()
 
-	for vehicle in Global.VEHICLE_BASE_STATS.keys():
+	for vehicle in Global.VEHICLES:
 		new_popup.add_item(vehicle)
 
 	new_popup.connect("id_pressed", self, "_on_item_pressed")

@@ -11,14 +11,6 @@ onready var pos_button = $"/root/Scene/Canvas/Stats/Position/PosButton"
 onready var spd_value = $"/root/Scene/Canvas/Stats/Speed/SpeedValue"
 onready var spd_button = $"/root/Scene/Canvas/Stats/Speed/SpeedButton"
 onready var spd_0er = $"/root/Scene/Canvas/Stats/Speed/SpeedZeroer"
-onready var max_spd_slider = $"/root/Scene/Canvas/Stats/MaxSpeed/MaxSpdSlider"
-onready var max_spd_value = $"/root/Scene/Canvas/Stats/MaxSpeed/MaxSpdValue"
-onready var acc_slider = $"/root/Scene/Canvas/Stats/Acc/AccSlider"
-onready var acc_value = $"/root/Scene/Canvas/Stats/Acc/AccValue"
-onready var turn_slider = $"/root/Scene/Canvas/Stats/Turn/TurnSlider"
-onready var turn_value = $"/root/Scene/Canvas/Stats/Turn/TurnValue"
-onready var e_slider = $"/root/Scene/Canvas/Stats/Physics/CoRSlider"
-onready var e_value = $"/root/Scene/Canvas/Stats/Physics/CoRValue"
 onready var friction_value = $"/root/Scene/Canvas/Stats/Physics/Friction"
 onready var hp_value = $"/root/Scene/Canvas/Stats/HP/Label"
 onready var race_pos_value = $"/root/Scene/Canvas/Race/Position"
@@ -108,12 +100,11 @@ var external_force: Vector2
 # Various Torques
 
 # Stats
-var stats: Dictionary
-var MAX_SPEED: float
-var ACCELERATION: float
-var HANDLING: float
-var WEIGHT: float
-var HP: int
+export var MAX_SPEED: float
+export var ACCELERATION: float
+export var HANDLING: float
+export var WEIGHT: float
+export var HP: float
 
 var time = 0
 
@@ -121,13 +112,6 @@ var time = 0
 func _ready():
 	# Get player data
 	var my_data := Game.PLAYER_DATA[Game.STEAM_ID] as Dictionary
-
-	var STATS := Global.VEHICLE_BASE_STATS[my_data["vehicle"]] as Dictionary
-	MAX_SPEED     = STATS["SPD"]
-	ACCELERATION  = STATS["ACC"]
-	HANDLING      = STATS["HDL"]
-	WEIGHT        = STATS["WGT"]
-	HP            = STATS["HP"]
 
 	mass = WEIGHT
 	engine_strength = ACCELERATION * mass * 20
@@ -143,12 +127,6 @@ func _ready():
 	# Other
 	sprite_length = $VehicleSprite.texture.get_height()
 	max_turn = abs(get_angle_to(transform.x.rotated(wheel_turn) + Vector2(sprite_length / 2, 0)))
-
-	# Debug
-	max_spd_slider.value = MAX_SPEED
-	acc_slider.value = ACCELERATION
-	turn_slider.value = wheel_turn
-	e_slider.value = Global.e
 
 
 func _process(delta):
@@ -183,9 +161,6 @@ func _physics_process(delta):
 
 func _handle_debug():
 	# Stats changable by debug UI
-	mass = WEIGHT
-	engine_strength = ACCELERATION * mass * 20
-	wheel_turn = HANDLING
 
 	# Stats UI
 	# pos
@@ -215,38 +190,6 @@ func _handle_debug():
 
 	if spd_0er.pressed:
 		set_linear_velocity(Vector2.ZERO)
-
-	# max speed
-	max_spd_value.text = str(max_spd_slider.value)
-	if prev_max_spd_slider != null and prev_max_spd_slider != max_spd_slider.value:
-		MAX_SPEED = max_spd_slider.value
-	prev_max_spd_slider = max_spd_slider.value
-
-	# acc
-	acc_value.text = str(acc_slider.value)
-	if prev_acc_slider != null and prev_acc_slider != acc_slider.value:
-		ACCELERATION = acc_slider.value
-	prev_acc_slider = acc_slider.value
-
-	if (acc_slider.value >= max_spd_slider.value
-		or acc_slider.value == 0):
-		max_spd_value.set("custom_colors/font_color", DEBUG_WARN)
-		acc_value.set("custom_colors/font_color", DEBUG_WARN)
-	else:
-		max_spd_value.set("custom_colors/font_color", DEBUG_DEFAULT)
-		acc_value.set("custom_colors/font_color", DEBUG_DEFAULT)
-
-	# turn
-	turn_value.text = str(turn_slider.value)
-	if turn_slider.value != 0:
-		wheel_turn = turn_slider.value
-		turn_value.set("custom_colors/font_color", DEBUG_DEFAULT)
-	else:
-		turn_value.set("custom_colors/font_color", DEBUG_WARN)
-
-	# e
-	e_value.text = str(e_slider.value)
-	Global.e = e_slider.value
 
 	# friction
 	friction_value.text = "Friction: " + str(friction)

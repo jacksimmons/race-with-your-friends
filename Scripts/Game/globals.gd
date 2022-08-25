@@ -10,84 +10,16 @@ var SELECTED_MAP
 # Settings
 var NETWORK_REFRESH_INTERVAL = 0.1
 
-var PLAYER_ID = 0
-
-# Stats:
-# HP
-# SPD: Max Speed
-# ACC
-# HDL: Turning
-#
-# ITM: Luck and Ability
-
-const VEHICLE_BASE_STATS: Dictionary = {
-
-	# Total stats: 20
-	# Note: most vehicles have mini_car stats as a placeholder
-
-	"Cock" : {
-		"HP" : 1,
-		"SPD" : 1,
-		"ACC" : 1,
-		"HDL" : 1,
-		"WGT" : 1,
-		"ITM" : 1
-	}, # 6
-
-	"MiniCar" : {
-		"HP" : 1,
-		"SPD" : 1,
-		"ACC" : 5,
-		"HDL" : 5,
-		"WGT" : 1,
-		"ITM" : 3
-	}, # 16
-
-	"CuntCar" : {
-		"HP" : 1,
-		"SPD" : 1,
-		"ACC" : 5,
-		"HDL" : 5,
-		"WGT" : 2,
-		"ITM" : 3
-	}, # 17
-
-	"Dankamobil" : {
-		"HP" : 1,
-		"SPD" : 1,
-		"ACC" : 5,
-		"HDL" : 2,
-		"WGT" : 3,
-		"ITM" : 3
-	}, # 15
-
-	"ShortLimo" : {
-		"HP" : 2,
-		"SPD" : 2,
-		"ACC" : 4,
-		"HDL" : 4,
-		"WGT" : 3,
-		"ITM" : 3
-	}, # 18
-
-	"LongLimo" : {
-		"HP" : 2,
-		"SPD" : 3,
-		"ACC" : 3,
-		"HDL" : 3,
-		"WGT" : 4,
-		"ITM" : 4
-	}, # 19
-
-	"JCL" : {
-		"HP" : 2,
-		"SPD" : 3,
-		"ACC" : 2,
-		"HDL" : 2,
-		"WGT" : 5,
-		"ITM" : 5
-	} # 20
-}
+const VEHICLES: Array =\
+[
+	"Cock",
+	"MiniCar",
+	"CuntCar",
+	"DankaMobil",
+	"ShortLimo",
+	"LongLimo",
+	"JCL"
+]
 
 # Controls multi-layer levels (going under some stage elements)
 var STAGE_HEIGHT = 0
@@ -123,7 +55,7 @@ enum Surface {
 
 
 func get_random_vehicle() -> String:
-	var valid_vehicles: Array = Global.VEHICLE_BASE_STATS.keys()
+	var valid_vehicles: Array = VEHICLES
 	randomize()
 	var vehicle = valid_vehicles[randi() % valid_vehicles.size()]
 	return vehicle

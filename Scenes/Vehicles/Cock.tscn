@@ -6,6 +6,11 @@
 [node name="Vehicle" instance=ExtResource( 1 )]
 DEBUG_DEFAULT = Color( 0, 0, 0, 1 )
 DEBUG_WARN = Color( 0, 0, 0, 1 )
+MAX_SPEED = 3.0
+ACCELERATION = 5.0
+HANDLING = 5.0
+WEIGHT = 1.0
+HP = 1.0
 
 [node name="VehicleSprite" parent="." index="0"]
 texture = ExtResource( 2 )
