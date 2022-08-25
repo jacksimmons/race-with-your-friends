@@ -88,11 +88,12 @@ func _process(delta):
 					if ordered_positions.empty():
 						ordered_positions.append({"lap": lap, "pos": pos, "id": player_id})
 					else:
-						var unplaced = true
-						while unplaced:
-							var dict = {"lap": lap, "pos": pos}
-							ordered_positions = _sort_positions(SortCondition.LAP, ordered_positions, dict)
-							ordered_positions = _sort_positions(SortCondition.POSITION, ordered_positions, dict)
+						var lap_placed = false
+						var pos_placed = false
+						var dict = {"lap": lap, "pos": pos}
+
+						ordered_positions = _sort_positions(SortCondition.LAP, ordered_positions, dict)
+						ordered_positions = _sort_positions(SortCondition.POSITION, ordered_positions, dict)
 
 					var packet = {"all_race_positions": ordered_positions}
 					send_P2P_Packet("all", packet)
@@ -129,6 +130,7 @@ func _sort_positions(condition_value: int, ordered_positions: Array, pos: Dictio
 			var moved_all = false
 			var index = ordered_positions.find(ord_pos)
 			while !moved_all:
+				print("Loop B")
 				var temp = ordered_positions[index]
 				ordered_positions.insert(index, pos)
 				if index + 1 == len(ordered_positions):
@@ -137,6 +139,7 @@ func _sort_positions(condition_value: int, ordered_positions: Array, pos: Dictio
 					moved_all = true
 				else:
 					index += 1
+
 	return ordered_positions
 
 
