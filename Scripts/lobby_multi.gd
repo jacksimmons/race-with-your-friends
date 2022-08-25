@@ -643,14 +643,15 @@ func _on_All_Ready():
 	var num_players = len(ids)
 	var num_bots = 0 #Game.MAX_MEMBERS - num_players
 	if host:
-		for i in range(num_bots):
-			var name = "BOT" + str(i)
-			var vehicle = Global.get_random_vehicle()
-			if !(name in Game.BOT_DATA):
-				Game.BOT_DATA[name] = {"vehicle": vehicle}
-			else:
-				Game.BOT_DATA[name]["vehicle"] = vehicle
-			send_P2P_Packet("all", {"bot_vehicle": {"name": "BOT" + str(i), "vehicle": vehicle}})
+		pass
+		#for i in range(num_bots):
+		#	var name = "BOT" + str(i)
+		#	var vehicle = Global.get_random_vehicle()
+		#	if !(name in Game.BOT_DATA):
+		#		Game.BOT_DATA[name] = {"vehicle": vehicle}
+		#	else:
+		#		Game.BOT_DATA[name]["vehicle"] = vehicle
+		#	send_P2P_Packet("all", {"bot_vehicle": {"name": "BOT" + str(i), "vehicle": vehicle}})
 		#start_Bot_Config()
 	Game.PLAYER_DATA[Game.STEAM_ID]["pre_config_complete"] = true
 	get_tree().set_pause(false)
