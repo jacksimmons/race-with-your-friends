@@ -130,10 +130,9 @@ func _sort_positions(condition_value: int, ordered_positions: Array, pos: Dictio
 			var moved_all = false
 			var index = ordered_positions.find(ord_pos)
 			while !moved_all:
-				print("Loop B")
 				var temp = ordered_positions[index]
 				ordered_positions.insert(index, pos)
-				if index + 1 == len(ordered_positions):
+				if index + 1 >= len(ordered_positions):
 					# Then index + 1 is out of range, and we can just append.
 					ordered_positions.append(temp)
 					moved_all = true
