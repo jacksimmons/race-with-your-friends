@@ -641,7 +641,7 @@ func _on_All_Ready():
 	start_Pre_Config()
 	var ids = Game.PLAYER_DATA.keys()
 	var num_players = len(ids)
-	var num_bots = Game.MAX_MEMBERS - num_players
+	var num_bots = 0 #Game.MAX_MEMBERS - num_players
 	if host:
 		for i in range(num_bots):
 			var name = "BOT" + str(i)
