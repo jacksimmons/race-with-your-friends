@@ -73,7 +73,7 @@ func _process(delta):
 			if my_player.position != position_last_update:
 				send_P2P_Packet("all", {"position": my_player.position})
 				position_last_update = my_player.position
-			if my_player.rotation.z != rotation_last_update:
+			if my_player.rotation != rotation_last_update:
 				send_P2P_Packet("all", {"rotation": my_player.rotation.z})
 				rotation_last_update = my_player.rotation.z
 
