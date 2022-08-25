@@ -78,7 +78,7 @@ func _process(delta):
 				rotation_last_update = my_player.rotation
 
 			# Race placements (to be done by host only)
-			if host:
+			if false:
 				var ordered_positions = []
 				for player_id in Game.PLAYER_DATA:
 					var player = get_node("/root/Scene/Players/" + str(player_id)) as Player
@@ -127,7 +127,6 @@ func _sort_positions(condition_value: int, ordered_positions: Array, pos: Dictio
 			condition = pos["pos"] > ord_pos["pos"] and pos["lap"] == ord_pos["lap"]
 
 		if condition:
-			print("crash?")
 			var moved_all = false
 			var index = ordered_positions.find(ord_pos)
 			while !moved_all:
