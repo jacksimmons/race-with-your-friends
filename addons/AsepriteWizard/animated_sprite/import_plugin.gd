@@ -39,8 +39,8 @@ func get_import_options(i):
 		{"name": "split_layers",           "default_value": false},
 		{"name": "exclude_layers_pattern", "default_value": ''},
 		{"name": "only_visible_layers",    "default_value": false},
-		
-		{"name": "sheet_type", "default_value": "Packed", "property_hint": PROPERTY_HINT_ENUM, 
+
+		{"name": "sheet_type", "default_value": "Packed", "property_hint": PROPERTY_HINT_ENUM,
 			"hint_string": get_sheet_type_hint_string()},
 
 		{"name": "sprite_filename_pattern", "default_value": "{basename}.{layer}.{extension}"},

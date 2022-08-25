@@ -63,7 +63,7 @@ func _ready():
 
 func _process(delta):
 	# If the player is connected, read packets
-	if Game.LOBBY_ID > 0:
+	if Game.LOBBY_ID != 0:
 		read_All_P2P_Packets()
 
 	if Game.GAME_STARTED:
@@ -273,7 +273,6 @@ func read_P2P_Packet():
 		## Lobby
 		# a "message" packet.
 		if READABLE.has("message"):
-			print("MESSAGE")
 			# Handshake - we send all our data with the newcomer.
 			if READABLE["message"] == "handshake":
 				var my_data = Game.PLAYER_DATA[Game.STEAM_ID]
@@ -281,8 +280,6 @@ func read_P2P_Packet():
 					send_P2P_Packet(str(PACKET_SENDER), {"vehicle": my_data["vehicle"]})
 				if my_data.has("ready"):
 					send_P2P_Packet(str(PACKET_SENDER), {"ready": my_data["ready"]})
-			elif READABLE["message"] == "all_pre_configs_complete":
-				_on_All_Pre_Configs_Complete()
 
 
 		# a "vehicle" packet.
@@ -300,10 +297,11 @@ func read_P2P_Packet():
 		# The players pre config one after the other to ensure we can control data in a non-chaotic way.
 		# Note: It is up to the final readier to send an "all_pre_configs_complete" message packet.
 		if READABLE.has("pre_config_complete"):
+			# If we haven't already preloaded, we can preload.
 			var gets_to_pre_load = false
-			if !Game.PLAYER_DATA[PACKET_SENDER].has("pre_config_complete"):
+			if !Game.PLAYER_DATA[Game.STEAM_ID].has("pre_config_complete"):
 				gets_to_pre_load = true
-			elif !Game.PLAYER_DATA[PACKET_SENDER]["pre_config_complete"]:
+			elif !Game.PLAYER_DATA[Game.STEAM_ID]["pre_config_complete"]:
 				gets_to_pre_load = true
 
 			if gets_to_pre_load:
@@ -312,6 +310,7 @@ func read_P2P_Packet():
 				# Our turn to handle preconfig
 				_on_All_Ready()
 
+				# Check if all preconfigs are complete, and if so, send an "all_pre_configs_complete" packet.
 				var all_pre_configs_complete = true
 				var ids = Game.PLAYER_DATA.keys()
 
@@ -327,9 +326,13 @@ func read_P2P_Packet():
 						break
 
 				if all_pre_configs_complete:
-					send_P2P_Packet("all", {"message": "all_pre_configs_complete"})
+					send_P2P_Packet("all", {"all_pre_configs_complete": true})
 					print("All pre configs complete.")
 					_on_All_Pre_Configs_Complete()
+
+		if READABLE.has("all_pre_configs_complete"):
+			if READABLE["all_pre_configs_complete"]:
+				_on_All_Pre_Configs_Complete()
 
 		# a "bot_vehicle" packet. Will be sent by the host to all clients. Is a Dictionary object.
 		if READABLE.has("bot_vehicle"):
@@ -422,6 +425,7 @@ func display_Message(message) -> void:
 func start_Pre_Config() -> void:
 	if !local_pre_config_done:
 		var map = preload("res://Scenes/Maps/Scorpion/ScorpionMap.tscn").instance()
+		print("SETUP")
 		my_player = Global._setup_scene(Global.GameMode.MULTI, map)
 
 		var local_pre_config_done = true
@@ -634,7 +638,6 @@ func _on_All_Ready():
 	start_Pre_Config()
 	var ids = Game.PLAYER_DATA.keys()
 	var num_players = len(ids)
-	print(len(ids))
 	var num_bots = Game.MAX_MEMBERS - num_players
 	if host:
 		for i in range(num_bots):
@@ -646,6 +649,7 @@ func _on_All_Ready():
 				Game.BOT_DATA[name]["vehicle"] = vehicle
 			send_P2P_Packet("all", {"bot_vehicle": {"name": "BOT" + str(i), "vehicle": vehicle}})
 		#start_Bot_Config()
+	Game.PLAYER_DATA[Game.STEAM_ID]["pre_config_complete"] = true
 	get_tree().set_pause(false)
 
 
