@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Button
+
+var in_scene: bool
+var node: Node
+
+onready var editor = $\"/root/Editor\"
+onready var shape = $\"/root/Editor/Canvas/Shape\"
+
+
+func _on_Button_pressed():
+	editor.current_node = node
+	shape.points = []
+	shape.drawing = false
+	editor.refresh_nodes()
+"
+
+[node name="Button" type="Button"]
+script = SubResource( 1 )
+
+[connection signal="pressed" from="." to="." method="_on_Button_pressed"]

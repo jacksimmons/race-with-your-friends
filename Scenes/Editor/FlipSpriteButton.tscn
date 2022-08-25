@@ -1,12 +1,27 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scripts/Editor/TemplateButtons/FlipSpriteButton.gd" type="Script" id=1]
-
-
 [sub_resource type="Theme" id=1]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Button
+
+onready var editor = $\"/root/Editor\"
+
+var sprite_node: Sprite
+var flip_dir: String
+
+
+func _on_Button_pressed():
+	if flip_dir == \"h\":
+		sprite_node.flip_h = !sprite_node.flip_h
+	elif flip_dir == \"v\":
+		sprite_node.flip_v = !sprite_node.flip_v
+
+	editor.refresh_nodes()
+"
 
 [node name="Button" type="Button"]
 theme = SubResource( 1 )
-script = ExtResource( 1 )
+script = SubResource( 2 )
 
 [connection signal="pressed" from="." to="." method="_on_Button_pressed"]

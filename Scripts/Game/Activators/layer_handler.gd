@@ -17,7 +17,7 @@ func _process(delta):
 	pass
 
 
-func _on_lv_entered(level):
+func _on_layer_entered(level):
 	# Name of body must be the level of the player.
 	var player = get_node("/root/Scene/Players/" + str(Game.STEAM_ID))
 	if player != null:

@@ -22,6 +22,7 @@ onready var e_value = $"/root/Scene/Canvas/Stats/Physics/CoRValue"
 onready var friction_value = $"/root/Scene/Canvas/Stats/Physics/Friction"
 onready var hp_value = $"/root/Scene/Canvas/Stats/HP/Label"
 onready var race_pos_value = $"/root/Scene/Canvas/Race/Position"
+onready var lap_count_value = $"/root/Scene/Canvas/Race/LapCount"
 
 onready var on_mat = $"/root/Scene/Canvas/Stats/Physics/OnMaterial"
 
@@ -59,8 +60,11 @@ var on_object_vectors: Array = []
 # Checkpoints
 var cur_checkpoint:int = 0
 var next_checkpoint:int = 0
+var lap_count:int = 0
+var path_count:int = 0
 var race_placement:int = 0
 var race_pos: Dictionary = {}
+var cur_racepoint:int = 0
 
 # Text
 export (Color, RGB) var DEBUG_DEFAULT
@@ -111,6 +115,8 @@ var HANDLING: float
 var WEIGHT: float
 var HP: int
 
+var time = 0
+
 
 func _ready():
 	# Get player data
@@ -146,9 +152,10 @@ func _ready():
 
 
 func _process(delta):
-	#! This is only because handling changes with DEBUG!
-	#max_turn = get_angle_to(transform.x.rotated(wheel_turn) + Vector2(sprite_length / 2, 0))
-	_handle_debug()
+	if int(name) == Game.STEAM_ID:
+		#! This is only because handling changes with DEBUG!
+		#max_turn = get_angle_to(transform.x.rotated(wheel_turn) + Vector2(sprite_length / 2, 0))
+		_handle_debug()
 
 
 func _physics_process(delta):
@@ -156,12 +163,16 @@ func _physics_process(delta):
 		#var next_checkpoint_distance := position.distance_squared_to(checkpoints.get_node(str(next_checkpoint)).position)
 		#race_pos = {"checkpoints": cur_checkpoint, "distance_from_next": next_checkpoint_distance}
 
+		time += delta / Global.NETWORK_REFRESH_INTERVAL
+		if time >= delta:
+			print("Offset: " + str(_get_race_position()))
+
 		_handle_input()
 		_handle_objects()
 		_handle_friction()
 
 		var net_force = driving_force + braking_force + friction_force + external_force
-		set_applied_force(net_force)
+		set_applied_force(net_force.rotated(current_turn))
 
 		if get_linear_velocity().length_squared() > 0:
 			rotate(deg2rad(current_turn))
@@ -171,6 +182,11 @@ func _physics_process(delta):
 
 
 func _handle_debug():
+	# Stats changable by debug UI
+	mass = WEIGHT
+	engine_strength = ACCELERATION * mass * 20
+	wheel_turn = HANDLING
+
 	# Stats UI
 	# pos
 	if pos_button.pressed:
@@ -241,7 +257,8 @@ func _handle_debug():
 	# material
 	on_mat.text = "On Material: " + Global.Surface.keys()[on_material[-1] - 1]
 
-	race_pos_value.text = "Position " + str(race_placement)
+	# racepos
+	race_pos_value.text = "Offset: " + str(_get_race_position())
 
 
 func _unhandled_input(event):
@@ -313,6 +330,29 @@ func _unhandled_input(event):
 			pass
 
 
+func _get_race_position():
+	var paths = $"/root/Scene/Map/Paths"
+
+	var precision = 1 # 1 pixel
+	var smallest_sq_dist = INF
+	var path_used = null
+	for path in paths.get_children():
+		var point = path.get_curve().get_closest_point(position)
+		var sq_dist = position.distance_squared_to(point)
+		if sq_dist < smallest_sq_dist and !is_equal_approx(sq_dist, smallest_sq_dist):
+			if smallest_sq_dist - sq_dist > precision:
+				smallest_sq_dist = sq_dist
+				path_used = path
+
+	if path_used:
+		print(path_used.name)
+		var path_curve = path_used.get_curve()
+		var points = path_curve.get_baked_points() as Array
+		var path_offset = path_curve.get_closest_offset(position)
+
+		return path_offset
+	return -1
+
 func _handle_hook():
 	var targets = get_node("/root/Scene/Map/ScorpionMap/GrapplePoints")
 
@@ -336,13 +376,11 @@ func _handle_input():
 	var max_spd = (200 + MAX_SPEED * 40)
 
 	driving_direction = 0
-	if input_flags & InputFlags.FORWARD_DOWN and moving_direction != -1:
+	if input_flags & InputFlags.FORWARD_DOWN:
 		driving_direction += 1
-	if input_flags & InputFlags.REVERSE_DOWN and moving_direction != 1:
+	if input_flags & InputFlags.REVERSE_DOWN:
 		driving_direction -= 1
 
-	print(transform.x)
-	print(driving_direction)
 	driving_force = driving_direction * transform.x * engine_strength
 
 	turning_direction = 0
@@ -355,18 +393,15 @@ func _handle_input():
 		current_turn = 0
 
 	var rot = turning_direction * wheel_turn
-	print(current_turn)
 	if abs(current_turn + rot) < max_turn and !current_turn == max_turn:
 		current_turn += rot
 	else:
-		print("should be here")
 		current_turn = turning_direction * max_turn
 
 	braking_force = Vector2.ZERO
 
 	if input_flags & InputFlags.BRAKE_DOWN:
 		braking_force = transform.x * -moving_direction * braking_strength
-		print(braking_force)
 
 	if input_flags & InputFlags.HOOK_DOWN:
 		_handle_hook()
@@ -383,8 +418,6 @@ func _handle_objects():
 func _handle_friction():
 	var u = SURFACE_FRICTION_VALUES[on_material[-1] - 1] # Coefficient of friction
 	var r = WEIGHT * Global.g # Normal contact force
-
-	print(u)
 
 	friction_force = -driving_direction * transform.x * u * r
 	if friction_force.length() > driving_force.length():

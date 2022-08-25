@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="Theme" id=1]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Button
+
+onready var editor = $\"/root/Editor\"
+onready var replacement_name = $\"/root/Editor/Canvas/UI/Tabs/ObjectName/TextEdit\"
+
+var node: Node2D
+
+
+func _on_Button_pressed():
+	node.name = replacement_name.text
+	editor.refresh_nodes()
+"
+
+[node name="Button" type="Button"]
+margin_right = 12.0
+margin_bottom = 20.0
+theme = SubResource( 1 )
+script = SubResource( 2 )
+
+[connection signal="pressed" from="." to="." method="_on_Button_pressed"]

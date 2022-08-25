@@ -31,23 +31,26 @@ func _on_cp_entered(body, cp_name):
 
 	# 0 -> 4 -> 0 is a problem
 	if int(cp_name) == 0:
-		if count_lap and int(last_checkpoint) == len(checkpoints) - 1:
-			if lap < lap_count:
-				lap += 1
-			elif lap == lap_count:
-				print("Race complete.")
-				var end = load("res://Scenes/RaceEnd.tscn").instance()
-				get_node("/root").add_child(end)
-				self.queue_free()
+		if body.lap_count == 0:
+			# They have entered the first lap, i.e. lap 1, so...
+			body.lap_count = 1
 		else:
-			# Either player went 1 -> 0 or cheated this lap.
-			# Don't count this lap, but count the next assuming player behaves.
-			count_lap = true
-	elif int(cp_name) != int(last_checkpoint) + 1 \
-	and int(cp_name) != int(last_checkpoint) \
-	and int(cp_name) != int(last_checkpoint) - 1:
+			# Handle lap counting normally
+			if count_lap and int(last_checkpoint) == len(checkpoints) - 1:
+				if lap < lap_count:
+					lap += 1
+				elif lap == lap_count:
+					print("Race complete.")
+					var end = load("res://Scenes/RaceEnd.tscn").instance()
+					get_node("/root").add_child(end)
+					self.queue_free()
+			else:
+				# Either player went 1 -> 0 or cheated this lap.
+				# Don't count this lap, but count the next assuming player behaves.
+				count_lap = true
+	elif not int(cp_name) in range(int(last_checkpoint) - 1, int(last_checkpoint) + 1):
 		# The player cheated, or the checkpoints are badly designed.
 		count_lap = false
-
+	print(range(int(last_checkpoint) - 1, int(last_checkpoint) + 1))
 	race_debug.get_node("LapCount").text = "Lap: " + str(lap) + "/" + str(lap_count)
 	last_checkpoint = cp_name

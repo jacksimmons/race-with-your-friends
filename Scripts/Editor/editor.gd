@@ -120,7 +120,7 @@ func refresh_nodes():
 	if current_node.get_parent() != self:
 		# If the node has a viewable parent...
 		var current_parent = current_node.get_parent()
-		var button = preload("res://Scenes/Editor/NodeChangeButton.tscn").instance()
+		var button = preload("res://Scenes/Editor/ChangeNodeButton.tscn").instance()
 		var button_text = "Back [" + current_parent.name + "]"
 		button.in_scene = true
 		button.node = current_parent
@@ -131,7 +131,7 @@ func refresh_nodes():
 	for child in children:
 		if child is Node2D:
 			# Make all the buttons necessary to display all children.
-			var button = preload("res://Scenes/Editor/NodeChangeButton.tscn").instance()
+			var button = preload("res://Scenes/Editor/ChangeNodeButton.tscn").instance()
 			var button_text = child.get_name()
 			var child_count = child.get_child_count()
 			if child_count > 0:
@@ -251,7 +251,7 @@ func refresh_nodes():
 		var obj_name = preload("res://Scenes/Editor/ObjectName.tscn").instance()
 		tabs.add_child(obj_name)
 
-		var set_name_button = preload("res://Scenes/Editor/SetNameButton.tscn").instance()
+		var set_name_button = preload("res://Scenes/Editor/RenameNodeButton.tscn").instance()
 		set_name_button.text = "Set Name"
 		set_name_button.node = current_node
 		add_button_font_colour_override(set_name_button, Color.gold)

@@ -1,11 +1,29 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scripts/Editor/TemplateButtons/DeleteNodeButton.gd" type="Script" id=1]
-
 [sub_resource type="Theme" id=1]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Node
+
+onready var editor = $\"/root/Editor\"
+onready var shape = $\"/root/Editor/Canvas/Shape\"
+
+var node: Node
+
+
+func _on_Button_pressed():
+	editor.current_node = node.get_parent()
+	node.get_parent().remove_child(node)
+	node.queue_free()
+
+	shape.points = []
+	shape.stop_drawing()
+
+	editor.refresh_nodes()
+"
 
 [node name="Button" type="Button"]
 theme = SubResource( 1 )
-script = ExtResource( 1 )
+script = SubResource( 2 )
 
 [connection signal="pressed" from="." to="." method="_on_Button_pressed"]

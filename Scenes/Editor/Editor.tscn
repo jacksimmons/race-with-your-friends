@@ -1,8 +1,7 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/Editor/editor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Editor/editor_camera.gd" type="Script" id=2]
-[ext_resource path="res://theme.tres" type="Theme" id=3]
 [ext_resource path="res://Scripts/Editor/shape_drawing.gd" type="Script" id=4]
 [ext_resource path="res://Sprites/Editor/WHITE_PIXEL.png" type="Texture" id=5]
 [ext_resource path="res://Kenney Future Narrow.ttf" type="DynamicFontData" id=6]
@@ -313,8 +312,7 @@ __meta__ = {
 
 [node name="UI" type="Control" parent="Canvas"]
 margin_right = 221.0
-margin_bottom = 29.0
-theme = ExtResource( 3 )
+margin_bottom = 24.0
 
 [node name="Panel" type="Panel" parent="Canvas/UI"]
 margin_right = 223.0
@@ -445,7 +443,7 @@ tab_align = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 31.0
+margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 custom_constants/separation = 30

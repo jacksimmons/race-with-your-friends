@@ -28,13 +28,16 @@ var rotation_last_update: int = 0
 var race_position_last_update: Dictionary = {}
 
 var lerps: Dictionary = {}
-var race_positions: Dictionary = {}
-var race_placements: Array = []
 
 var all_ready: bool = false
 var all_pre_configs_complete: bool = false
 
 var local_pre_config_done: bool = false
+
+enum SortCondition {
+	LAP,
+	POSITION
+}
 
 
 func _ready():
@@ -73,21 +76,25 @@ func _process(delta):
 			if my_player.rotation.z != rotation_last_update:
 				send_P2P_Packet("all", {"rotation": my_player.rotation.z})
 				rotation_last_update = my_player.rotation.z
-			if my_player.race_position != race_position_last_update:
-				send_P2P_Packet("all", {"race_pos": my_player.race_position})
 
 			# Race placements (to be done by host only)
 			if host:
-				var sorted_checkpoints = {}
-				for pos in race_positions:
-					# Add the player ID to the checkpoint key they are at.
-					sorted_checkpoints[pos["checkpoints"]].append(pos)
+				var ordered_positions = []
+				for player_id in Game.PLAYER_DATA:
+					var player = get_node("/root/Scene/Players/" + str(player_id)) as Player
+					var lap = player.lap_count
+					var pos = player._get_race_position()
 
-				var sorted_distances = []
-				for cp_val in sorted_checkpoints.keys().sort():
-					for id in sorted_checkpoints[cp_val]:
-						sorted_distances.append(race_positions[id]["distance_from_next"])
-				sorted_distances.sort()
+					if ordered_positions.empty():
+						ordered_positions.append({"lap": lap, "pos": pos, "id": player_id})
+					else:
+						var unplaced = true
+						while unplaced:
+							ordered_positions = _sort_positions(SortCondition.LAP, ordered_positions, pos)
+							ordered_positions = _sort_positions(SortCondition.POSITION, ordered_positions, pos)
+
+					var packet = {"all_race_positions": ordered_positions}
+					send_P2P_Packet("all", packet)
 
 	for player_id in lerps:
 		var player = get_node("/root/Scene/Players/" + str(player_id))
@@ -106,6 +113,30 @@ func _process(delta):
 		# Needs to be at the end of this loop (cascading)
 		if lerps[player_id] == {}:
 			lerps.erase(player_id)
+
+
+func _sort_positions(condition_value: int, ordered_positions: Array, pos: Dictionary) -> Array:
+	var condition = false
+
+	for ord_pos in ordered_positions:
+		if condition_value == SortCondition.LAP:
+			condition = pos["lap"] > ord_pos["lap"]
+		elif condition_value == SortCondition.POSITION:
+			condition = pos["pos"] > ord_pos["pos"] and pos["lap"] == ord_pos["lap"]
+
+		if condition:
+			var moved_all = false
+			var index = ordered_positions.find(ord_pos)
+			while !moved_all:
+				var temp = ordered_positions[index]
+				ordered_positions.insert(index, pos)
+				if index + 1 == len(ordered_positions):
+					# Then index + 1 is out of range, and we can just append.
+					ordered_positions.append(temp)
+					moved_all = true
+				else:
+					index += 1
+	return ordered_positions
 
 
 func read_All_P2P_Packets(read_count: int = 0):
@@ -330,10 +361,10 @@ func read_P2P_Packet():
 					lerps[PACKET_SENDER] = {}
 				lerps[PACKET_SENDER]["rotation"] = READABLE["rotation"]
 
-		if READABLE.has("race_pos"):
+		if READABLE.has("all_race_positions"):
 			if PACKET_SENDER != Game.STEAM_ID:
-				race_positions[PACKET_SENDER]["checkpoints"] = READABLE["checkpoints"]
-				race_positions[PACKET_SENDER]["distance_from_next"] = READABLE["distance_from_next"]
+				for player_id in READABLE["all_race_positions"]:
+					Game.PLAYER_DATA[player_id]["race_pos"] = READABLE["all_race_positions"][player_id]
 
 
 func send_P2P_Packet(target: String, packet_data: Dictionary) -> void:
@@ -392,7 +423,6 @@ func start_Pre_Config() -> void:
 
 		var local_pre_config_done = true
 		send_P2P_Packet("all", {"pre_config_complete": true})
-		self.queue_free()
 
 
 func start_Bot_Config() -> void:

@@ -274,9 +274,6 @@ margin_top = 259.929
 margin_right = 37.7776
 margin_bottom = 273.929
 text = "Lap: "
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="CheckpointCount" type="Label" parent="Canvas/Race"]
 margin_left = 6.77661
@@ -315,10 +312,11 @@ text = "0 mph"
 script = ExtResource( 1 )
 
 [node name="Position" type="Label" parent="Canvas/Race"]
-margin_left = 6.0
-margin_top = 461.0
-margin_right = 46.0
-margin_bottom = 475.0
+margin_left = 8.0
+margin_top = 324.0
+margin_right = 51.0
+margin_bottom = 338.0
+text = "Offset:"
 
 [node name="Item" type="Control" parent="Canvas"]
 margin_left = 920.0
