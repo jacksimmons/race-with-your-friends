@@ -127,6 +127,7 @@ func _sort_positions(condition_value: int, ordered_positions: Array, pos: Dictio
 			condition = pos["pos"] > ord_pos["pos"] and pos["lap"] == ord_pos["lap"]
 
 		if condition:
+			print("crash?")
 			var moved_all = false
 			var index = ordered_positions.find(ord_pos)
 			while !moved_all:
