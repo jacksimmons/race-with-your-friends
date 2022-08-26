@@ -1,10 +1,99 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/CharSelect.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/lobby_multi.gd" type="Script" id=2]
 
+[sub_resource type="GDScript" id=1]
+script/source = "extends OptionButton
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	var popup = get_popup()
+	popup.add_separator(\"Region\")
+	popup.add_item(\"Close\")
+	popup.add_item(\"Regional\")
+	popup.add_item(\"Far\")
+	popup.add_item(\"Worldwide\")
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends OptionButton
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	var popup = get_popup()
+	popup.add_separator(\"Join Type\")
+	popup.add_item(\"Any\")
+	popup.add_item(\"Private\")
+	popup.add_item(\"Friends\")
+	popup.add_item(\"Public\")
+	popup.add_item(\"Invisible\")
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends OptionButton
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	var popup = get_popup()
+	popup.add_separator(\"Fullness\")
+	popup.add_item(\"Any\")
+	popup.add_item(\"Empty\")
+	popup.add_item(\"Full\")
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
 [node name="Lobby" type="Node2D"]
 script = ExtResource( 2 )
+
+[node name="Lobbies" type="Panel" parent="."]
+margin_left = 107.0
+margin_top = 2.0
+margin_right = 958.0
+margin_bottom = 541.0
+
+[node name="Label" type="Label" parent="Lobbies"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 847.0
+margin_bottom = 19.0
+text = "Lobby List"
+align = 1
+
+[node name="Scroll" type="ScrollContainer" parent="Lobbies"]
+margin_left = 3.0
+margin_top = 23.0
+margin_right = 753.0
+margin_bottom = 225.0
+
+[node name="VBox" type="VBoxContainer" parent="Lobbies/Scroll"]
 
 [node name="Back" type="Button" parent="."]
 margin_left = 2.0
@@ -14,73 +103,62 @@ margin_bottom = 22.0
 text = "Back"
 
 [node name="Create" type="Button" parent="."]
-margin_left = 228.0
-margin_top = 29.0
-margin_right = 323.0
-margin_bottom = 49.0
+margin_left = 2.0
+margin_top = 26.0
+margin_right = 102.0
+margin_bottom = 47.0
 text = "Create Lobby"
 
-[node name="Join" type="Button" parent="."]
-margin_left = 228.0
-margin_top = 3.0
-margin_right = 322.0
-margin_bottom = 23.0
-text = "Join Lobby"
+[node name="Refresh" type="Button" parent="."]
+margin_left = 2.0
+margin_top = 51.0
+margin_right = 102.0
+margin_bottom = 71.0
+text = "Refresh List"
 
-[node name="Start" type="Button" parent="."]
-margin_left = 862.0
-margin_top = 27.0
-margin_right = 956.0
-margin_bottom = 47.0
-text = "Ready"
-
-[node name="Leave" type="Button" parent="."]
-margin_left = 4.0
-margin_top = 369.622
-margin_right = 321.0
-margin_bottom = 389.622
-text = "Leave Lobby"
-
-[node name="OpenCharSelect" type="Button" parent="."]
-margin_left = 4.0
-margin_top = 395.0
-margin_right = 321.0
-margin_bottom = 462.0
-text = "Select Vehicle"
-
-[node name="OpenMapSelect" type="Button" parent="."]
-margin_left = 4.0
-margin_top = 466.0
-margin_right = 321.0
-margin_bottom = 535.0
-text = "Select Map"
-
-[node name="Message" type="Control" parent="."]
+[node name="Chat" type="Panel" parent="."]
+visible = false
 margin_left = 1.0
-margin_top = 1.0
-margin_right = 41.0
-margin_bottom = 41.0
-
-[node name="SendMessageButton" type="Button" parent="Message"]
-margin_left = 849.0
-margin_top = 508.0
-margin_right = 958.0
-margin_bottom = 538.0
-text = "Send Message"
-
-[node name="TextEdit" type="TextEdit" parent="Message"]
-margin_left = 329.0
-margin_top = 507.0
-margin_right = 848.0
+margin_top = 420.0
+margin_right = 678.0
 margin_bottom = 539.0
 
+[node name="Name" type="Label" parent="Chat"]
+margin_left = 329.0
+margin_top = -415.0
+margin_right = 641.0
+margin_bottom = -400.0
+text = "Lobby Name"
+align = 1
+
+[node name="MessageList" type="RichTextLabel" parent="Chat"]
+margin_left = 1.0
+margin_top = 18.0
+margin_right = 675.0
+margin_bottom = 117.0
+
+[node name="TextEdit" type="TextEdit" parent="Chat"]
+margin_left = 1.0
+margin_top = 99.0
+margin_right = 617.0
+margin_bottom = 118.0
+
+[node name="Button" type="Button" parent="Chat"]
+margin_left = 618.0
+margin_top = 99.0
+margin_right = 677.0
+margin_bottom = 119.0
+text = "Send"
+
 [node name="LobbyName" type="TextEdit" parent="."]
+visible = false
 margin_left = 1.0
 margin_top = 25.0
 margin_right = 226.0
 margin_bottom = 52.0
 
 [node name="SteamName" type="Label" parent="."]
+visible = false
 margin_left = 854.0
 margin_top = 7.0
 margin_right = 955.0
@@ -89,6 +167,7 @@ text = "Steam Name"
 align = 2
 
 [node name="Players" type="Panel" parent="."]
+visible = false
 margin_left = 2.0
 margin_top = 54.0
 margin_right = 324.0
@@ -106,59 +185,6 @@ margin_left = 1.0
 margin_top = 18.0
 margin_right = 322.0
 margin_bottom = 307.0
-
-[node name="Chat" type="Panel" parent="."]
-margin_left = 329.0
-margin_top = 236.0
-margin_right = 959.0
-margin_bottom = 508.0
-
-[node name="Name" type="Label" parent="Chat"]
-margin_top = 2.0
-margin_right = 629.0
-margin_bottom = 17.0
-text = "Lobby Name"
-align = 1
-
-[node name="MessageList" type="RichTextLabel" parent="Chat"]
-margin_left = 1.0
-margin_top = 18.0
-margin_right = 629.0
-margin_bottom = 271.0
-
-[node name="LobbyPopup" type="PopupPanel" parent="."]
-margin_left = 329.0
-margin_top = 6.0
-margin_right = 909.0
-margin_bottom = 231.0
-
-[node name="Panel" type="Panel" parent="LobbyPopup"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 576.0
-margin_bottom = 221.0
-
-[node name="Label" type="Label" parent="LobbyPopup/Panel"]
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 570.0
-margin_bottom = 15.0
-text = "Lobby List"
-align = 1
-
-[node name="CloseLobbySelect" type="Button" parent="LobbyPopup/Panel"]
-margin_left = -3.15454
-margin_top = -2.94878
-margin_right = 112.846
-margin_bottom = 17.0512
-text = "Close Lobby List"
-
-[node name="Scroll" type="ScrollContainer" parent="LobbyPopup/Panel"]
-margin_top = 19.0
-margin_right = 574.0
-margin_bottom = 221.0
-
-[node name="VBox" type="VBoxContainer" parent="LobbyPopup/Panel/Scroll"]
 
 [node name="CharSelectPopup" type="PopupPanel" parent="."]
 margin_left = 5.22778
@@ -210,16 +236,45 @@ margin_bottom = 221.0
 
 [node name="VBox" type="VBoxContainer" parent="MapSelectPopup/Panel/Scroll"]
 
+[node name="Label" type="Label" parent="."]
+margin_left = 2.0
+margin_top = 76.0
+margin_right = 102.0
+margin_bottom = 90.0
+text = "Lobby Filters"
+align = 1
+
+[node name="Region" type="OptionButton" parent="."]
+margin_left = 2.0
+margin_top = 94.0
+margin_right = 104.0
+margin_bottom = 117.0
+text = "Region"
+script = SubResource( 1 )
+
+[node name="JoinType" type="OptionButton" parent="."]
+margin_left = 2.0
+margin_top = 120.0
+margin_right = 104.0
+margin_bottom = 143.0
+text = "Join Type"
+script = SubResource( 2 )
+
+[node name="Fullness" type="OptionButton" parent="."]
+margin_left = 2.0
+margin_top = 145.0
+margin_right = 104.0
+margin_bottom = 168.0
+text = "Fullness"
+script = SubResource( 3 )
+
 [connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]
 [connection signal="pressed" from="Create" to="." method="_on_Create_pressed"]
-[connection signal="pressed" from="Join" to="." method="_on_Join_pressed"]
-[connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
-[connection signal="pressed" from="Leave" to="." method="_on_Leave_pressed"]
-[connection signal="pressed" from="OpenCharSelect" to="." method="_on_OpenCharSelect_pressed"]
-[connection signal="pressed" from="OpenMapSelect" to="." method="_on_OpenMapSelect_pressed"]
-[connection signal="pressed" from="Message/SendMessageButton" to="." method="_on_Message_pressed"]
-[connection signal="pressed" from="LobbyPopup/Panel/CloseLobbySelect" to="." method="_on_CloseLobbySelect_pressed"]
+[connection signal="pressed" from="Refresh" to="." method="_on_Refresh_pressed"]
 [connection signal="pressed" from="CharSelectPopup/CharSelect/CloseCharSelect" to="." method="_on_CloseCharSelect_pressed"]
 [connection signal="pressed" from="MapSelectPopup/Panel/CloseMapSelect" to="." method="_on_CloseMapSelect_pressed"]
+[connection signal="item_selected" from="Region" to="." method="_on_Region_item_selected"]
+[connection signal="item_selected" from="JoinType" to="." method="_on_JoinType_item_selected"]
+[connection signal="item_selected" from="Fullness" to="." method="_on_Fullness_item_selected"]
 
 [editable path="CharSelectPopup/CharSelect"]

@@ -33,11 +33,6 @@ Game="*res://Scripts/Steam/steam_global.gd"
 
 settings/fps/force_fps=60
 gdscript/completion/autocomplete_setters_and_getters=true
-gdscript/warnings/unused_class_variable=true
-gdscript/warnings/unsafe_property_access=true
-gdscript/warnings/unsafe_method_access=true
-gdscript/warnings/unsafe_cast=true
-gdscript/warnings/unsafe_call_argument=true
 shapes/collision/shape_color=Color( 0, 0.6, 0.701961, 0.419608 )
 shapes/collision/contact_color=Color( 1, 0.2, 0.101961, 0.8 )
 
@@ -59,6 +54,7 @@ enabled=PoolStringArray( "res://addons/AsepriteWizard/plugin.cfg" )
 collision=false
 fps=false
 Inspector=false
+console=false
 
 [importer_defaults]
 
@@ -178,6 +174,11 @@ hook={
 fullscreen={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":true,"meta":false,"command":true,"pressed":false,"scancode":70,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+message_box={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777221,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 

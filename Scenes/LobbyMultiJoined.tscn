@@ -1,0 +1,35 @@
+[gd_scene format=2]
+
+[node name="Lobby" type="Node2D"]
+
+[node name="Start" type="Button" parent="."]
+visible = false
+margin_left = 862.0
+margin_top = 27.0
+margin_right = 956.0
+margin_bottom = 47.0
+text = "Ready"
+
+[node name="Leave" type="Button" parent="."]
+visible = false
+margin_left = 4.0
+margin_top = 369.622
+margin_right = 321.0
+margin_bottom = 389.622
+text = "Leave Lobby"
+
+[node name="OpenCharSelect" type="Button" parent="."]
+visible = false
+margin_left = 4.0
+margin_top = 395.0
+margin_right = 321.0
+margin_bottom = 462.0
+text = "Select Vehicle"
+
+[node name="OpenMapSelect" type="Button" parent="."]
+visible = false
+margin_left = 4.0
+margin_top = 466.0
+margin_right = 321.0
+margin_bottom = 535.0
+text = "Select Map"

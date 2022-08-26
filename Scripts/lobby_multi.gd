@@ -1,26 +1,43 @@
 extends Node
 
-
+# Enum
 enum lobby_status {Private, Friends, Public, Invisible}
 enum search_distance {Close, Default, Far, Worldwide}
+enum fullness {Any, Empty, Full}
+enum lobby_comparison {LTE = -2, LT = -1, E = 0, GT = 1, GTE = 2, NE = 3}
 enum send_type {Unreliable, UnreliableNoDelay, Reliable, ReliableNoDelay}
+enum SortCondition { LAP, POSITION }
 
-
+# Onreadies
+onready var lobbyTitle = $Lobbies/Label
 onready var steamName = $SteamName
 onready var lobbySetName = $LobbyName
 onready var lobbyGetName = $Chat/Name
 onready var lobbyOutput = $Chat/MessageList
 onready var lobbyPopup = $LobbyPopup
-onready var lobbyList = $LobbyPopup/Panel/Scroll/VBox
+onready var lobbyList = $Lobbies/Scroll/VBox
 onready var playerCount = $Players/NoOfPlayers
 onready var playerList = $Players/PlayerList
-onready var chatInput = $Message/TextEdit
-
+onready var chatInput = $Chat/TextEdit
+onready var chatInputButton = $Chat/Button
 onready var charSelectPopup = $CharSelectPopup
 onready var mapSelectPopup = $MapSelectPopup
 
+# Lobby
+var lobby_filters = \
+{"Region": search_distance.Default,
+ "JoinType": lobby_status.Public,
+ "Fullness": fullness.Any}
+
 var host: bool = false
 
+var message_input_shown: bool = false
+
+var all_ready: bool = false
+var all_pre_configs_complete: bool = false
+var local_pre_config_done: bool = false
+
+# Game
 var time: float = 0
 var my_player = null
 var position_last_update: Vector2 = Vector2.ZERO
@@ -28,16 +45,6 @@ var rotation_last_update: int = 0
 var race_position_last_update: Dictionary = {}
 
 var lerps: Dictionary = {}
-
-var all_ready: bool = false
-var all_pre_configs_complete: bool = false
-
-var local_pre_config_done: bool = false
-
-enum SortCondition {
-	LAP,
-	POSITION
-}
 
 
 func _ready():
@@ -98,6 +105,17 @@ func _process(delta):
 					var packet = {"all_race_positions": ordered_positions}
 					send_P2P_Packet("all", packet)
 
+	else:
+		if Input.is_action_just_pressed("message_box"):
+			message_input_shown = !message_input_shown
+			if message_input_shown:
+				chatInput.show()
+				chatInputButton.show()
+			else:
+				chatInput.hide()
+				chatInputButton.hide()
+				send_Chat_Message()
+
 	for player_id in lerps:
 		var player = get_node("/root/Scene/Players/" + str(player_id))
 		if lerps[player_id].has("position"):
@@ -120,6 +138,9 @@ func _process(delta):
 func _sort_positions(condition_value: int, ordered_positions: Array, pos: Dictionary) -> Array:
 	var condition = false
 
+	# "ordered_positions" is a hopeful name - after this process is complete, they will be
+	# ordered positions. Every position (ord_pos) is also seen as hopefully ordered by the end.
+
 	for ord_pos in ordered_positions:
 		if condition_value == SortCondition.LAP:
 			condition = pos["lap"] > ord_pos["lap"]
@@ -127,17 +148,18 @@ func _sort_positions(condition_value: int, ordered_positions: Array, pos: Dictio
 			condition = pos["pos"] > ord_pos["pos"] and pos["lap"] == ord_pos["lap"]
 
 		if condition:
-			var moved_all = false
 			var index = ordered_positions.find(ord_pos)
-			while !moved_all:
-				var temp = ordered_positions[index]
-				ordered_positions.insert(index, pos)
-				if index + 1 >= len(ordered_positions):
-					# Then index + 1 is out of range, and we can just append.
-					ordered_positions.append(temp)
-					moved_all = true
-				else:
-					index += 1
+
+			# Copy all the potentially affected positions (includes ord_pos)
+			var ordered_positions_after_pos = ordered_positions.slice(index, len(ordered_positions) - 1)
+
+			# Now overwrite in a destructive way
+			ordered_positions[index] = pos
+
+			# Then re-add the positions after in the same order
+			for ord_pos_after in ordered_positions_after_pos:
+				ordered_positions.erase(ord_pos_after)
+				ordered_positions.append(ord_pos_after)
 
 	return ordered_positions
 
@@ -161,8 +183,6 @@ func create_Lobby() -> void:
 
 
 func join_Lobby(lobbyID) -> void:
-	lobbyPopup.hide()
-
 	# Gets value of the "name" key with provided lobbyID
 	var name = Steam.getLobbyData(lobbyID, "name")
 	display_Message("Joining lobby " + str(name) + "...")
@@ -170,8 +190,13 @@ func join_Lobby(lobbyID) -> void:
 	# Clear prev. lobby members lists
 	Game.LOBBY_MEMBERS.clear()
 
+	# Load lobby scene
+	var loaded_lobby = preload("res://Scenes/LobbyMultiJoined.tscn").instance()
+
 	# Steam join request
 	Steam.joinLobby(lobbyID)
+
+	self.queue_free()
 
 
 func get_Lobby_Members() -> void:
@@ -463,15 +488,17 @@ func _on_Lobby_Created(connect, lobbyID):
 		# Set Lobby ID
 		Game.LOBBY_ID = lobbyID
 
+		var lobby_name = Game.STEAM_NAME + "'s lobby"
+
 		# Equivalent of printing into the chatbox
-		display_Message("Created lobby: " + lobbySetName.text)
+		display_Message("Created lobby: " + lobby_name)
 
 		# Make it joinable (this should be done by default anyway)
 		Steam.setLobbyJoinable(Game.LOBBY_ID, true)
 
 		# Set Lobby Data
-		Steam.setLobbyData(lobbyID, "name", lobbySetName.text)
-		lobbyGetName.text = lobbySetName.text
+		Steam.setLobbyData(lobbyID, "name", lobby_name)
+		Steam.setLobbyMemberLimit(lobbyID, Game.MAX_MEMBERS)
 
 		var RELAY = Steam.allowP2PPacketRelay(true)
 		print("Allowing Steam to be relay backup: " + str(RELAY))
@@ -510,7 +537,8 @@ func _on_Lobby_Joined(lobbyID, perms, locked, response) -> void:
 			11:	FAIL_REASON = "A user you have blocked is in the lobby."
 
 		# Reopen the lobby list
-		_on_Join_pressed()
+		print("Fail: " + FAIL_REASON)
+		_on_Refresh_pressed()
 
 
 func _on_Lobby_Join_Requested(lobbyID, friendID) -> void:
@@ -524,7 +552,7 @@ func _on_Lobby_Join_Requested(lobbyID, friendID) -> void:
 	join_Lobby(lobbyID)
 
 
-func _on_Lobby_Data_Update(success, lobbyID, memberID, key) -> void:
+func _on_Lobby_Data_Update(success, lobbyID, memberID, key=null) -> void:
 	# Will complain if this callback is not handled
 	print("Success: "+str(success)+", Lobby ID: "+str(lobbyID)+", Member ID: "+str(memberID)+", Key: "+str(key))
 
@@ -688,25 +716,28 @@ func _on_Create_pressed():
 	create_Lobby()
 
 
-func _on_Join_pressed():
-	lobbyPopup.popup()
+func _on_Refresh_pressed():
 	# Set server search distance to worldwide
-	Steam.addRequestLobbyListDistanceFilter(search_distance.Worldwide)
+	Steam.addRequestLobbyListDistanceFilter(lobby_filters["Region"])
+
+	if lobby_filters["Fullness"] != fullness.Any:
+		if lobby_filters["Fullness"] == fullness.Empty:
+			Steam.addRequestLobbyListFilterSlotsAvailable(12)
+		elif lobby_filters["Fullness"] == fullness.Full:
+			Steam.addRequestLobbyListFilterSlotsAvailable(0)
+
+	Steam.addRequestLobbyListResultCountFilter(Game.MAX_LOBBY_RESULTS)
+
+	# Search
+	#Steam.addRequestLobbyListStringFilter()
+
 	display_Message("Searching for lobbies...")
-
 	Steam.requestLobbyList()
-
-
-func _on_CloseLobbySelect_pressed():
-	lobbyPopup.hide()
 
 
 func _on_Leave_pressed():
 	leave_Lobby()
-
-
-func _on_Message_pressed():
-	send_Chat_Message()
+	lobbyTitle.name = "Lobby List"
 
 
 func _on_OpenCharSelect_pressed():
@@ -779,3 +810,21 @@ func _on_OpenMapSelect_pressed():
 
 func _on_CloseMapSelect_pressed():
 	mapSelectPopup.hide()
+
+
+func _on_Region_item_selected(index):
+	lobby_filters["Region"] = search_distance.keys()[index - 1]
+	print(lobby_filters["Region"])
+
+
+func _on_JoinType_item_selected(index):
+	if index == 1:
+		lobby_filters["JoinType"] = -1 # All
+	else:
+		lobby_filters["JoinType"] = lobby_status.keys()[index - 2]
+	print(lobby_filters["JoinType"])
+
+
+func _on_Fullness_item_selected(index):
+	lobby_filters["Fullness"] = fullness.keys()[index - 1]
+	print(lobby_filters["Fullness"])

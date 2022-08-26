@@ -8,6 +8,7 @@ var lap_count = 3
 
 onready var players = $"/root/Scene/Players"
 onready var race_debug = $"/root/Scene/Canvas/Race"
+onready var lobby = $"/root/Lobby"
 
 
 func _ready():
@@ -40,7 +41,6 @@ func _on_cp_entered(body, cp_name):
 				if lap < lap_count:
 					lap += 1
 				elif lap == lap_count:
-					print("Race complete.")
 					var end = load("res://Scenes/RaceEnd.tscn").instance()
 					get_node("/root").add_child(end)
 					self.queue_free()

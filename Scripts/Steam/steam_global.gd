@@ -15,6 +15,7 @@ var LOBBY_ID := 0
 var LOBBY_MEMBERS := []
 var LOBBY_INVITE_ARG
 var MAX_MEMBERS := 12
+var MAX_LOBBY_RESULTS := 50
 
 # Game Variables
 var PLAYER_DATA := {}

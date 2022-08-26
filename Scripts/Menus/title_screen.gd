@@ -1,6 +1,12 @@
 extends Node2D
 
 
+func _process(delta):
+	if !Game.ONLINE:
+		$OfflineLabel.show()
+		$MultiPlayerButton.disabled = true
+
+
 func _on_SinglePlayerButton_pressed():
 	var char_select = load("res://Scenes/LobbySingle.tscn").instance()
 	get_node("/root").add_child(char_select)
@@ -8,9 +14,12 @@ func _on_SinglePlayerButton_pressed():
 
 
 func _on_MultiPlayerButton_pressed():
-	var lobby = load("res://Scenes/LobbyMulti.tscn").instance()
-	get_node("/root").add_child(lobby)
-	self.queue_free()
+	if Game.ONLINE:
+		var lobby = load("res://Scenes/LobbyMulti.tscn").instance()
+		get_node("/root").add_child(lobby)
+		self.queue_free()
+	else:
+		$MultiPlayerButton/Popup.popup()
 
 
 func _on_SettingsButton_pressed():
