@@ -175,6 +175,7 @@ func create_Lobby() -> void:
 	# Check no other lobbies are running
 	if Game.LOBBY_ID == 0:
 		Steam.createLobby(LobbyStatus.Public, Game.MAX_MEMBERS)
+		Game.PLAYER_DATA[Game.STEAM_ID] = {}
 		Game.PLAYER_DATA[Game.STEAM_ID]["start_position"] = 0
 	set_host_status(true)
 
