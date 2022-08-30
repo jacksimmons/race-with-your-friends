@@ -78,7 +78,7 @@ func _process(delta):
 				rotation_last_update = my_player.rotation
 
 			# Race placements (to be done by host only)
-			if false and host:
+			"""if false and host:
 				var ordered_positions = []
 				for player_id in Game.PLAYER_DATA:
 					var player = get_node("/root/Scene/Players/" + str(player_id)) as Player
@@ -96,7 +96,7 @@ func _process(delta):
 						ordered_positions = _sort_positions(SortCondition.POSITION, ordered_positions, dict)
 
 					var packet = {"all_race_positions": ordered_positions}
-					send_P2P_Packet("all", packet)
+					send_P2P_Packet("all", packet)"""
 
 	else:
 		if Input.is_action_just_pressed("send_message"):
@@ -401,10 +401,10 @@ func read_P2P_Packet():
 					lerps[PACKET_SENDER] = {}
 				lerps[PACKET_SENDER]["rotation"] = READABLE["rotation"]
 
-		if READABLE.has("all_race_positions"):
+		"""if READABLE.has("all_race_positions"):
 			if PACKET_SENDER != Game.STEAM_ID:
 				for player_id in READABLE["all_race_positions"]:
-					Game.PLAYER_DATA[player_id]["race_pos"] = READABLE["all_race_positions"][player_id]
+					Game.PLAYER_DATA[player_id]["race_pos"] = READABLE["all_race_positions"][player_id]"""
 
 
 func send_P2P_Packet(target: String, packet_data: Dictionary) -> void:
