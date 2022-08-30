@@ -44,7 +44,6 @@ var lerps: Dictionary = {}
 func _ready():
 	# Steamwork Connections
 	Steam.connect("lobby_created", self, "_on_Lobby_Created")
-	Steam.connect("lobby_match_list", self, "_on_Lobby_Match_List")
 	Steam.connect("lobby_joined", self, "_on_Lobby_Joined")
 	Steam.connect("lobby_chat_update", self, "_on_Lobby_Chat_Update")
 	Steam.connect("lobby_message", self, "_on_Lobby_Message")

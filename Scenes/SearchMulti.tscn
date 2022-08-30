@@ -17,10 +17,15 @@ var lobby_filters = \\
  \"Fullness\": Fullness.Any}
 
 
+func _ready():
+	Steam.connect(\"lobby_match_list\", self, \"_on_Lobby_Match_List\")
+
+
 # Lobby Functions
 
 
 func _on_Lobby_Match_List(lobbies) -> void:
+	print(\"HI\")
 	# Ensure all lobby buttons from previous searches are deleted
 	for child in lobbyList.get_children():
 		lobbyList.remove_child(child)
