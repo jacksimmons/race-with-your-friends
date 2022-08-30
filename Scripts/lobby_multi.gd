@@ -78,7 +78,7 @@ func _process(delta):
 				rotation_last_update = my_player.rotation
 
 			# Race placements (to be done by host only)
-			if host:
+			if false and host:
 				var ordered_positions = []
 				for player_id in Game.PLAYER_DATA:
 					var player = get_node("/root/Scene/Players/" + str(player_id)) as Player

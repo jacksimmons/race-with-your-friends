@@ -87,8 +87,6 @@ func join_Lobby(lobbyID) -> void:
 	# Steam join request
 	Steam.joinLobby(lobbyID)
 
-	self.queue_free()
-
 
 # Global Steam callbacks
 
