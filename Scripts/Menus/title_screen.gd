@@ -15,7 +15,7 @@ func _on_SinglePlayerButton_pressed():
 
 func _on_MultiPlayerButton_pressed():
 	if Game.ONLINE:
-		var lobby = load("res://Scenes/LobbyMulti.tscn").instance()
+		var lobby = load("res://Scenes/MenuMulti.tscn").instance()
 		get_node("/root").add_child(lobby)
 		self.queue_free()
 	else:

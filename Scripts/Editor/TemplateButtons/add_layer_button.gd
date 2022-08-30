@@ -1,4 +1,4 @@
-extends "res://Scripts/Editor/TemplateButtons/AddArea2DButton.gd"
+extends "res://Scripts/Editor/TemplateButtons/add_area2d_button.gd"
 
 func _after_button():
 	editor.highest_layer_no = int(obj_name)

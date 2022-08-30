@@ -5,7 +5,6 @@
 [ext_resource path="res://Scripts/Game/Activators/checkpoint_handler.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/Game/Activators/checkpoint.gd" type="Script" id=4]
 
-
 [sub_resource type="SegmentShape2D" id=1]
 a = Vector2( 87.6054, 0.00634766 )
 b = Vector2( -98.8098, 0.00634766 )
@@ -14,7 +13,6 @@ b = Vector2( -98.8098, 0.00634766 )
 extents = Vector2( 84.6078, 88.5191 )
 
 [node name="Temporary Cock Map" type="Node2D"]
-position = Vector2( -399.024, -240.338 )
 
 [node name="Textures" type="Node2D" parent="."]
 

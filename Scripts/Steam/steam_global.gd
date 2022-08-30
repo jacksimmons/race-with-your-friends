@@ -22,6 +22,7 @@ var PLAYER_DATA := {}
 var BOT_DATA := {}
 var NUM_CHECKPOINTS := 0
 var GAME_STARTED := false
+var BLACKLIST := []
 
 
 func _ready():
@@ -50,3 +51,52 @@ func _ready():
 
 func _process(delta):
 	Steam.run_callbacks()
+
+
+# Command Line Checking
+
+
+func check_Command_Line():
+	var ARGUMENTS = OS.get_cmdline_args()
+
+	# Check if detected arguments
+	if ARGUMENTS.size() > 0:
+		for arg in ARGUMENTS:
+			# Invite arg passed
+			if Game.LOBBY_INVITE_ARG:
+				join_Lobby(int(arg))
+
+			# Steam connection arg
+			if arg == "+connect_lobby":
+				Game.LOBBY_INVITE_ARG = true
+
+
+# Global lobby functions
+
+func join_Lobby(lobbyID) -> void:
+	# Gets value of the "name" key with provided lobbyID
+	var name = Steam.getLobbyData(lobbyID, "name")
+
+	# Clear prev. lobby members lists
+	LOBBY_MEMBERS.clear()
+
+	# Load lobby scene
+	var loaded_lobby = preload("res://Scenes/LobbyMulti.tscn").instance()
+	get_node("/root").add_child(loaded_lobby)
+
+	# Steam join request
+	Steam.joinLobby(lobbyID)
+
+	self.queue_free()
+
+
+# Global Steam callbacks
+
+func _on_Lobby_Join_Requested(lobbyID, friendID) -> void:
+	# Callback occurs when attempting to join via Steam overlay
+
+	# Get lobby owner's name
+	var OWNER_NAME = Steam.getFriendPersonaName(friendID)
+
+	# Join the lobby
+	join_Lobby(lobbyID)

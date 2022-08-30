@@ -1,11 +1,11 @@
 { "frames": [
    {
     "filename": "Jermy clarcsons limo.aseprite",
-    "frame": { "x": 0, "y": 0, "w": 96, "h": 256 },
+    "frame": { "x": 0, "y": 0, "w": 34, "h": 245 },
     "rotated": false,
     "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 96, "h": 256 },
-    "sourceSize": { "w": 96, "h": 256 },
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 34, "h": 245 },
+    "sourceSize": { "w": 34, "h": 245 },
     "duration": 100
    }
  ],
@@ -14,7 +14,7 @@
   "version": "1.2.39-x64",
   "image": "Jermy clarcsons limo.png",
   "format": "RGBA8888",
-  "size": { "w": 96, "h": 256 },
+  "size": { "w": 34, "h": 245 },
   "scale": "1",
   "frameTags": [
   ]

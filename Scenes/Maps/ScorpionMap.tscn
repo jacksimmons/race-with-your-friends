@@ -1,15 +1,15 @@
 [gd_scene load_steps=25 format=2]
 
-[ext_resource path="res://Scenes/Sock.png" type="Texture" id=1]
-[ext_resource path="res://Scripts/Game/Activators/material_handler.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/Templates/DefaultMapScene.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scripts/Game/Activators/material.gd" type="Script" id=4]
-[ext_resource path="res://Scripts/Game/Activators/layer.gd" type="Script" id=5]
-[ext_resource path="res://Scripts/Game/Activators/checkpoint_handler.gd" type="Script" id=6]
-[ext_resource path="res://Scripts/Game/Activators/checkpoint.gd" type="Script" id=7]
-[ext_resource path="res://Sprites/Maps/Scorpion/The Scorpian map.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/Maps/Scorpion/The Scorpion map bridge.png" type="Texture" id=9]
-[ext_resource path="res://Scenes/Objects/ConveyorBelt.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/Objects/ConveyorBelt.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Templates/DefaultMapScene.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Sock.png" type="Texture" id=3]
+[ext_resource path="res://Scripts/Game/Activators/checkpoint_handler.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Game/Activators/checkpoint.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/Game/Activators/material_handler.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/Game/Activators/material.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/Game/Activators/layer.gd" type="Script" id=8]
+[ext_resource path="res://Sprites/Maps/Scorpion/The Scorpian map.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Maps/Scorpion/The Scorpion map bridge.png" type="Texture" id=10]
 [ext_resource path="res://Scripts/Game/Activators/layer_handler.gd" type="Script" id=11]
 
 [sub_resource type="Curve2D" id=14]
@@ -62,26 +62,27 @@ b = Vector2( -70.6111, -2.65875 )
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 195, 28 )
 
-[node name="Map" instance=ExtResource( 3 )]
+[node name="Map" instance=ExtResource( 2 )]
 
 [node name="MapSprite" parent="Sprites" index="0"]
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 
 [node name="Bridge (No Shadow)" type="Sprite" parent="Sprites" index="1"]
 position = Vector2( 705, -548 )
 z_index = 1
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="Sock" type="Sprite" parent="Sprites" index="2"]
 position = Vector2( -252.438, 137.356 )
 scale = Vector2( 0.138889, 0.138889 )
-texture = ExtResource( 1 )
+texture = ExtResource( 3 )
 
 [node name="Path_0" type="Path2D" parent="Paths" index="0"]
 visible = false
 curve = SubResource( 14 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Paths/Path_0" index="0"]
+visible = false
 position = Vector2( 188, 120 )
 rotation = 3.13245
 
@@ -96,13 +97,13 @@ rotation = 3.13245
 
 [node name="Checkpoints" parent="." index="2"]
 position = Vector2( 226, 133 )
-script = ExtResource( 6 )
+script = ExtResource( 4 )
 
 [node name="4" type="Area2D" parent="Checkpoints" index="0" groups=["Checkpoints"]]
 position = Vector2( -1559.83, -124.016 )
 rotation = 1.5708
 collision_layer = 2
-script = ExtResource( 7 )
+script = ExtResource( 5 )
 
 [node name="col_4" type="CollisionShape2D" parent="Checkpoints/4" index="0"]
 position = Vector2( 882.058, 26.6134 )
@@ -110,7 +111,7 @@ shape = SubResource( 4 )
 
 [node name="3" type="Area2D" parent="Checkpoints" index="1" groups=["Checkpoints"]]
 collision_layer = 2
-script = ExtResource( 7 )
+script = ExtResource( 5 )
 
 [node name="col_3" type="CollisionShape2D" parent="Checkpoints/3" index="0"]
 position = Vector2( -854.603, -381.691 )
@@ -118,7 +119,7 @@ shape = SubResource( 5 )
 
 [node name="2" type="Area2D" parent="Checkpoints" index="2" groups=["Checkpoints"]]
 collision_layer = 2
-script = ExtResource( 7 )
+script = ExtResource( 5 )
 
 [node name="col_2" type="CollisionShape2D" parent="Checkpoints/2" index="0"]
 position = Vector2( -293.039, -225.608 )
@@ -126,7 +127,7 @@ shape = SubResource( 6 )
 
 [node name="1" type="Area2D" parent="Checkpoints" index="3" groups=["Checkpoints"]]
 collision_layer = 2
-script = ExtResource( 7 )
+script = ExtResource( 5 )
 
 [node name="col_1" type="CollisionShape2D" parent="Checkpoints/1" index="0"]
 position = Vector2( -1195.26, 57.5862 )
@@ -134,31 +135,31 @@ shape = SubResource( 7 )
 
 [node name="0" type="Area2D" parent="Checkpoints" index="4" groups=["Checkpoints"]]
 collision_layer = 2
-script = ExtResource( 7 )
+script = ExtResource( 5 )
 
 [node name="col_0" type="CollisionShape2D" parent="Checkpoints/0" index="0"]
 position = Vector2( -49, -24.8489 )
 shape = SubResource( 8 )
 
 [node name="Grass" type="Node2D" parent="Ground" index="0"]
-script = ExtResource( 2 )
+script = ExtResource( 6 )
 surface_type = 4
 
 [node name="GrassPatch" type="Area2D" parent="Ground/Grass" index="0"]
 collision_layer = 8
-script = ExtResource( 4 )
+script = ExtResource( 7 )
 
 [node name="col1" type="CollisionPolygon2D" parent="Ground/Grass/GrassPatch" index="0"]
 position = Vector2( 221, 130 )
 polygon = PoolVector2Array( -1507, 98, -1516, 57, -1528, 38, -1551, 17, -1507, 3, -1478, -12, -1440, -33, -1415, -45, -1384, -41, -1338, -22, -1270, 8, -1228, 22, -1209, 23, -1190, 21, -1171, 10, -1158, -4, -1155, -22, -1158, -40, -1176, -56, -1257, -111, -1264, -122, -1268, -165, -1270, -192, -1257, -267, -1245, -312, -1239, -332, -1233, -352, -1223, -377, -1208, -416, -1201, -421, -1193, -421, -1189, -418, -1189, -410, -1189, -392, -1189, -371, -1192, -354, -1193, -292, -1195, -281, -1196, -255, -1196, -211, -1194, -194, -1183, -142, -1179, -123, -1167, -104, -1155, -92, -1145, -77, -1141, -68, -1140, -48, -1139, -38, -1137, -35, -1138, -23, -1139, 19, -1134, 39, -1113, 73, -1150, 115, -1168, 153, -1177, 207, -1176, 260, -1170, 300, -1155, 335, -1130, 361, -1109, 388, -1100, 414, -1100, 439, -1104, 449, -1112, 457, -1127, 467, -1153, 479, -1185, 486, -1279, 488, -1309, 482, -1331, 475, -1351, 463, -1369, 452, -1384, 433, -1393, 416, -1397, 392, -1396, 349, -1367, 317, -1348, 304, -1328, 287, -1309, 271, -1296, 254, -1283, 237, -1273, 213, -1263, 185, -1263, 154, -1268, 124, -1279, 106, -1288, 88, -1300, 71, -1316, 56, -1336, 43, -1357, 32, -1381, 22, -1423, 21, -1449, 37, -1466, 55, -1474, 83, -1481, 98, -1488, 106, -1496, 107, -1501, 105 )
 
 [node name="Ice" type="Node2D" parent="Ground" index="1"]
-script = ExtResource( 2 )
+script = ExtResource( 6 )
 surface_type = 6
 
 [node name="IceRink" type="Area2D" parent="Ground/Ice" index="0"]
 collision_layer = 32
-script = ExtResource( 4 )
+script = ExtResource( 7 )
 
 [node name="col1" type="CollisionPolygon2D" parent="Ground/Ice/IceRink" index="0"]
 position = Vector2( 221, 134 )
@@ -197,7 +198,7 @@ script = ExtResource( 11 )
 
 [node name="0" type="Area2D" parent="Layers" index="0"]
 collision_layer = 2
-script = ExtResource( 5 )
+script = ExtResource( 8 )
 
 [node name="START" type="CollisionShape2D" parent="Layers/0" index="0"]
 position = Vector2( 137, -37 )
@@ -228,7 +229,7 @@ polygon = PoolVector2Array( 559.299, -671.301, 552, -688, 517, -787, 517, -803, 
 
 [node name="1" type="Area2D" parent="Layers" index="2"]
 collision_layer = 2
-script = ExtResource( 5 )
+script = ExtResource( 8 )
 
 [node name="BRIDGE_UP" type="CollisionShape2D" parent="Layers/1" index="0"]
 position = Vector2( 331, -617 )
@@ -253,7 +254,7 @@ polygon = PoolVector2Array( 272.226, -652.587, 275.344, -649.023, 290.49, -651.4
 [node name="OnBridgeCol2" type="CollisionPolygon2D" parent="Layers/col_1" index="1"]
 polygon = PoolVector2Array( 599.107, -722.573, 582.689, -707.042, 560.44, -691.15, 542.165, -681.085, 529.981, -677.112, 520.446, -673.139, 508.262, -667.312, 498.197, -660.691, 489.986, -652.215, 482.305, -644.004, 474.889, -636.058, 469.856, -629.172, 462.175, -623.345, 455.292, -617.627, 447.613, -612.196, 437.312, -607.326, 432.443, -604.142, 429.071, -603.768, 426.075, -601.52, 417.834, -598.149, 411.986, -597.084, 406.647, -593.246, 403.476, -592.078, 399.972, -588.407, 398.137, -588.407, 384.169, -574.078, 384.319, -571.179, 386.737, -569.077, 387.893, -569.287, 623.301, -733.92, 622.133, -736.089, 619.63, -737.924, 614.791, -734.253, 608.618, -729.748, 601.443, -723.741 )
 
-[node name="ConveyorBelt" parent="Objects" index="0" instance=ExtResource( 10 )]
+[node name="ConveyorBelt" parent="Objects" index="0" instance=ExtResource( 1 )]
 position = Vector2( 39, 114 )
 velocity = Vector2( -10, 0 )
 

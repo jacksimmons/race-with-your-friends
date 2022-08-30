@@ -21,6 +21,52 @@ const VEHICLES: Array =\
 	"JCL"
 ]
 
+const MAPS: Array =\
+[
+	"ScorpionMap",
+	"TemporaryCockMap"
+]
+
+const MAP_PLAYER_LIMITS: Dictionary =\
+{
+	"ScorpionMap": 12,
+	"TemporaryCockMap": 4
+}
+
+const PLAYER_COLOUR_LIST: Array =\
+[
+	Color.red,
+	Color.aqua,
+	Color.green,
+	Color.yellow,
+	# 4
+	Color.hotpink,
+	Color.blue,
+	Color.turquoise,
+	Color.orange,
+	# 8
+	Color.crimson,
+	Color.purple,
+	Color.darkgreen,
+	Color.chocolate,
+	# 12
+	Color.orangered,
+	Color.indigo,
+	Color.darkseagreen,
+	Color.salmon,
+	# 16
+	Color.fuchsia,
+	Color.cornflower,
+	Color.olive,
+	Color.gold,
+	# 20
+	Color.burlywood,
+	Color.midnightblue,
+	Color.white,
+	Color.black,
+	# 24
+]
+
 # Controls multi-layer levels (going under some stage elements)
 var STAGE_HEIGHT = 0
 
@@ -53,12 +99,23 @@ enum Surface {
 	CONVEYOR = 9
 }
 
+enum SceneType { VEHICLE, MAP }
 
-func get_random_vehicle() -> String:
-	var valid_vehicles: Array = VEHICLES
+
+func get_random_arrayitem(var array: Array):
 	randomize()
-	var vehicle = valid_vehicles[randi() % valid_vehicles.size()]
-	return vehicle
+	var item = array[randi() % array.size()]
+	return item
+
+
+func get_random_scene(var scene_type: int) -> String:
+	var valid_scenes
+	match scene_type:
+		SceneType.VEHICLE:
+			valid_scenes = VEHICLES
+		SceneType.MAP:
+			valid_scenes = MAPS
+	return get_random_arrayitem(valid_scenes)
 
 
 func _setup_scene(game_mode: int, map: Node2D):

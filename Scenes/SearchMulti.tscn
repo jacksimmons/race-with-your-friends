@@ -1,0 +1,236 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+enum JoinType {Private, Friends, Public, Invisible}
+enum SearchDistance {Close, Default, Far, Worldwide}
+enum Fullness {Any, Empty, Full}
+enum LobbyComparison {LTE = -2, LT = -1, E = 0, GT = 1, GTE = 2, NE = 3}
+
+onready var lobbyList = $Lobbies/Scroll/VBox
+
+
+var lobby_filters = \\
+{\"Region\": SearchDistance.Default,
+ \"JoinType\": JoinType.Public,
+ \"Fullness\": Fullness.Any}
+
+
+# Lobby Functions
+
+
+func _on_Lobby_Match_List(lobbies) -> void:
+	# Ensure all lobby buttons from previous searches are deleted
+	for child in lobbyList.get_children():
+		lobbyList.remove_child(child)
+
+	for LOBBY in lobbies:
+		# Grab desired lobby data
+		var LOBBY_NAME = Steam.getLobbyData(LOBBY, \"name\")
+
+		# Get the current number of members
+		var LOBBY_MEMBERS = Steam.getNumLobbyMembers(LOBBY)
+
+		# Create button for each lobby
+		var LOBBY_BUTTON = Button.new()
+		LOBBY_BUTTON.set_text(\"Lobby \" + str(LOBBY) + \": \" + str(LOBBY_NAME) + \" - \" + str(LOBBY_MEMBERS) + \" player(s)\")
+		LOBBY_BUTTON.set_size(Vector2(800, 50))
+		LOBBY_BUTTON.set_name(\"lobby_\" + str(LOBBY))
+		LOBBY_BUTTON.connect(\"pressed\", Game, \"join_Lobby\", [LOBBY])
+
+		# Add lobby to the list
+		lobbyList.add_child(LOBBY_BUTTON)
+
+
+func _on_Back_pressed():
+	var scene = load(\"res://Scenes/MenuMulti.tscn\").instance()
+	get_node(\"/root\").add_child(scene)
+	self.queue_free()
+
+
+func _on_Refresh_pressed():
+	# Set server search distance to worldwide
+	Steam.addRequestLobbyListDistanceFilter(lobby_filters[\"Region\"])
+
+	if lobby_filters[\"Fullness\"] != Fullness.Any:
+		if lobby_filters[\"Fullness\"] == Fullness.Empty:
+			Steam.addRequestLobbyListFilterSlotsAvailable(12)
+		elif lobby_filters[\"Fullness\"] == Fullness.Full:
+			Steam.addRequestLobbyListFilterSlotsAvailable(0)
+
+	Steam.addRequestLobbyListResultCountFilter(Game.MAX_LOBBY_RESULTS)
+
+	# Search
+	#Steam.addRequestLobbyListStringFilter()
+	Steam.requestLobbyList()
+
+
+# Signal Functions
+
+
+func _on_Region_item_selected(index):
+	lobby_filters[\"Region\"] = index
+	print(SearchDistance.keys()[lobby_filters[\"Region\"] - 1])
+
+
+func _on_JoinType_item_selected(index):
+	if index == 1:
+		lobby_filters[\"JoinType\"] = -1 # All
+		print(-1)
+	else:
+		lobby_filters[\"JoinType\"] = index - 1
+		print(JoinType.keys()[lobby_filters[\"JoinType\"] - 1])
+
+
+func _on_Fullness_item_selected(index):
+	lobby_filters[\"Fullness\"] = index
+	print(Fullness.keys()[lobby_filters[\"Fullness\"] - 1])
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends OptionButton
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	var popup = get_popup()
+	popup.add_separator(\"Region\")
+	popup.add_item(\"Close\")
+	popup.add_item(\"Regional\")
+	popup.add_item(\"Far\")
+	popup.add_item(\"Worldwide\")
+"
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends OptionButton
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	var popup = get_popup()
+	popup.add_separator(\"Join Type\")
+	popup.add_item(\"Any\")
+	popup.add_item(\"Private\")
+	popup.add_item(\"Friends\")
+	popup.add_item(\"Public\")
+	popup.add_item(\"Invisible\")
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends OptionButton
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	var popup = get_popup()
+	popup.add_separator(\"Fullness\")
+	popup.add_item(\"Any\")
+	popup.add_item(\"Empty\")
+	popup.add_item(\"Full\")
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
+[node name="SearchMulti" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="Lobbies" type="Panel" parent="."]
+margin_left = 107.0
+margin_top = 2.0
+margin_right = 958.0
+margin_bottom = 541.0
+
+[node name="Label" type="Label" parent="Lobbies"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 847.0
+margin_bottom = 19.0
+text = "Lobby List"
+align = 1
+
+[node name="Scroll" type="ScrollContainer" parent="Lobbies"]
+margin_left = 3.0
+margin_top = 23.0
+margin_right = 753.0
+margin_bottom = 225.0
+
+[node name="VBox" type="VBoxContainer" parent="Lobbies/Scroll"]
+
+[node name="Back" type="Button" parent="."]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 102.0
+margin_bottom = 22.0
+text = "Back"
+
+[node name="Refresh" type="Button" parent="."]
+margin_left = 2.0
+margin_top = 25.0
+margin_right = 102.0
+margin_bottom = 45.0
+text = "Refresh List"
+
+[node name="Label" type="Label" parent="."]
+margin_left = 2.0
+margin_top = 52.0
+margin_right = 102.0
+margin_bottom = 66.0
+text = "Lobby Filters"
+align = 1
+
+[node name="Region" type="OptionButton" parent="."]
+margin_left = 2.0
+margin_top = 70.0
+margin_right = 104.0
+margin_bottom = 93.0
+text = "Region"
+align = 1
+script = SubResource( 2 )
+
+[node name="JoinType" type="OptionButton" parent="."]
+margin_left = 2.0
+margin_top = 96.0
+margin_right = 104.0
+margin_bottom = 119.0
+text = "Join Type"
+align = 1
+script = SubResource( 3 )
+
+[node name="Fullness" type="OptionButton" parent="."]
+margin_left = 2.0
+margin_top = 121.0
+margin_right = 104.0
+margin_bottom = 144.0
+text = "Fullness"
+align = 1
+script = SubResource( 4 )
+
+[connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]
+[connection signal="pressed" from="Refresh" to="." method="_on_Refresh_pressed"]
+[connection signal="item_selected" from="Region" to="." method="_on_Region_item_selected"]
+[connection signal="item_selected" from="JoinType" to="." method="_on_JoinType_item_selected"]
+[connection signal="item_selected" from="Fullness" to="." method="_on_Fullness_item_selected"]

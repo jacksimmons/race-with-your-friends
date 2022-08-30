@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+
+func _on_QuickJoin_pressed():
+	pass # Replace with function body.
+
+
+func _on_CreateLobby_pressed():
+	var lobby_multi = preload(\"res://Scenes/LobbyMulti.tscn\").instance()
+	get_node(\"/root\").add_child(lobby_multi)
+
+	lobby_multi.create_Lobby()
+
+	self.queue_free()
+
+
+func _on_JoinLobby_pressed():
+	var search_multi = preload(\"res://Scenes/SearchMulti.tscn\").instance()
+	get_node(\"/root\").add_child(search_multi)
+	self.queue_free()
+"
+
+[node name="MenuMulti" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="QuickJoin" type="Button" parent="."]
+margin_left = 360.0
+margin_top = 122.0
+margin_right = 631.0
+margin_bottom = 162.0
+text = "Quick Join"
+
+[node name="CreateLobby" type="Button" parent="."]
+margin_left = 360.0
+margin_top = 198.0
+margin_right = 631.0
+margin_bottom = 238.0
+text = "Create Lobby"
+
+[node name="JoinLobby" type="Button" parent="."]
+margin_left = 360.0
+margin_top = 274.0
+margin_right = 631.0
+margin_bottom = 314.0
+text = "Join Lobby"
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+margin_right = 83.0
+margin_bottom = 58.0
+
+[connection signal="pressed" from="QuickJoin" to="." method="_on_QuickJoin_pressed"]
+[connection signal="pressed" from="CreateLobby" to="." method="_on_CreateLobby_pressed"]
+[connection signal="pressed" from="JoinLobby" to="." method="_on_JoinLobby_pressed"]
