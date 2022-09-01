@@ -9,12 +9,18 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "Penguin",
+"language": "GDScript",
+"path": "res://Scripts/Game/Objects/penguin.gd"
+}, {
 "base": "RigidBody2D",
 "class": "Player",
 "language": "GDScript",
 "path": "res://Scripts/Game/Players/player.gd"
 } ]
 _global_script_class_icons={
+"Penguin": "",
 "Player": ""
 }
 
@@ -186,15 +192,16 @@ send_message={
 
 2d_physics/layer_1="player"
 2d_physics/layer_2="control"
-2d_physics/layer_3="CONCRETE"
-2d_physics/layer_4="GRASS"
-2d_physics/layer_5="SAND"
-2d_physics/layer_6="ICE"
-2d_physics/layer_7="WATER"
-2d_physics/layer_8="LAVA"
-2d_physics/layer_9="MOVING"
-2d_physics/layer_10="WALL"
-2d_physics/layer_11="BOUNCY_WALL"
+2d_physics/layer_3="floor_concrete"
+2d_physics/layer_4="floor_grass"
+2d_physics/layer_5="floor_sand"
+2d_physics/layer_6="floor_ice"
+2d_physics/layer_7="floor_water"
+2d_physics/layer_8="floor_lava"
+2d_physics/layer_9="floor_moving"
+2d_physics/layer_10="wall_normal"
+2d_physics/layer_11="wall_bouncy"
+2d_physics/layer_12="wall_animal"
 2d_physics/layer_29="LEVEL3"
 2d_physics/layer_30="LEVEL2"
 2d_physics/layer_31="LEVEL1"

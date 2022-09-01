@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Scenes/Objects/ConveyorBelt.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Templates/DefaultMapScene.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Sprites/Maps/Scorpion/The Scorpian map.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Maps/Scorpion/The Scorpion map bridge.png" type="Texture" id=10]
 [ext_resource path="res://Scripts/Game/Activators/layer_handler.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/Objects/Penguin.tscn" type="PackedScene" id=12]
 
 [sub_resource type="Curve2D" id=14]
 _data = {
@@ -267,7 +268,15 @@ scale = Vector2( 1, 6.09375 )
 position = Vector2( -120, 2 )
 shape = SubResource( 11 )
 
+[node name="Penguin_1" parent="Objects" index="1" instance=ExtResource( 12 )]
+position = Vector2( -115, 104 )
+speed = 10.0
+
+[node name="Shape" parent="Objects/Penguin_1" index="1"]
+polygon = PoolVector2Array( -248.269, 225.292, -99.0649, 199.307, 198.8, -276.468, -30.4575, -33.1864 )
+
 [connection signal="body_shape_entered" from="Layers/0" to="Layers/0" method="_on_body_shape_entered" binds= [ 0 ]]
 [connection signal="body_shape_entered" from="Layers/1" to="Layers/1" method="_on_body_shape_entered" binds= [ 1 ]]
 
 [editable path="Objects/ConveyorBelt"]
+[editable path="Objects/Penguin_1"]

@@ -4,4 +4,4 @@
 
 [node name="ObjSprite" type="Sprite" parent="."]
 
-[node name="Collision" type="Node2D" parent="."]
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]

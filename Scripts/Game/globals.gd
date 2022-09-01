@@ -169,34 +169,28 @@ func _setup_scene(game_mode: int, map: Node2D):
 	return my_player
 
 
-func _v2_to_v3(v: Vector2, z: float) -> Vector3:
-	return Vector3(v.x, v.y, z)
-
-
-func _find_vector_angle(v1, v2):
-	# Works on v2 and v3.
-
-	# Handle Vector2->Vector3 casting, errors throw for any other type.
-	if typeof(v1) == TYPE_VECTOR2:
-		v1 = _v2_to_v3(v1, 0)
-	if typeof(v2) == TYPE_VECTOR2:
-		v2 = _v2_to_v3(v2, 0)
-
+func _find_vector_angle(v1, v2) -> float:
 	# Returns the angle between v1 and v2
-	if v1 != Vector3.ZERO and v2 != Vector3.ZERO:
+	if v1 != Vector2.ZERO and v2 != Vector2.ZERO:
 		# Cosine rule. Gives result in rads
 		var angle = acos(v1.dot(v2) / (v1.length() * v2.length()))
 		return angle
-	return 0 # If a /0 error would occur, return 0
+	return 0.0 # If a /0 error would occur, return 0
 
 
 func _find_vector_direction(v1, v2):
 	# Returns 1 if the second vector is over 90 degrees "away" from the
 	# first vector. Makes the most sense with normalized vectors.
 	var direction = 1
-	if abs(_find_vector_angle(v1, v2)) >= PI/4:
+	if abs(_find_vector_angle(v1, v2)) >= PI/2:
 		direction = -1
 	return direction
+
+
+func _vector_is_equal_approx(v1, v2):
+	if is_equal_approx(v1.x, v2.x) and is_equal_approx(v1.y, v2.y):
+		return true
+	return false
 
 
 func _multiply_str(string: String, times: int) -> String:

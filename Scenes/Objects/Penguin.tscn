@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Sprites/Objects/Penguin.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/Game/Objects/penguin.gd" type="Script" id=3]
+
+[node name="Penguin" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+collision_layer = 2048
+collision_mask = 3585
+
+[node name="ObjSprite" type="Sprite" parent="KinematicBody2D"]
+rotation = -1.5708
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="KinematicBody2D"]
+rotation = -1.5708
+polygon = PoolVector2Array( -10, -1, -9, -1, -9, -3, -8, -3, -8, -4, -7, -4, -7, -5, -5, -5, -5, -6, -3, -6, -3, -7, -1, -7, -1, -8, 1, -8, 1, -7, 3, -7, 3, -6, 5, -6, 5, -5, 7, -5, 7, -4, 8, -4, 8, -3, 9, -3, 9, -1, 10, -1, 10, 3, 9, 3, 9, 5, 8, 5, 8, 5, 8, 6, 7, 6, 7, 8, 6, 8, 6, 9, -6, 9, -6, 8, -7, 8, -7, 6, -8, 6, -8, 5, -9, 5, -9, 3, -10, 3 )
+
+[node name="Shape" type="Polygon2D" parent="."]
+color = Color( 0, 0.764706, 1, 0.462745 )

@@ -66,7 +66,7 @@ var SURFACE_FRICTION_VALUES = \
 [
 	0,
 	0,
-	1, # Concrete
+	0.1, # Concrete
 	2, # Grass
 	3, # Sand
 	0.5, # Ice
@@ -106,6 +106,8 @@ export var HANDLING: float
 export var WEIGHT: float
 export var HP: float
 
+var max_spd_mod = 100
+
 var time = 0
 
 
@@ -114,7 +116,7 @@ func _ready():
 	var my_data := Game.PLAYER_DATA[Game.STEAM_ID] as Dictionary
 
 	mass = WEIGHT
-	engine_strength = ACCELERATION * mass * 20
+	engine_strength = ACCELERATION * WEIGHT
 	wheel_turn = HANDLING
 
 
@@ -142,15 +144,17 @@ func _physics_process(delta):
 		#race_pos = {"checkpoints": cur_checkpoint, "distance_from_next": next_checkpoint_distance}
 
 		time += delta / Global.NETWORK_REFRESH_INTERVAL
-		if time >= delta:
-			print("Offset: " + str(_get_race_position()))
+		#if time >= delta:
+		#	print("Offset: " + str(_get_race_position()))
 
 		_handle_input()
 		_handle_objects()
 		_handle_friction()
 
-		var net_force = driving_force + braking_force + friction_force + external_force
-		set_applied_force(net_force.rotated(current_turn))
+		add_central_force(driving_force + braking_force + friction_force + external_force)
+
+		if linear_velocity.length() > MAX_SPEED * max_spd_mod:
+			linear_velocity = linear_velocity.normalized() * MAX_SPEED * max_spd_mod
 
 		if get_linear_velocity().length_squared() > 0:
 			rotate(deg2rad(current_turn))
@@ -288,13 +292,14 @@ func _get_race_position():
 				path_used = path
 
 	if path_used:
-		print(path_used.name)
+		#print(path_used.name)
 		var path_curve = path_used.get_curve()
 		var points = path_curve.get_baked_points() as Array
 		var path_offset = path_curve.get_closest_offset(position)
 
 		return path_offset
 	return -1
+
 
 func _handle_hook():
 	var targets = get_node("/root/Scene/Map/ScorpionMap/GrapplePoints")

@@ -315,8 +315,8 @@ func read_P2P_Packet():
 		if READABLE.has("vehicle"):
 			Game.PLAYER_DATA[PACKET_SENDER]["vehicle"] = READABLE["vehicle"]
 
-		if READABLE.has("map"):
-			Game.PLAYER_DATA[PACKET_SENDER]["map"] = READABLE["map"]
+		if READABLE.has("map_vote"):
+			Game.PLAYER_DATA[PACKET_SENDER]["map_vote"] = READABLE["map_vote"]
 
 		# a "ready" packet. Can assume a steam_id will be provided
 		# Note: It is up to the final readier to send an "all_ready" packet.
@@ -339,7 +339,7 @@ func read_P2P_Packet():
 				Game.PLAYER_DATA[PACKET_SENDER]["pre_config_complete"] = true
 
 				if READABLE["pre_config_complete"].has("map"):
-					# Get the randomly selected map from the final readier
+					# Get the randomly selected map from the person who just readied up
 					selected_map = READABLE["pre_config_complete"]["map"]
 
 				# Our turn to handle preconfig
@@ -669,10 +669,11 @@ func _on_All_Ready():
 	# Initially, only run by the last player to ready up. Then the others are notified in order and they each call this.
 	get_tree().set_pause(true)
 
-	var map_votes = []
-	for player_id in Game.PLAYER_DATA:
-		map_votes.append(Game.PLAYER_DATA[player_id]["map"])
-	selected_map = Global.get_random_arrayitem(map_votes)
+	if final_readier:
+		var map_votes = []
+		for player_id in Game.PLAYER_DATA:
+			map_votes.append(Game.PLAYER_DATA[player_id]["map_vote"])
+		selected_map = Global.get_random_arrayitem(map_votes)
 	start_Pre_Config()
 
 	var ids = Game.PLAYER_DATA.keys()
@@ -739,8 +740,8 @@ func _on_VehicleRightButton_pressed():
 
 func _on_Map_Selected(map_name: String):
 	if Game.LOBBY_ID != 0:
-		send_P2P_Packet("all", {"map": map_name})
-		Game.PLAYER_DATA[Game.STEAM_ID]["map"] = map_name
+		send_P2P_Packet("all", {"map_vote": map_name})
+		Game.PLAYER_DATA[Game.STEAM_ID]["map_vote"] = map_name
 		_on_Start_pressed()
 
 
@@ -753,10 +754,10 @@ func _on_Start_pressed():
 			var vehicle = Global.get_random_scene(Global.SceneType.VEHICLE)
 			Game.PLAYER_DATA[Game.STEAM_ID]["vehicle"] = vehicle
 			send_P2P_Packet("all", {"vehicle": vehicle})
-		if !Game.PLAYER_DATA[Game.STEAM_ID].has("map"):
+		if !Game.PLAYER_DATA[Game.STEAM_ID].has("map_vote"):
 			var map = Global.get_random_scene(Global.SceneType.MAP)
-			Game.PLAYER_DATA[Game.STEAM_ID]["map"] = map
-			send_P2P_Packet("all", {"map": map})
+			Game.PLAYER_DATA[Game.STEAM_ID]["map_vote"] = map
+			send_P2P_Packet("all", {"map_vote": map})
 
 		# Toggle readiness if present, or activate it if not
 		if Game.PLAYER_DATA[Game.STEAM_ID].has("ready"):
