@@ -4,11 +4,21 @@ var g = 9.81
 var COEFFICIENT_OF_RESTITUTION = 0.1
 var e = COEFFICIENT_OF_RESTITUTION
 
-var SELECTED_VEHICLE
-var SELECTED_MAP
+# Controls multi-layer levels (going under some stage elements)
+var STAGE_HEIGHT = 0
 
-# Settings
-var NETWORK_REFRESH_INTERVAL = 0.1
+var SURFACE_FRICTION_VALUES = \
+[
+	0,
+	0,
+	0.1, # Concrete
+	2, # Grass
+	3, # Sand
+	0.5, # Ice
+	5, # Water
+	10, # Lava
+	0, # Conveyor
+]
 
 const VEHICLES: Array =\
 [
@@ -66,9 +76,6 @@ const PLAYER_COLOUR_LIST: Array =\
 	Color.black,
 	# 24
 ]
-
-# Controls multi-layer levels (going under some stage elements)
-var STAGE_HEIGHT = 0
 
 enum TimeFormat {
 	HOURS = 8,

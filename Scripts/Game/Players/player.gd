@@ -63,19 +63,6 @@ var cur_path: Path2D = null
 export (Color, RGB) var DEBUG_DEFAULT
 export (Color, RGB) var DEBUG_WARN
 
-var SURFACE_FRICTION_VALUES = \
-[
-	0,
-	0,
-	0.1, # Concrete
-	2, # Grass
-	3, # Sand
-	0.5, # Ice
-	5, # Water
-	10, # Lava
-	0, # Conveyor
-]
-
 # Sprite
 var sprite_length
 
@@ -107,7 +94,7 @@ export var HANDLING: float
 export var WEIGHT: float
 export var HP: float
 
-var max_spd_mod = 1000
+var max_spd_mod = 500
 var acc_mod = 100
 var turn_mod = 50
 var max_turn_mod = 0.01
@@ -151,12 +138,7 @@ func _physics_process(delta):
 		#var next_checkpoint_distance := position.distance_squared_to(checkpoints.get_node(str(next_checkpoint)).position)
 		#race_pos = {"checkpoints": cur_checkpoint, "distance_from_next": next_checkpoint_distance}
 
-		time += delta / Global.NETWORK_REFRESH_INTERVAL
-		#if time >= delta:
-		#	print("Offset: " + str(_get_race_position()))
-
 		_handle_input()
-		_handle_objects()
 		_handle_friction()
 
 		set_applied_force(driving_force + friction_force + external_force)
@@ -170,6 +152,8 @@ func _physics_process(delta):
 			moving_direction = Global._find_vector_direction(transform.x, get_linear_velocity().normalized())
 		else:
 			moving_direction = 0
+
+		_handle_objects()
 
 
 func _handle_debug():
@@ -372,9 +356,8 @@ func _handle_objects():
 
 
 func _handle_friction():
-	friction_force = -SURFACE_FRICTION_VALUES[on_material[-1] - 1] * get_linear_velocity()
+	friction_force = -Global.SURFACE_FRICTION_VALUES[on_material[-1] - 1] * get_linear_velocity()
 	if friction_force.length() > driving_force.length():
-		print("=")
 		friction_force = -driving_force
 
 	#var fraction_of_max_spd = velocity.length() / (200 + MAX_SPEED * 40)
@@ -394,9 +377,6 @@ func _handle_torque():
 		var rot = deg2rad($Wheels.wheel_rotation)
 		var turned_vector = transform.x * get_linear_velocity().length() + transform.x.rotated(rot) * turn_mod
 		var turn_magnitude = Global._find_vector_angle(transform.x, turned_vector)
-
-		print(turn_magnitude)
-		print(max_turn)
 
 		if turn_magnitude > max_turn:
 			turn_magnitude = max_turn

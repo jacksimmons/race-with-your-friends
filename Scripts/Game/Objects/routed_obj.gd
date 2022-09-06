@@ -15,15 +15,20 @@ var on_object_vectors = []
 
 var angle = 0
 var moving: bool = false
+var velocity := Vector2.ZERO
+
+var on_material: Array = [Global.Surface.CONCRETE]
 
 
 func _ready():
 	point_index = start_index
 
 
-func _process(delta):
+func _physics_process(delta):
 	for vec in on_object_vectors:
 		body.position += vec
+
+	_handle_velocity()
 
 	var points = shape.polygon
 	var point = points[point_index]
@@ -33,16 +38,24 @@ func _process(delta):
 		moving = true
 		body.look_at(to_global(point))
 		if displacement.length() > speed:
-			var col: KinematicCollision2D = body.move_and_collide(displacement.normalized() * speed)
-			if col:
-				self.queue_free()
+			velocity = displacement.normalized() * speed
 		else:
+			velocity = Vector2.ZERO
 			body.position = point
 
 			if point_index + 1 < len(points):
 				point_index += 1
 			else:
 				point_index = 0
+
+
+func _handle_velocity():
+	var col: KinematicCollision2D = body.move_and_collide(velocity, false)
+	if col:
+		print("HI")
+		velocity += col.collider_velocity
+
+	velocity -= Global.SURFACE_FRICTION_VALUES[on_material[-1] - 1] * velocity
 
 
 

@@ -67,7 +67,7 @@ func _process(delta):
 		read_All_P2P_Packets()
 
 	if Game.GAME_STARTED:
-		time += delta / Global.NETWORK_REFRESH_INTERVAL
+		time += delta / Game.NETWORK_REFRESH_INTERVAL
 		if time >= delta:
 			time = 0
 			if my_player.position != position_last_update:

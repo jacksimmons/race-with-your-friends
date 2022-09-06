@@ -2,6 +2,7 @@ extends Node
 
 # Network Variables
 var PACKET_READ_LIMIT = 250
+var NETWORK_REFRESH_INTERVAL = 0.1
 
 # Steam Variables
 var OWNED := false

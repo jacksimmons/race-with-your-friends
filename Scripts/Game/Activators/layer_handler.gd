@@ -17,8 +17,10 @@ func _process(delta):
 	pass
 
 
-func _on_layer_entered(level):
-	# Name of body must be the level of the player.
+func _on_layer_entered(layer):
+	# Name of body must be the layer of the player.
+	print(layer)
 	var player = get_node("/root/Scene/Players/" + str(Game.STEAM_ID))
+	Global.STAGE_HEIGHT = int(layer)
 	if player != null:
-		player.z_index = int(level)
+		player.z_index = int(layer)
