@@ -1,11 +1,41 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/Editor/editor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Editor/editor_camera.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/Editor/TemplateButtons/panel_hide_button.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/Editor/shape_drawing.gd" type="Script" id=4]
 [ext_resource path="res://Sprites/Editor/WHITE_PIXEL.png" type="Texture" id=5]
-[ext_resource path="res://Kenney Future Narrow.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://Scripts/Editor/TemplateButtons/panel_show_button.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/Editor/dialog_unsaved_progress.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/Editor/TemplateButtons/stop_testing_button.gd" type="Script" id=8]
+
+[sub_resource type="GDScript" id=7]
+script/source = "extends Button
+
+onready var editor = $\"/root/Editor\"
+onready var unsaved_progress_dialog = $UnsavedProgressDialog
+
+
+func _handle_back():
+	var title_menu = preload(\"res://Scenes/MenuTitle.tscn\").instance()
+	get_node(\"/root\").add_child(title_menu)
+	editor.queue_free()
+
+
+func _on_Back_pressed():
+	if editor.progress:
+		unsaved_progress_dialog.popup()
+	else:
+		_handle_back()
+
+
+func _on_UnsavedProgressDialog_confirmed():
+	_handle_back()
+
+
+func _on_UnsavedProgressDialog_cancelled():
+	pass
+"
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends MenuButton
@@ -272,6 +302,8 @@ func _handle_test():
 			var def_map = preload(\"res://Scenes/Templates/TMap.tscn\").instance()
 			Global._setup_scene(Global.GameMode.EDITOR, def_map)
 
+		$\"../../../Tabs\".set_tab_hidden(editor.TabNames.TEST, false) # Test
+
 
 func _on_item_pressed(id):
 	selected_id = id
@@ -290,10 +322,6 @@ func _on_UnsavedProgressDialog_cancelled():
 	selected_id = -1
 "
 
-[sub_resource type="DynamicFont" id=7]
-size = 9
-font_data = ExtResource( 6 )
-
 [node name="Editor" type="Control"]
 script = ExtResource( 1 )
 
@@ -311,31 +339,33 @@ __meta__ = {
 }
 
 [node name="UI" type="Control" parent="Canvas"]
-margin_right = 221.0
-margin_bottom = 24.0
+margin_right = 234.0
+margin_bottom = 25.0
+
+[node name="ShowPanel" type="Button" parent="Canvas/UI"]
+margin_left = 3.0
+margin_top = 513.0
+margin_right = 32.0
+margin_bottom = 537.0
+text = ">>"
+script = ExtResource( 6 )
 
 [node name="Panel" type="Panel" parent="Canvas/UI"]
-margin_right = 223.0
-margin_bottom = 540.0
+margin_right = 235.0
+margin_bottom = 509.0
 
-[node name="File" type="MenuButton" parent="Canvas/UI/Panel"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 41.0
-margin_bottom = 21.0
-text = "File"
-flat = false
-script = SubResource( 2 )
-
-[node name="New" type="MenuButton" parent="Canvas/UI/Panel/File"]
-visible = false
-margin_right = 227.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Canvas/UI/Panel"]
+margin_right = 400.0
 margin_bottom = 20.0
-focus_mode = 2
-text = "New"
-script = SubResource( 3 )
+rect_min_size = Vector2( 40, 0 )
 
-[node name="UnsavedProgressDialog" type="ConfirmationDialog" parent="Canvas/UI/Panel/File/New"]
+[node name="Back" type="Button" parent="Canvas/UI/Panel/HBoxContainer"]
+margin_right = 42.0
+margin_bottom = 20.0
+text = "Back"
+script = SubResource( 7 )
+
+[node name="UnsavedProgressDialog" type="ConfirmationDialog" parent="Canvas/UI/Panel/HBoxContainer/Back"]
 margin_left = 847.0
 margin_top = 509.0
 margin_right = 1072.0
@@ -345,7 +375,33 @@ dialog_text = "You have unsaved changes.
 Do you want to proceed anyway?"
 script = ExtResource( 7 )
 
-[node name="Open" type="MenuButton" parent="Canvas/UI/Panel/File"]
+[node name="File" type="MenuButton" parent="Canvas/UI/Panel/HBoxContainer"]
+margin_left = 46.0
+margin_right = 81.0
+margin_bottom = 20.0
+text = "File"
+flat = false
+script = SubResource( 2 )
+
+[node name="New" type="MenuButton" parent="Canvas/UI/Panel/HBoxContainer/File"]
+visible = false
+margin_right = 227.0
+margin_bottom = 20.0
+focus_mode = 2
+text = "New"
+script = SubResource( 3 )
+
+[node name="UnsavedProgressDialog" type="ConfirmationDialog" parent="Canvas/UI/Panel/HBoxContainer/File/New"]
+margin_left = 847.0
+margin_top = 509.0
+margin_right = 1072.0
+margin_bottom = 584.0
+window_title = "Unsaved changes"
+dialog_text = "You have unsaved changes.
+Do you want to proceed anyway?"
+script = ExtResource( 7 )
+
+[node name="Open" type="MenuButton" parent="Canvas/UI/Panel/HBoxContainer/File"]
 visible = false
 margin_top = 24.0
 margin_right = 227.0
@@ -354,7 +410,7 @@ focus_mode = 2
 text = "Open"
 script = SubResource( 4 )
 
-[node name="FileDialog" type="FileDialog" parent="Canvas/UI/Panel/File/Open"]
+[node name="FileDialog" type="FileDialog" parent="Canvas/UI/Panel/HBoxContainer/File/Open"]
 margin_right = 1920.0
 margin_bottom = 1080.0
 window_title = "Open a File"
@@ -363,7 +419,7 @@ mode = 0
 current_dir = "res://Mods"
 current_path = "res://Mods/"
 
-[node name="UnsavedProgressDialog" type="ConfirmationDialog" parent="Canvas/UI/Panel/File/Open"]
+[node name="UnsavedProgressDialog" type="ConfirmationDialog" parent="Canvas/UI/Panel/HBoxContainer/File/Open"]
 margin_left = 847.0
 margin_top = 509.0
 margin_right = 1072.0
@@ -373,7 +429,7 @@ dialog_text = "You have unsaved changes.
 Do you want to proceed anyway?"
 script = ExtResource( 7 )
 
-[node name="Save" type="MenuButton" parent="Canvas/UI/Panel/File"]
+[node name="Save" type="MenuButton" parent="Canvas/UI/Panel/HBoxContainer/File"]
 visible = false
 margin_top = 48.0
 margin_right = 227.0
@@ -382,14 +438,14 @@ focus_mode = 2
 text = "Save"
 script = SubResource( 5 )
 
-[node name="FileDialog" type="FileDialog" parent="Canvas/UI/Panel/File/Save"]
+[node name="FileDialog" type="FileDialog" parent="Canvas/UI/Panel/HBoxContainer/File/Save"]
 margin_right = 1920.0
 margin_bottom = 1080.0
 resizable = true
 current_dir = "res://Mods"
 current_path = "res://Mods/"
 
-[node name="NoSceneDialog" type="AcceptDialog" parent="Canvas/UI/Panel/File/Save"]
+[node name="NoSceneDialog" type="AcceptDialog" parent="Canvas/UI/Panel/HBoxContainer/File/Save"]
 margin_left = 847.0
 margin_top = 509.0
 margin_right = 1072.0
@@ -399,30 +455,16 @@ dialog_text = "No scene to save.
 To get started, go to \"New\" or \"Open\"."
 script = SubResource( 1 )
 
-[node name="Buttons" type="VBoxContainer" parent="Canvas/UI/Panel"]
-margin_top = 28.0
-margin_right = 223.0
-margin_bottom = 415.0
-
-[node name="TabsToggleButton" type="CheckButton" parent="Canvas/UI/Panel"]
-margin_left = 1.0
-margin_top = 499.0
-margin_right = 221.0
-margin_bottom = 539.0
-pressed = true
-text = "Toggle Tabs"
-
-[node name="Test" type="MenuButton" parent="Canvas/UI/Panel"]
-margin_left = 44.0
-margin_top = 2.0
-margin_right = 83.0
-margin_bottom = 21.0
+[node name="Test" type="MenuButton" parent="Canvas/UI/Panel/HBoxContainer"]
+margin_left = 85.0
+margin_right = 124.0
+margin_bottom = 20.0
 focus_mode = 2
 text = "Test"
 flat = false
 script = SubResource( 6 )
 
-[node name="UnsavedProgressDialog" type="ConfirmationDialog" parent="Canvas/UI/Panel/Test"]
+[node name="UnsavedProgressDialog" type="ConfirmationDialog" parent="Canvas/UI/Panel/HBoxContainer/Test"]
 margin_left = 847.0
 margin_top = 509.0
 margin_right = 1072.0
@@ -432,11 +474,31 @@ dialog_text = "You have unsaved changes.
 Do you want to proceed anyway?"
 script = ExtResource( 7 )
 
+[node name="Buttons" type="VBoxContainer" parent="Canvas/UI/Panel"]
+margin_top = 28.0
+margin_right = 235.0
+margin_bottom = 493.0
+
+[node name="HidePanel" type="Button" parent="Canvas/UI/Panel"]
+margin_left = 3.0
+margin_top = 513.0
+margin_right = 32.0
+margin_bottom = 537.0
+text = "<<"
+script = ExtResource( 3 )
+
+[node name="TabsToggleButton" type="CheckButton" parent="Canvas/UI"]
+margin_left = 32.0
+margin_top = 505.0
+margin_right = 141.0
+margin_bottom = 545.0
+pressed = true
+text = "Tabs"
+
 [node name="Tabs" type="TabContainer" parent="Canvas/UI"]
-margin_left = 224.0
-margin_top = 1.0
-margin_right = 459.0
-margin_bottom = 173.0
+margin_left = 236.0
+margin_right = 471.0
+margin_bottom = 172.0
 tab_align = 0
 
 [node name="Camera" type="VBoxContainer" parent="Canvas/UI/Tabs"]
@@ -542,12 +604,52 @@ max_value = 360.0
 step = 10.0
 ticks_on_borders = true
 
+[node name="Map" type="VBoxContainer" parent="Canvas/UI/Tabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Test" type="VBoxContainer" parent="Canvas/UI/Tabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="StopTestingButton" type="Button" parent="Canvas/UI/Tabs/Test"]
+margin_right = 227.0
+margin_bottom = 20.0
+text = "Stop Testing"
+script = ExtResource( 8 )
+
+[node name="Obj" type="VBoxContainer" parent="Canvas/UI/Tabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="StopTestingButton" type="Button" parent="Canvas/UI/Tabs/Obj"]
+margin_right = 227.0
+margin_bottom = 20.0
+text = "Stop Testing"
+script = ExtResource( 8 )
+
 [node name="Path" type="Label" parent="Canvas/UI"]
-margin_left = 467.0
-margin_top = 6.0
-margin_right = 951.0
-margin_bottom = 36.0
-custom_fonts/font = SubResource( 7 )
+margin_left = 227.0
+margin_top = 505.0
+margin_right = 736.0
+margin_bottom = 535.0
+align = 1
+valign = 2
 autowrap = true
 
 [node name="CamOffset" type="Node2D" parent="."]
@@ -561,10 +663,15 @@ script = ExtResource( 2 )
 [node name="Display" type="Node2D" parent="CamOffset"]
 position = Vector2( -960, -540 )
 
-[connection signal="file_selected" from="Canvas/UI/Panel/File/Open/FileDialog" to="Canvas/UI/Panel/File/Open" method="_on_FileDialog_file_selected"]
-[connection signal="file_selected" from="Canvas/UI/Panel/File/Save/FileDialog" to="Canvas/UI/Panel/File/Save" method="_on_FileDialog_file_selected"]
-[connection signal="toggled" from="Canvas/UI/Panel/TabsToggleButton" to="." method="_on_TabsToggleButton_toggled"]
+[connection signal="pressed" from="Canvas/UI/ShowPanel" to="Canvas/UI/ShowPanel" method="_on_ShowPanel_pressed"]
+[connection signal="pressed" from="Canvas/UI/Panel/HBoxContainer/Back" to="Canvas/UI/Panel/HBoxContainer/Back" method="_on_Back_pressed"]
+[connection signal="file_selected" from="Canvas/UI/Panel/HBoxContainer/File/Open/FileDialog" to="Canvas/UI/Panel/HBoxContainer/File/Open" method="_on_FileDialog_file_selected"]
+[connection signal="file_selected" from="Canvas/UI/Panel/HBoxContainer/File/Save/FileDialog" to="Canvas/UI/Panel/HBoxContainer/File/Save" method="_on_FileDialog_file_selected"]
+[connection signal="pressed" from="Canvas/UI/Panel/HidePanel" to="Canvas/UI/Panel/HidePanel" method="_on_HidePanel_pressed"]
+[connection signal="toggled" from="Canvas/UI/TabsToggleButton" to="." method="_on_TabsToggleButton_toggled"]
 [connection signal="pressed" from="Canvas/UI/Tabs/Camera/CamPos/CameraPosReset" to="." method="_on_CameraPosReset_pressed"]
 [connection signal="pressed" from="Canvas/UI/Tabs/Camera/CamZoom/CameraZoomReset" to="." method="_on_CameraZoomReset_pressed"]
 [connection signal="pressed" from="Canvas/UI/Tabs/Camera/CamPan/CameraPanApply" to="." method="_on_CameraPanApply_pressed"]
 [connection signal="toggled" from="Canvas/UI/Tabs/Camera/PixPerf/PixelPerfectButton" to="." method="_on_PixelPerfectButton_toggled"]
+[connection signal="pressed" from="Canvas/UI/Tabs/Test/StopTestingButton" to="Canvas/UI/Tabs/Test/StopTestingButton" method="_on_StopTestingButton_pressed"]
+[connection signal="pressed" from="Canvas/UI/Tabs/Obj/StopTestingButton" to="Canvas/UI/Tabs/Obj/StopTestingButton" method="_on_StopTestingButton_pressed"]

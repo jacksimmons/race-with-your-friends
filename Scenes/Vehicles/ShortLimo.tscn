@@ -10,11 +10,11 @@ HANDLING = 2.5
 WEIGHT = 3.5
 HP = 3.0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="1"]
+[node name="VehicleSprite" parent="." index="1"]
+texture = ExtResource( 1 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="3"]
 position = Vector2( 2.033, 0 )
 rotation = 1.5708
 scale = Vector2( 1, 2.32546 )
 polygon = PoolVector2Array( 16.0096, -21.4631, 12.0015, -23.2068, 6.96467, -23.6321, -7.03771, -23.6502, -11.9655, -23.2192, -16.0697, -21.4776, -16.0402, -19.7526, -16.9546, -19.7652, -16.9545, -16.3025, -15.9812, -16.3025, -16.0405, 20.2461, -16.9876, 20.231, -16.9148, 23.674, -16.0594, 23.6867, -16.0299, 25.8429, -15.0357, 26.2816, -6.99231, 27.973, -4.11968, 28.4101, 3.88672, 28.4005, 6.86646, 27.9734, 14.9448, 26.2365, 16.0043, 25.8093, 16.002, 23.6546, 16.9614, 23.6546, 16.9197, 20.2464, 16.002, 20.2464, 15.9917, -16.3248, 16.9984, -16.3349, 16.9749, -19.7578, 16.0096, -19.7568 )
-
-[node name="VehicleSprite" parent="." index="2"]
-texture = ExtResource( 1 )

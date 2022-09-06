@@ -1,6 +1,5 @@
 extends Node2D
 
-
 var target_player: Vector2
 var speed: float = 3
 

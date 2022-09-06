@@ -382,10 +382,16 @@ func _handle_torque():
 			turn_magnitude = max_turn
 
 		var wheel_direction = 0
-		if $Wheels.wheel_rotation < 0:
-			wheel_direction = -1
-		elif $Wheels.wheel_rotation > 0:
-			wheel_direction = 1
+		if moving_direction == 1:
+			if $Wheels.wheel_rotation < 0:
+				wheel_direction = -1
+			elif $Wheels.wheel_rotation > 0:
+				wheel_direction = 1
+		elif moving_direction == -1:
+			if $Wheels.wheel_rotation < 0:
+				wheel_direction = 1
+			elif $Wheels.wheel_rotation > 0:
+				wheel_direction = -1
 
 		var final_turn = turn_magnitude * wheel_direction
 		rotate(final_turn)

@@ -1,5 +1,12 @@
 extends Node
 
+enum TabNames {
+	CAMERA = 0,
+	MAP = 1,
+	TEST = 2,
+	OBJ = 3
+}
+
 
 var ground_names = ["Concrete", "Tyre", "Grass", "Ice", "Sand", "Lava"]
 var ground_names_already_present = []
@@ -55,6 +62,9 @@ func _ready():
 	_on_CameraPanApply_pressed()
 	cam_pp.set_pressed(true)
 
+	tabs.set_tab_hidden(TabNames.MAP, true) # Map
+	tabs.set_tab_hidden(TabNames.TEST, true) # Testing
+
 
 func clear_current_file():
 	# For when a New file is selected, or an internal game scene is opened.
@@ -75,6 +85,8 @@ func replace_project_root(new_root:Node):
 			ground_names_already_present.append(ggchild.name)
 		for ggchild in current_node.get_node("Walls").get_children():
 			wall_names_already_present.append(ggchild.name)
+		tabs.set_tab_hidden(TabNames.MAP, false)
+		tabs.set_tab_hidden(TabNames.OBJ, false)
 
 
 func add_button_font_colour_override(button:Button, colour:Color):

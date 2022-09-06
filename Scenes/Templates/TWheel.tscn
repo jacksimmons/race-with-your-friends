@@ -5,7 +5,7 @@
 [node name="Sprite" type="Sprite" parent="."]
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
-collision_layer = 0
-collision_mask = 0
+collision_layer = 256
+collision_mask = 1794
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="KinematicBody2D"]
