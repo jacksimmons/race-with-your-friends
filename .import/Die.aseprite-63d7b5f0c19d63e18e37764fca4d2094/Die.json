@@ -1,0 +1,67 @@
+{ "frames": [
+   {
+    "filename": "Die 0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   },
+   {
+    "filename": "Die 1.aseprite",
+    "frame": { "x": 33, "y": 0, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   },
+   {
+    "filename": "Die 2.aseprite",
+    "frame": { "x": 66, "y": 0, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   },
+   {
+    "filename": "Die 3.aseprite",
+    "frame": { "x": 0, "y": 33, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   },
+   {
+    "filename": "Die 4.aseprite",
+    "frame": { "x": 33, "y": 33, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   },
+   {
+    "filename": "Die 5.aseprite",
+    "frame": { "x": 66, "y": 33, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "Die.png",
+  "format": "RGBA8888",
+  "size": { "w": 99, "h": 66 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

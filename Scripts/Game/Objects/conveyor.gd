@@ -3,7 +3,7 @@ extends Node
 export (Vector2) var velocity
 
 var accepted_classes = [Player]
-var accepted_parent_classes = [Penguin]
+var accepted_parent_classes = [Routed]
 
 
 func _on_ConveyorBelt_body_entered(body):

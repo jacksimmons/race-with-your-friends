@@ -1,20 +1,20 @@
 { "frames": [
    {
     "filename": "MiniCar.aseprite",
-    "frame": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "frame": { "x": 0, "y": 0, "w": 4, "h": 8 },
     "rotated": false,
     "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
-    "sourceSize": { "w": 32, "h": 32 },
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 4, "h": 8 },
+    "sourceSize": { "w": 4, "h": 8 },
     "duration": 100
    }
  ],
  "meta": {
   "app": "https://www.aseprite.org/",
-  "version": "1.2.39-x64",
+  "version": "1.2.40-x64",
   "image": "MiniCar.png",
   "format": "RGBA8888",
-  "size": { "w": 32, "h": 32 },
+  "size": { "w": 4, "h": 8 },
   "scale": "1",
   "frameTags": [
   ]

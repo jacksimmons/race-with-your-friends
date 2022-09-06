@@ -173,7 +173,15 @@ func _find_vector_angle(v1, v2) -> float:
 	# Returns the angle between v1 and v2
 	if v1 != Vector2.ZERO and v2 != Vector2.ZERO:
 		# Cosine rule. Gives result in rads
-		var angle = acos(v1.dot(v2) / (v1.length() * v2.length()))
+		var input = v1.dot(v2) / (v1.length() * v2.length())
+
+		# Bind the input to avoid NAN output
+		if input > 1:
+			input = 1
+		elif input < -1:
+			input = -1
+
+		var angle = acos(input)
 		return angle
 	return 0.0 # If a /0 error would occur, return 0
 

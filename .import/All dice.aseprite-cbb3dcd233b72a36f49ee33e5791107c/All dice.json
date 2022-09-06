@@ -11,7 +11,7 @@
  ],
  "meta": {
   "app": "https://www.aseprite.org/",
-  "version": "1.2.39-x64",
+  "version": "1.2.40-x64",
   "image": "All dice.png",
   "format": "RGBA8888",
   "size": { "w": 215, "h": 35 },

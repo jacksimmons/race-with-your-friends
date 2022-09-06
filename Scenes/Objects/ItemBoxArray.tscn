@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Game/Powerups/item_box_array.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Objects/ItemBox.tscn" type="PackedScene" id=2]
+
+[node name="ItemBoxArray" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="ItemBox" parent="." instance=ExtResource( 2 )]
+position = Vector2( -18, 0 )
+
+[node name="ItemBox2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 19, 0 )
+
+[node name="ItemBox3" parent="." instance=ExtResource( 2 )]
+position = Vector2( -55, 0 )
+
+[node name="ItemBox4" parent="." instance=ExtResource( 2 )]
+position = Vector2( 56, 0 )

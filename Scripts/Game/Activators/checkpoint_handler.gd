@@ -50,6 +50,7 @@ func _on_cp_entered(body, cp_name):
 					# Don't count this lap, but count the next assuming player behaves.
 					count_lap = true
 		elif not int(cp_name) in range(int(last_checkpoint) - 1, int(last_checkpoint) + 1):
+			print("HI")
 			# The player cheated, or the checkpoints are badly designed.
 			count_lap = false
 		print(range(int(last_checkpoint) - 1, int(last_checkpoint) + 1))

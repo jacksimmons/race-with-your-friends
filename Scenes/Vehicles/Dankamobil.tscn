@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Scenes/Templates/DefaultVehicleScene.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Templates/TVehicle.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Cars/DankaMobil/DankaMobil.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Cars/DankaMobil/DonkeyHeadWheel.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Templates/TWheel.tscn" type="PackedScene" id=4]
 
 [node name="Vehicle" instance=ExtResource( 1 )]
 MAX_SPEED = 2.0
@@ -10,14 +12,30 @@ HANDLING = 4.0
 WEIGHT = 4.0
 HP = 3.0
 
-[node name="VehicleSprite" parent="." index="0"]
+[node name="Wheel" parent="Wheels" index="0" instance=ExtResource( 4 )]
+position = Vector2( -5, -1.26759e-05 )
+
+[node name="Sprite" parent="Wheels/Wheel" index="0"]
+position = Vector2( 17, 4.3869e-05 )
+rotation = 1.5708
+texture = ExtResource( 3 )
+
+[node name="KinematicBody2D" parent="Wheels/Wheel" index="1"]
+position = Vector2( 32, 3.71933e-05 )
+
+[node name="CollisionPolygon2D" parent="Wheels/Wheel/KinematicBody2D" index="0"]
+visible = false
+polygon = PoolVector2Array( -1.33514e-05, 5, -9.53674e-06, 4, 1.99999, 4.00001, 1.99999, 3.00001, 3.99999, 3.00001, 4, 1.00001, 5, 1.00001, 5, -0.999987, 4, -0.99999, 4.00001, -2.99999, 2.00001, -2.99999, 2.00001, -3.99999, 9.53674e-06, -4, 1.33514e-05, -5, -2.99999, -5.00001, -2.99998, -6.00001, -28, -6.00007, -28, -5.00007, -32, -5.00008, -32, 4.99992, -28, 4.99993, -28, 5.99993, -3.00002, 5.99999, -3.00001, 4.99999 )
+
+[node name="VehicleSprite" parent="." index="1"]
+position = Vector2( -19, -4.81685e-05 )
 texture = ExtResource( 2 )
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="1"]
-position = Vector2( 14, -1.2517e-06 )
-polygon = PoolVector2Array( -43.9999, 15.0002, -36.9999, 14.9376, -36.9374, 15.9376, -32.1249, 15.9376, -32.0624, 15.1876, -26.0624, 15.0626, -24.25, 12.0001, -24.125, 10.0626, -20.0502, 9.99695, -18.1582, 7.99981, -17.1597, 5.89757, 11.9132, 5.84022, 11.9875, 5.02265, 18.8466, 2.95901, 18.8908, 1.10285, 19.9957, 1.10285, 19.9957, 0.0421906, -47.9359, -0.036665, -47.8475, 7.96248, -45.9914, 12.9564, -44.0026, 12.9564 )
+[node name="HookSprite" parent="." index="2"]
+visible = false
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="." index="2"]
-position = Vector2( 14, -1.13249e-06 )
-scale = Vector2( 1, -1 )
-polygon = PoolVector2Array( -43.9999, 15.0002, -36.9999, 14.9376, -36.9374, 15.9376, -32.1249, 15.9376, -32.0624, 15.1876, -26.0624, 15.0626, -24.25, 12.0001, -24.125, 10.0626, -20.0502, 9.99695, -18.1582, 7.99981, -17.1597, 5.89757, 11.9132, 5.84022, 11.9875, 5.02265, 18.8466, 2.95901, 18.8908, 1.10285, 19.9957, 1.10285, 19.9957, 0.0421906, -47.9359, -0.036665, -47.8475, 7.96248, -45.9914, 12.9564, -44.0026, 12.9564 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="3"]
+visible = false
+polygon = PoolVector2Array( -3.00001, 4.99999, -3.00002, 5.99999, -4.00002, 5.99999, -4.00002, 7.99999, -6.00003, 9.99998, -10, 9.99997, -10, 12, -11, 13, -12, 13, -12, 15, -18, 15, -18, 16, -23, 15.9999, -23, 14.9999, -30, 14.9999, -30, 12.9999, -32, 12.9999, -33, 11.9999, -33, 7.99992, -34, 7.99991, -34, -8.00009, -33, -8.00008, -33, -12.0001, -32, -13.0001, -30, -13.0001, -30, -15.0001, -23, -15.0001, -23, -16.0001, -18, -16, -18, -15, -12, -15, -12, -13, -11, -13, -11, -12, -9.99997, -12, -9.99997, -10, -5.99997, -10, -3.99998, -8.00001, -3.99998, -6.00001, -2.99998, -6.00001, -2.99999, -5.00001 )
+
+[editable path="Wheels/Wheel"]

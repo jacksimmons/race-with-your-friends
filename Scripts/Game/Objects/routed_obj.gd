@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name Penguin
+class_name Routed
 
 export var speed: float
 export var start_index: int = 0
@@ -33,7 +33,7 @@ func _process(delta):
 		moving = true
 		body.look_at(to_global(point))
 		if displacement.length() > speed:
-			var col = body.move_and_collide(displacement.normalized() * speed)
+			var col: KinematicCollision2D = body.move_and_collide(displacement.normalized() * speed)
 			if col:
 				self.queue_free()
 		else:

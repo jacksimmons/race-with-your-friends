@@ -31,6 +31,6 @@ func _on_QuitButton_pressed():
 
 
 func _on_EditorButton_pressed():
-	var editor = load("res://Scenes/Editor/Editor.tscn").instance()
+	var editor = load("res://Scenes/Editor.tscn").instance()
 	get_node("/root").add_child(editor)
 	self.queue_free()

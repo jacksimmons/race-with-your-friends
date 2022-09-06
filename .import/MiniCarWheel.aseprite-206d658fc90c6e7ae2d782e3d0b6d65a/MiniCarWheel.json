@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "MiniCarWheel.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 1, "h": 2 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 1, "h": 2 },
+    "sourceSize": { "w": 1, "h": 2 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "MiniCarWheel.png",
+  "format": "RGBA8888",
+  "size": { "w": 1, "h": 2 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

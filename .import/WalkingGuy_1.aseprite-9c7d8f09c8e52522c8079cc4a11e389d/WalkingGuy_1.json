@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "WalkingGuy_1.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 14, "h": 7 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 7 },
+    "sourceSize": { "w": 14, "h": 7 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.39-x64",
+  "image": "WalkingGuy_1.png",
+  "format": "RGBA8888",
+  "size": { "w": 14, "h": 7 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

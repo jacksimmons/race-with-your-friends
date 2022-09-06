@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Scenes/Templates/DefaultVehicleScene.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Templates/TVehicle.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Cars/Cock/Cock.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Templates/TWheel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Sprites/Cars/Cock/CockShaftWheel.png" type="Texture" id=4]
 
 [node name="Vehicle" instance=ExtResource( 1 )]
 DEBUG_DEFAULT = Color( 0, 0, 0, 1 )
@@ -12,13 +14,31 @@ HANDLING = 5.0
 WEIGHT = 1.0
 HP = 1.0
 
-[node name="VehicleSprite" parent="." index="0"]
+[node name="Wheel" parent="Wheels" index="0" instance=ExtResource( 3 )]
+position = Vector2( 6, 1.52111e-05 )
+
+[node name="Sprite" parent="Wheels/Wheel" index="0"]
+position = Vector2( -10, -1.00005 )
+rotation = 1.5708
+texture = ExtResource( 4 )
+
+[node name="KinematicBody2D" parent="Wheels/Wheel" index="1"]
+position = Vector2( -5.00001, -4.02927e-05 )
+
+[node name="CollisionPolygon2D" parent="Wheels/Wheel/KinematicBody2D" index="0"]
+position = Vector2( -1, -2.53518e-06 )
+polygon = PoolVector2Array( 4.99999, 2.00001, 3.99999, 2.00001, 4, 1.00001, 0.999997, 1, 0.999995, 2, -4.00001, 1.99999, -4.00001, 2.99999, -13, 2.99997, -15, 0.999962, -15, -3.80277e-05, -14, -3.54925e-05, -14, -5.00004, -6.99999, -5.00002, -6.99998, -6.00002, -0.999985, -6, -0.999987, -5, 4.00001, -4.99999, 4.00001, -3.99999, 5.00001, -3.99999, 5.00001, -2.99999, 6.00001, -2.99998, 7.00001, -2.99998, 6.99999, 2.00002 )
+
+[node name="VehicleSprite" parent="." index="1"]
+position = Vector2( 9, 2.28166e-05 )
 texture = ExtResource( 2 )
 
-[node name="HookSprite" parent="." index="1"]
+[node name="HookSprite" parent="." index="2"]
 position = Vector2( 27.8407, -0.299394 )
 scale = Vector2( 0.576638, 0.576638 )
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="2"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="3"]
 rotation = 1.5708
-polygon = PoolVector2Array( -10, -15, -10, -9, -9, -6, -8, -5, -6, -4, -5, -4, -6, 1, -6, 6, -10, 6, -10, 7, -5, 7, -5, 14, 0, 15, 1, 15, 3, 13, 3, 4, 2, -1, 1, -4, 2, -4, 2, -5, 4, -5, 4, -4, 7, -4, 10, -7, 10, -11, 9, -12, 4, -12, 2, -11, 2, -10, 1, -10, 1, -11, -7, -15 )
+polygon = PoolVector2Array( -10, -15, -10, -9, -9, -6, -8, -5, -6, -4, -5, -4, -4, -4, -2.00001, -5, -7.59366e-06, -7, -6.50885e-06, -6, 1.99999, -6, 2, -5, 4, -5, 4, -4, 7, -4, 10, -7, 10, -11, 9, -12, 4, -12, 2, -11, 2, -10, 1, -10, 1, -11, -7, -15 )
+
+[editable path="Wheels/Wheel"]

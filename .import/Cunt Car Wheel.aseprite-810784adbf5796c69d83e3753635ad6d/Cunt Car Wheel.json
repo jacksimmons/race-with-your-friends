@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "Cunt Car Wheel.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 2, "h": 7 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 2, "h": 7 },
+    "sourceSize": { "w": 2, "h": 7 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "Cunt Car Wheel.png",
+  "format": "RGBA8888",
+  "size": { "w": 2, "h": 7 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

@@ -57,6 +57,7 @@ var path_count:int = 0
 var race_placement:int = 0
 var race_pos: Dictionary = {}
 var cur_racepoint:int = 0
+var cur_path: Path2D = null
 
 # Text
 export (Color, RGB) var DEBUG_DEFAULT
@@ -85,15 +86,15 @@ var moving_direction: int = 0
 
 # Power values
 var engine_strength: float
-var wheel_turn: float # Max rotation of a wheel (relative to front)
-var max_turn: float # Max rotation of the whole car (relative to chassis)
-var current_turn: float = 0 # Current rotation by wheels (relative to chassis)
-var braking_strength: float = 150
+var wheel_turn: float # Max rotation angle
+var current_turn: float = 0 # Current rotation angle (decreases with speed)
+var max_turn: float
+
+var braking = false
 
 # Various Forces
 var driving_force: Vector2
 var friction_force: Vector2
-var braking_force: Vector2
 # All of the other forces acting on the vehicle
 var external_force: Vector2
 
@@ -106,7 +107,12 @@ export var HANDLING: float
 export var WEIGHT: float
 export var HP: float
 
-var max_spd_mod = 100
+var max_spd_mod = 1000
+var acc_mod = 100
+var turn_mod = 50
+var max_turn_mod = 0.01
+var braking_mod = 100
+var weight_mod = 10
 
 var time = 0
 
@@ -115,8 +121,8 @@ func _ready():
 	# Get player data
 	var my_data := Game.PLAYER_DATA[Game.STEAM_ID] as Dictionary
 
-	mass = WEIGHT
-	engine_strength = ACCELERATION * WEIGHT
+	mass = WEIGHT * weight_mod
+	engine_strength = ACCELERATION * mass * acc_mod
 	wheel_turn = HANDLING
 
 
@@ -128,7 +134,9 @@ func _ready():
 
 	# Other
 	sprite_length = $VehicleSprite.texture.get_height()
-	max_turn = abs(get_angle_to(transform.x.rotated(wheel_turn) + Vector2(sprite_length / 2, 0)))
+
+	# Turn
+	max_turn = abs(get_angle_to(transform.x.rotated($Wheels.max_wheel_rotation) + Vector2(sprite_length / 2, 0))) * max_turn_mod
 
 
 func _process(delta):
@@ -151,13 +159,14 @@ func _physics_process(delta):
 		_handle_objects()
 		_handle_friction()
 
-		add_central_force(driving_force + braking_force + friction_force + external_force)
+		set_applied_force(driving_force + friction_force + external_force)
 
 		if linear_velocity.length() > MAX_SPEED * max_spd_mod:
 			linear_velocity = linear_velocity.normalized() * MAX_SPEED * max_spd_mod
 
 		if get_linear_velocity().length_squared() > 0:
-			rotate(deg2rad(current_turn))
+			_handle_torque()
+
 			moving_direction = Global._find_vector_direction(transform.x, get_linear_velocity().normalized())
 		else:
 			moving_direction = 0
@@ -194,6 +203,7 @@ func _handle_debug():
 
 	if spd_0er.pressed:
 		set_linear_velocity(Vector2.ZERO)
+		set_applied_force(Vector2.ZERO)
 
 	# friction
 	friction_value.text = "Friction: " + str(friction)
@@ -277,23 +287,63 @@ func _unhandled_input(event):
 			pass
 
 
+func _handle_input():
+	# Handles any held user input events.
+
+	var net_acc = 0
+	var net_turn = 0
+	var max_spd = (200 + MAX_SPEED * 40)
+
+	driving_direction = 0
+	if input_flags & InputFlags.FORWARD_DOWN:
+		driving_direction += 1
+	if input_flags & InputFlags.REVERSE_DOWN:
+		driving_direction -= 1
+
+	driving_force = driving_direction * transform.x * engine_strength
+
+	turning_direction = 0
+	if input_flags & InputFlags.LEFT_DOWN:
+		turning_direction -= 1
+	if input_flags & InputFlags.RIGHT_DOWN:
+		turning_direction += 1
+
+	current_turn = turning_direction * wheel_turn
+
+	if input_flags & InputFlags.BRAKE_DOWN:
+		braking = true
+		var velocity = get_linear_velocity()
+		if velocity.length() > 2:
+			driving_force = -get_linear_velocity().normalized() * engine_strength
+		else:
+			set_linear_velocity(Vector2.ZERO)
+	else:
+		braking = false
+
+	if input_flags & InputFlags.HOOK_DOWN:
+		_handle_hook()
+	if input_flags & InputFlags.BOOST_DOWN:
+		max_spd *= 2.5
+		net_acc *= 2.5
+
+
 func _get_race_position():
 	var paths = $"/root/Scene/Map/Paths"
 
 	var precision = 1 # 1 pixel
 	var smallest_sq_dist = INF
-	var path_used = null
+	cur_path = null
 	for path in paths.get_children():
 		var point = path.get_curve().get_closest_point(position)
 		var sq_dist = position.distance_squared_to(point)
 		if sq_dist < smallest_sq_dist and !is_equal_approx(sq_dist, smallest_sq_dist):
 			if smallest_sq_dist - sq_dist > precision:
 				smallest_sq_dist = sq_dist
-				path_used = path
+				cur_path = path
 
-	if path_used:
-		#print(path_used.name)
-		var path_curve = path_used.get_curve()
+	if cur_path:
+		#print(cur_path.name)
+		var path_curve = cur_path.get_curve()
 		var points = path_curve.get_baked_points() as Array
 		var path_offset = path_curve.get_closest_offset(position)
 
@@ -316,58 +366,13 @@ func _handle_hook():
 	drawing.lines.append({"from": position, "to": shortest_path_target.position, "col": Color.black})
 
 
-func _handle_input():
-	# Handles any held user input events.
-
-	var net_acc = 0
-	var net_turn = 0
-	var max_spd = (200 + MAX_SPEED * 40)
-
-	driving_direction = 0
-	if input_flags & InputFlags.FORWARD_DOWN:
-		driving_direction += 1
-	if input_flags & InputFlags.REVERSE_DOWN:
-		driving_direction -= 1
-
-	driving_force = driving_direction * transform.x * engine_strength
-
-	turning_direction = 0
-	if input_flags & InputFlags.LEFT_DOWN:
-		turning_direction -= 1
-	if input_flags & InputFlags.RIGHT_DOWN:
-		turning_direction += 1
-
-	if turning_direction == 0:
-		current_turn = 0
-
-	var rot = turning_direction * wheel_turn
-	if abs(current_turn + rot) < max_turn and !current_turn == max_turn:
-		current_turn += rot
-	else:
-		current_turn = turning_direction * max_turn
-
-	braking_force = Vector2.ZERO
-
-	if input_flags & InputFlags.BRAKE_DOWN:
-		braking_force = transform.x * -moving_direction * braking_strength
-
-	if input_flags & InputFlags.HOOK_DOWN:
-		_handle_hook()
-	if input_flags & InputFlags.BOOST_DOWN:
-		max_spd *= 2.5
-		net_acc *= 2.5
-
-
 func _handle_objects():
 	for vec in on_object_vectors:
 		position += vec
 
 
 func _handle_friction():
-	var u = SURFACE_FRICTION_VALUES[on_material[-1] - 1] # Coefficient of friction
-	var r = WEIGHT * Global.g # Normal contact force
-
-	friction_force = -driving_direction * transform.x * u * r
+	friction_force = -SURFACE_FRICTION_VALUES[on_material[-1] - 1] * get_linear_velocity()
 	if friction_force.length() > driving_force.length():
 		print("=")
 		friction_force = -driving_force
@@ -381,3 +386,28 @@ func _handle_friction():
 	#	velocity = Vector2.ZERO
 	#else:
 	#	velocity -= vel_dir * final_friction
+
+
+func _handle_torque():
+	if $Wheels.wheel_rotation != 0:
+		var velocity = get_linear_velocity()
+		var rot = deg2rad($Wheels.wheel_rotation)
+		var turned_vector = transform.x * get_linear_velocity().length() + transform.x.rotated(rot) * turn_mod
+		var turn_magnitude = Global._find_vector_angle(transform.x, turned_vector)
+
+		print(turn_magnitude)
+		print(max_turn)
+
+		if turn_magnitude > max_turn:
+			turn_magnitude = max_turn
+
+		var wheel_direction = 0
+		if $Wheels.wheel_rotation < 0:
+			wheel_direction = -1
+		elif $Wheels.wheel_rotation > 0:
+			wheel_direction = 1
+
+		var final_turn = turn_magnitude * wheel_direction
+		rotate(final_turn)
+
+		linear_velocity = linear_velocity.rotated(final_turn)

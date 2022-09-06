@@ -1,5 +1,5 @@
 extends AnimationPlayer
 
 
-func _ready():
+func _process(delta):
 	play("default")

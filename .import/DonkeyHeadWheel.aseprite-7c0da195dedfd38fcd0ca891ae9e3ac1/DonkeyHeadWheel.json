@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "DonkeyHeadWheel.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 14, "h": 40 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 40 },
+    "sourceSize": { "w": 14, "h": 40 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "DonkeyHeadWheel.png",
+  "format": "RGBA8888",
+  "size": { "w": 14, "h": 40 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

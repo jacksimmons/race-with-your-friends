@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Sprites/Maps/TempCock/temporary cock map.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Maps/TempCock/temporary cock map.bg.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Templates/DefaultMapScene.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Templates/TMap.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/Game/Activators/checkpoint.gd" type="Script" id=4]
 [ext_resource path="res://Scripts/Game/Activators/checkpoint_handler.gd" type="Script" id=5]
 

@@ -1,20 +1,20 @@
 { "frames": [
    {
     "filename": "Cock.aseprite",
-    "frame": { "x": 0, "y": 0, "w": 20, "h": 30 },
+    "frame": { "x": 0, "y": 0, "w": 20, "h": 11 },
     "rotated": false,
     "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 20, "h": 30 },
-    "sourceSize": { "w": 20, "h": 30 },
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 20, "h": 11 },
+    "sourceSize": { "w": 20, "h": 11 },
     "duration": 100
    }
  ],
  "meta": {
   "app": "https://www.aseprite.org/",
-  "version": "1.2.39-x64",
+  "version": "1.2.40-x64",
   "image": "Cock.png",
   "format": "RGBA8888",
-  "size": { "w": 20, "h": 30 },
+  "size": { "w": 20, "h": 11 },
   "scale": "1",
   "frameTags": [
   ]

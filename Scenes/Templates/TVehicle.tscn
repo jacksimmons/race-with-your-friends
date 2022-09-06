@@ -1,21 +1,26 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Game/Players/player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Aseprite Files/GrapplingHookWithLine.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/wheels.gd" type="Script" id=3]
 
 [sub_resource type="PhysicsMaterial" id=1]
+absorbent = true
 
 [sub_resource type="ImageTexture" id=2]
 
 [node name="Player" type="RigidBody2D"]
 rotation = 3.14159
 collision_mask = 1795
+mode = 2
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
-angular_damp = 1.0
 script = ExtResource( 1 )
 DEBUG_DEFAULT = Color( 0.478431, 1, 0, 1 )
 DEBUG_WARN = Color( 1, 0, 0, 1 )
+
+[node name="Wheels" type="Node2D" parent="."]
+script = ExtResource( 3 )
 
 [node name="VehicleSprite" type="Sprite" parent="."]
 rotation = 1.5708

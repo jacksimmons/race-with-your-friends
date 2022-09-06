@@ -60,19 +60,19 @@ func _handle_new():
 		get_parent().get_popup().popup()
 	elif selected_id == 2:
 		# Map
-		var map = preload(\"res://Scenes/Templates/DefaultMapScene.tscn\").instance()
+		var map = preload(\"res://Scenes/Templates/TMap.tscn\").instance()
 		editor.replace_project_root(map)
 		editor.refresh_nodes()
 		editor.current_file = \"\"
 	elif selected_id == 3:
 		# Object
-		var obj = preload(\"res://Scenes/Templates/DefaultObjectScene.tscn\").instance()
+		var obj = preload(\"res://Scenes/Templates/TObject.tscn\").instance()
 		editor.replace_project_root(obj)
 		editor.refresh_nodes()
 		editor.current_file = \"\"
 	elif selected_id == 4:
 		# Vehicle
-		var vehicle = preload(\"res://Scenes/Templates/DefaultVehicleScene.tscn\").instance()
+		var vehicle = preload(\"res://Scenes/Templates/TVehicle.tscn\").instance()
 		editor.replace_project_root(vehicle)
 		editor.refresh_nodes()
 		editor.current_file = \"\"
@@ -269,7 +269,7 @@ func _handle_test():
 		else:
 			var vehicle_name = get_popup().get_item_text(selected_id)
 			Game.PLAYER_DATA[Game.STEAM_ID] = {\"vehicle\": vehicle_name}
-			var def_map = preload(\"res://Scenes/Templates/DefaultMapScene.tscn\").instance()
+			var def_map = preload(\"res://Scenes/Templates/TMap.tscn\").instance()
 			Global._setup_scene(Global.GameMode.EDITOR, def_map)
 
 
