@@ -1,5 +1,7 @@
 extends Camera2D
 
+onready var axes = $"../Axes"
+
 const DEFAULT_ZOOM = Vector2(1, 1)
 const SCROLL_INC = Vector2(0.1, 0.1)
 const SCROLL_MIN = Vector2(0.1, 0.1)

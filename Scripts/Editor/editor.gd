@@ -64,6 +64,7 @@ func _ready():
 
 	tabs.set_tab_hidden(TabNames.MAP, true) # Map
 	tabs.set_tab_hidden(TabNames.TEST, true) # Testing
+	tabs.set_tab_hidden(TabNames.OBJ, true) # Testing
 
 
 func clear_current_file():
@@ -117,13 +118,6 @@ func refresh_nodes():
 	visible_node.visible = true
 	visible_node.position = cam.get_parent().position # Place the node at the camera offset
 	display.add_child(visible_node)
-
-	if obj_sprite and !obj_sprite_loaded:
-		var visible_sprite = obj_sprite.duplicate()
-		visible_sprite.visible = true
-		visible_sprite.position = cam.get_parent().position # Place the node at the camera offset
-		display.add_child(visible_sprite)
-		obj_sprite_loaded = true
 
 	if buttons.get_child_count() > 0:
 		for button in buttons.get_children():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Scripts/Editor/editor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Editor/editor_camera.gd" type="Script" id=2]
@@ -322,6 +322,25 @@ func _on_UnsavedProgressDialog_cancelled():
 	selected_id = -1
 "
 
+[sub_resource type="GDScript" id=8]
+script/source = "extends Control
+
+onready var cam = $\"../Camera2D\"
+
+
+func _draw():
+	var x_offset = cam.position.x
+	var y_offset = cam.position.y
+	var width = ProjectSettings.get_setting(\"display/window/size/width\") * cam.zoom.x
+	var height = ProjectSettings.get_setting(\"display/window/size/height\") * cam.zoom.y
+	draw_line(Vector2(-width/2, 0), Vector2(x_offset + width / 2, 0), Color.green)
+	draw_line(Vector2(0, -width/2), Vector2(0, y_offset + height / 2), Color.red)
+
+
+func _process(delta):
+	update()
+"
+
 [node name="Editor" type="Control"]
 script = ExtResource( 1 )
 
@@ -637,12 +656,6 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="StopTestingButton" type="Button" parent="Canvas/UI/Tabs/Obj"]
-margin_right = 227.0
-margin_bottom = 20.0
-text = "Stop Testing"
-script = ExtResource( 8 )
-
 [node name="Path" type="Label" parent="Canvas/UI"]
 margin_left = 227.0
 margin_top = 505.0
@@ -661,7 +674,11 @@ current = true
 script = ExtResource( 2 )
 
 [node name="Display" type="Node2D" parent="CamOffset"]
-position = Vector2( -960, -540 )
+
+[node name="Axes" type="Control" parent="CamOffset"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = SubResource( 8 )
 
 [connection signal="pressed" from="Canvas/UI/ShowPanel" to="Canvas/UI/ShowPanel" method="_on_ShowPanel_pressed"]
 [connection signal="pressed" from="Canvas/UI/Panel/HBoxContainer/Back" to="Canvas/UI/Panel/HBoxContainer/Back" method="_on_Back_pressed"]
@@ -674,4 +691,3 @@ position = Vector2( -960, -540 )
 [connection signal="pressed" from="Canvas/UI/Tabs/Camera/CamPan/CameraPanApply" to="." method="_on_CameraPanApply_pressed"]
 [connection signal="toggled" from="Canvas/UI/Tabs/Camera/PixPerf/PixelPerfectButton" to="." method="_on_PixelPerfectButton_toggled"]
 [connection signal="pressed" from="Canvas/UI/Tabs/Test/StopTestingButton" to="Canvas/UI/Tabs/Test/StopTestingButton" method="_on_StopTestingButton_pressed"]
-[connection signal="pressed" from="Canvas/UI/Tabs/Obj/StopTestingButton" to="Canvas/UI/Tabs/Obj/StopTestingButton" method="_on_StopTestingButton_pressed"]
