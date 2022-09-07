@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scripts/Editor/editor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Editor/editor_camera.gd" type="Script" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Scripts/Editor/TemplateButtons/panel_show_button.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/Editor/dialog_unsaved_progress.gd" type="Script" id=7]
 [ext_resource path="res://Scripts/Editor/TemplateButtons/stop_testing_button.gd" type="Script" id=8]
+[ext_resource path="res://Sprites/Editor/RED_PIXEL.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Editor/GREEN_PIXEL.png" type="Texture" id=10]
 
 [sub_resource type="GDScript" id=7]
 script/source = "extends Button
@@ -302,7 +304,7 @@ func _handle_test():
 			var def_map = preload(\"res://Scenes/Templates/TMap.tscn\").instance()
 			Global._setup_scene(Global.GameMode.EDITOR, def_map)
 
-		$\"../../../Tabs\".set_tab_hidden(editor.TabNames.TEST, false) # Test
+		editor.start_testing()
 
 
 func _on_item_pressed(id):
@@ -323,22 +325,47 @@ func _on_UnsavedProgressDialog_cancelled():
 "
 
 [sub_resource type="GDScript" id=8]
-script/source = "extends Control
+script/source = "extends Node2D
 
 onready var cam = $\"../Camera2D\"
+onready var cam_offset = $\"../../CamOffset\"
+onready var x_axis = $X_AXIS
+onready var y_axis = $Y_AXIS
+onready var x_lab = $X_LABEL
+onready var y_lab = $Y_LABEL
+
+var cam_offset_x
+var cam_offset_y
 
 
-func _draw():
-	var x_offset = cam.position.x
-	var y_offset = cam.position.y
-	var width = ProjectSettings.get_setting(\"display/window/size/width\") * cam.zoom.x
-	var height = ProjectSettings.get_setting(\"display/window/size/height\") * cam.zoom.y
-	draw_line(Vector2(-width/2, 0), Vector2(x_offset + width / 2, 0), Color.green)
-	draw_line(Vector2(0, -width/2), Vector2(0, y_offset + height / 2), Color.red)
+func _ready():
+	cam_offset_x = cam_offset.position.x
+	cam_offset_y = cam_offset.position.y
+
+	x_axis.offset = Vector2(0.5, 0.5)
+	y_axis.offset = Vector2(0.5, 0.5)
 
 
 func _process(delta):
-	update()
+	var x_offset = cam.position.x
+	var y_offset = cam.position.y
+	var width = cam_offset_x * 2 * cam.zoom.x
+	var height = cam_offset_y * 2 * cam.zoom.y
+
+	var cos_rotation = abs(cos(cam.rotation))
+	if cos_rotation == 0:
+		cos_rotation = 1
+
+	x_axis.position = Vector2((x_offset - width / 2) / cos_rotation, 0)
+	y_axis.position = Vector2(0, (y_offset - height / 2) / cos_rotation)
+
+	x_axis.scale = Vector2(width / cos_rotation, 2)
+	y_axis.scale = Vector2(2, height / cos_rotation)
+
+	var x_lab_offset = Vector2((x_offset + width / 2) - 7.5, 0)
+	var y_lab_offset = Vector2(5, (y_offset + height / 2 - 15))
+	x_lab.rect_position = x_lab_offset / cos_rotation
+	y_lab.rect_position = y_lab_offset / cos_rotation
 "
 
 [node name="Editor" type="Control"]
@@ -517,7 +544,7 @@ text = "Tabs"
 [node name="Tabs" type="TabContainer" parent="Canvas/UI"]
 margin_left = 236.0
 margin_right = 471.0
-margin_bottom = 172.0
+margin_bottom = 200.0
 tab_align = 0
 
 [node name="Camera" type="VBoxContainer" parent="Canvas/UI/Tabs"]
@@ -568,25 +595,19 @@ margin_right = 227.0
 margin_bottom = 60.0
 
 [node name="CameraPanLabel" type="Label" parent="Canvas/UI/Tabs/Camera/CamPan"]
-margin_right = 346.0
+margin_right = 141.0
 margin_bottom = 14.0
 text = "Camera Pan Spd:"
 
-[node name="CameraPan" type="LineEdit" parent="Canvas/UI/Tabs/Camera/CamPan"]
-margin_left = 112.0
+[node name="CameraPan" type="HSlider" parent="Canvas/UI/Tabs/Camera/CamPan"]
+margin_left = 146.0
 margin_top = -6.0
-margin_right = 170.0
+margin_right = 231.0
 margin_bottom = 18.0
-text = "1"
-align = 2
-max_length = 6
-
-[node name="CameraPanApply" type="Button" parent="Canvas/UI/Tabs/Camera/CamPan"]
-margin_left = 175.0
-margin_top = -4.0
-margin_right = 225.0
-margin_bottom = 16.0
-text = "Apply"
+min_value = 0.1
+max_value = 10.0
+step = 0.1
+value = 1.0
 
 [node name="PixPerf" type="Control" parent="Canvas/UI/Tabs/Camera"]
 margin_top = 90.0
@@ -610,18 +631,35 @@ margin_right = 227.0
 margin_bottom = 120.0
 
 [node name="CameraRotationLabel" type="Label" parent="Canvas/UI/Tabs/Camera/CamRot"]
-margin_right = 346.0
+margin_right = 139.0
 margin_bottom = 14.0
 text = "Camera Rotation:"
 
 [node name="CameraRotation" type="HSlider" parent="Canvas/UI/Tabs/Camera/CamRot"]
-margin_left = 141.0
+margin_left = 146.0
 margin_top = -6.0
-margin_right = 227.0
+margin_right = 231.0
 margin_bottom = 18.0
 max_value = 360.0
 step = 10.0
 ticks_on_borders = true
+
+[node name="ShowAxes" type="Control" parent="Canvas/UI/Tabs/Camera"]
+margin_top = 150.0
+margin_right = 227.0
+margin_bottom = 150.0
+
+[node name="ShowAxesLabel" type="Label" parent="Canvas/UI/Tabs/Camera/ShowAxes"]
+margin_right = 231.0
+margin_bottom = 14.0
+text = "Show Axes"
+
+[node name="ShowAxesButton" type="CheckButton" parent="Canvas/UI/Tabs/Camera/ShowAxes"]
+margin_left = 145.0
+margin_top = -16.0
+margin_right = 231.0
+margin_bottom = 24.0
+pressed = true
 
 [node name="Map" type="VBoxContainer" parent="Canvas/UI/Tabs"]
 visible = false
@@ -675,10 +713,34 @@ script = ExtResource( 2 )
 
 [node name="Display" type="Node2D" parent="CamOffset"]
 
-[node name="Axes" type="Control" parent="CamOffset"]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="Axes" type="Node2D" parent="CamOffset"]
 script = SubResource( 8 )
+
+[node name="X_AXIS" type="Sprite" parent="CamOffset/Axes"]
+position = Vector2( 1.00001, 1.00001 )
+scale = Vector2( 2.00001, 2.00001 )
+texture = ExtResource( 9 )
+
+[node name="Y_AXIS" type="Sprite" parent="CamOffset/Axes"]
+position = Vector2( 1, 1 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 10 )
+offset = Vector2( 0.1, 0.1 )
+
+[node name="X_LABEL" type="Label" parent="CamOffset/Axes"]
+margin_left = -9.0
+margin_top = 1.0
+margin_right = -2.0
+margin_bottom = 15.0
+text = "x"
+align = 2
+
+[node name="Y_LABEL" type="Label" parent="CamOffset/Axes"]
+margin_left = -9.0
+margin_right = -2.0
+margin_bottom = 14.0
+text = "y"
+align = 2
 
 [connection signal="pressed" from="Canvas/UI/ShowPanel" to="Canvas/UI/ShowPanel" method="_on_ShowPanel_pressed"]
 [connection signal="pressed" from="Canvas/UI/Panel/HBoxContainer/Back" to="Canvas/UI/Panel/HBoxContainer/Back" method="_on_Back_pressed"]
@@ -688,6 +750,8 @@ script = SubResource( 8 )
 [connection signal="toggled" from="Canvas/UI/TabsToggleButton" to="." method="_on_TabsToggleButton_toggled"]
 [connection signal="pressed" from="Canvas/UI/Tabs/Camera/CamPos/CameraPosReset" to="." method="_on_CameraPosReset_pressed"]
 [connection signal="pressed" from="Canvas/UI/Tabs/Camera/CamZoom/CameraZoomReset" to="." method="_on_CameraZoomReset_pressed"]
-[connection signal="pressed" from="Canvas/UI/Tabs/Camera/CamPan/CameraPanApply" to="." method="_on_CameraPanApply_pressed"]
+[connection signal="value_changed" from="Canvas/UI/Tabs/Camera/CamPan/CameraPan" to="." method="_on_CameraPan_value_changed"]
 [connection signal="toggled" from="Canvas/UI/Tabs/Camera/PixPerf/PixelPerfectButton" to="." method="_on_PixelPerfectButton_toggled"]
+[connection signal="value_changed" from="Canvas/UI/Tabs/Camera/CamRot/CameraRotation" to="." method="_on_CameraRotation_value_changed"]
+[connection signal="toggled" from="Canvas/UI/Tabs/Camera/ShowAxes/ShowAxesButton" to="." method="_on_ShowAxesButton_toggled"]
 [connection signal="pressed" from="Canvas/UI/Tabs/Test/StopTestingButton" to="Canvas/UI/Tabs/Test/StopTestingButton" method="_on_StopTestingButton_pressed"]

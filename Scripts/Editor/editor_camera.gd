@@ -1,7 +1,5 @@
 extends Camera2D
 
-onready var axes = $"../Axes"
-
 const DEFAULT_ZOOM = Vector2(1, 1)
 const SCROLL_INC = Vector2(0.1, 0.1)
 const SCROLL_MIN = Vector2(0.1, 0.1)
@@ -29,36 +27,37 @@ func _input(event):
 
 
 func _process(delta):
-	if Input.is_action_pressed("reset_zoom"):
-		zoom = DEFAULT_ZOOM
+	if current:
+		if Input.is_action_pressed("reset_zoom"):
+			zoom = DEFAULT_ZOOM
 
-	if Input.is_action_pressed("pan_left"):
-		var multiplier = speed * zoom
-		if pixel_perfect:
-			multiplier = Vector2(int(multiplier.x), int(multiplier.y))
+		if Input.is_action_pressed("pan_left"):
+			var multiplier = speed * zoom
+			if pixel_perfect:
+				multiplier = Vector2(int(multiplier.x), int(multiplier.y))
 
-		position += Vector2.LEFT * multiplier
+			position += Vector2.LEFT * multiplier
 
-	if Input.is_action_pressed("pan_right"):
-		var multiplier = speed * zoom
-		if pixel_perfect:
-			multiplier = Vector2(int(multiplier.x), int(multiplier.y))
+		if Input.is_action_pressed("pan_right"):
+			var multiplier = speed * zoom
+			if pixel_perfect:
+				multiplier = Vector2(int(multiplier.x), int(multiplier.y))
 
-		position += Vector2.RIGHT * multiplier
+			position += Vector2.RIGHT * multiplier
 
-	if Input.is_action_pressed("pan_up"):
-		var multiplier = speed * zoom
-		if pixel_perfect:
-			multiplier = Vector2(int(multiplier.x), int(multiplier.y))
+		if Input.is_action_pressed("pan_up"):
+			var multiplier = speed * zoom
+			if pixel_perfect:
+				multiplier = Vector2(int(multiplier.x), int(multiplier.y))
 
-		position += Vector2.UP * multiplier
+			position += Vector2.UP * multiplier
 
-	if Input.is_action_pressed("pan_down"):
-		var multiplier = speed * zoom
-		if pixel_perfect:
-			multiplier = Vector2(int(multiplier.x), int(multiplier.y))
+		if Input.is_action_pressed("pan_down"):
+			var multiplier = speed * zoom
+			if pixel_perfect:
+				multiplier = Vector2(int(multiplier.x), int(multiplier.y))
 
-		position += Vector2.DOWN * multiplier
+			position += Vector2.DOWN * multiplier
 
 
 func make_pixel_perfect():

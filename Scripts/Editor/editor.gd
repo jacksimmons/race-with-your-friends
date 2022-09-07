@@ -38,18 +38,21 @@ onready var project_root = $Object
 
 onready var buttons = $Canvas/UI/Panel/Buttons
 
-onready var cam_pan = $Canvas/UI/Tabs/Camera/CamPan/CameraPan
+onready var cam_pan_label = $Canvas/UI/Tabs/Camera/CamPan/CameraPanLabel
+onready var cam_pan_slider = $Canvas/UI/Tabs/Camera/CamPan/CameraPan
 onready var cam_pos = $Canvas/UI/Tabs/Camera/CamPos/CameraPos
 onready var cam_zoom = $Canvas/UI/Tabs/Camera/CamZoom/CameraZoom
 onready var cam_pp = $Canvas/UI/Tabs/Camera/PixPerf/PixelPerfectButton
-onready var cam_rot_slider = $Canvas/UI/Tabs/Camera/CamRot/CameraRotation
 onready var cam_rot_label = $Canvas/UI/Tabs/Camera/CamRot/CameraRotationLabel
+onready var cam_rot_slider = $Canvas/UI/Tabs/Camera/CamRot/CameraRotation
 
 onready var display = $CamOffset/Display
 onready var cam = $CamOffset/Camera2D
 onready var shape = $Canvas/Shape
 onready var path = $Canvas/UI/Path
 onready var tabs = $Canvas/UI/Tabs
+onready var axes = $CamOffset/Axes
+var axes_visible: bool
 
 onready var save: MenuButton = $Canvas/UI/Panel/File/Save
 
@@ -59,8 +62,10 @@ var progress = false
 
 func _ready():
 	current_node = $Object
-	_on_CameraPanApply_pressed()
 	cam_pp.set_pressed(true)
+
+	_on_CameraPan_value_changed(cam_pan_slider.value)
+	_on_CameraRotation_value_changed(cam_rot_slider.value)
 
 	tabs.set_tab_hidden(TabNames.MAP, true) # Map
 	tabs.set_tab_hidden(TabNames.TEST, true) # Testing
@@ -103,6 +108,21 @@ func delete_all_children(node, exceptions=[]):
 		for child in node.get_children():
 			if not child.name in exceptions:
 				node.remove_child(child)
+
+
+func start_testing():
+	tabs.set_tab_hidden(TabNames.TEST, false)
+	if axes.visible:
+		axes_visible = true
+	axes.hide()
+
+
+func stop_testing():
+	tabs.set_tab_hidden(TabNames.TEST, true)
+	if axes_visible:
+		axes.show()
+	cam.current = true
+
 
 
 func refresh_nodes():
@@ -270,11 +290,8 @@ func refresh_nodes():
 		buttons.add_child(del_node_button)
 
 func _process(delta):
-	cam.speed = current_pan
 	cam_pos.text = "Camera Position: " + str(cam.position)
 	cam_zoom.text = "Camera Zoom: " + str(cam.zoom.x) + "x"
-	cam.rotation_degrees = cam_rot_slider.value
-	cam_rot_label.text = "Camera Rotation: " + str(int(cam.rotation_degrees))
 
 
 func _on_CameraPosReset_pressed():
@@ -285,9 +302,15 @@ func _on_CameraZoomReset_pressed():
 	cam.zoom = cam.DEFAULT_ZOOM
 
 
-func _on_CameraPanApply_pressed():
-	current_pan = float(cam_pan.text)
-	cam_pan.text = str(current_pan)
+func _on_CameraPan_value_changed(value):
+	current_pan = value
+	cam_pan_label.text = "Camera Pan Speed: " + str(value)
+	cam.speed = current_pan
+
+
+func _on_CameraRotation_value_changed(value):
+	cam.rotation_degrees = value
+	cam_rot_label.text = "Camera Rotation: " + str(int(cam.rotation_degrees))
 
 
 func _on_PixelPerfectButton_toggled(button_pressed):
@@ -311,3 +334,10 @@ func _on_TabsToggleButton_toggled(button_pressed):
 		tabs.show()
 	else:
 		tabs.hide()
+
+
+func _on_ShowAxesButton_toggled(button_pressed):
+	if button_pressed:
+		axes.show()
+	else:
+		axes.hide()
