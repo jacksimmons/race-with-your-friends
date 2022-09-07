@@ -1,15 +1,17 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scripts/Editor/editor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Editor/editor_camera.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/Editor/TemplateButtons/panel_hide_button.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/Editor/shape_drawing.gd" type="Script" id=4]
-[ext_resource path="res://Sprites/Editor/WHITE_PIXEL.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Editor/UNSELECTED_VERTEX.png" type="Texture" id=5]
 [ext_resource path="res://Scripts/Editor/TemplateButtons/panel_show_button.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/Editor/dialog_unsaved_progress.gd" type="Script" id=7]
 [ext_resource path="res://Scripts/Editor/TemplateButtons/stop_testing_button.gd" type="Script" id=8]
 [ext_resource path="res://Sprites/Editor/RED_PIXEL.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Editor/GREEN_PIXEL.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Editor/SELECTED_VERTEX.png" type="Texture" id=11]
+[ext_resource path="res://Scripts/Editor/TemplateButtons/shape_vertex_button.gd" type="Script" id=12]
 
 [sub_resource type="GDScript" id=7]
 script/source = "extends Button
@@ -337,6 +339,8 @@ onready var y_lab = $Y_LABEL
 var cam_offset_x
 var cam_offset_y
 
+var suitable_scale_modifier = 10
+
 
 func _ready():
 	cam_offset_x = cam_offset.position.x
@@ -356,16 +360,24 @@ func _process(delta):
 	if cos_rotation == 0:
 		cos_rotation = 1
 
-	x_axis.position = Vector2((x_offset - width / 2) / cos_rotation, 0)
-	y_axis.position = Vector2(0, (y_offset - height / 2) / cos_rotation)
+	x_axis.position = Vector2((x_offset - width), 0)
+	y_axis.position = Vector2(0, (y_offset - height))
 
-	x_axis.scale = Vector2(width / cos_rotation, 2)
-	y_axis.scale = Vector2(2, height / cos_rotation)
+	# SQRT is to make the scale still increase a little bit when zooming in
+	x_axis.scale = Vector2(width * suitable_scale_modifier / cos_rotation, 3)
+	y_axis.scale = Vector2(3, height * suitable_scale_modifier / cos_rotation)
 
-	var x_lab_offset = Vector2((x_offset + width / 2) - 7.5, 0)
-	var y_lab_offset = Vector2(5, (y_offset + height / 2 - 15))
-	x_lab.rect_position = x_lab_offset / cos_rotation
-	y_lab.rect_position = y_lab_offset / cos_rotation
+	if not cam.rotation in [0, PI/2, PI, 3*PI/2]:
+		x_lab.hide()
+		y_lab.hide()
+	else:
+		x_lab.show()
+		y_lab.show()
+
+		var x_lab_offset = Vector2((x_offset + width / 2) - 7.5, 1.25)
+		var y_lab_offset = Vector2(5, (y_offset + height / 2 - 15))
+		x_lab.rect_position = x_lab_offset / cos_rotation
+		y_lab.rect_position = y_lab_offset / cos_rotation
 "
 
 [node name="Editor" type="Control"]
@@ -376,10 +388,17 @@ script = ExtResource( 1 )
 [node name="Canvas" type="CanvasLayer" parent="."]
 
 [node name="Shape" type="Control" parent="Canvas"]
+margin_right = 960.0
+margin_bottom = 540.0
 script = ExtResource( 4 )
 
-[node name="Vertex" type="Sprite" parent="Canvas/Shape"]
-texture = ExtResource( 5 )
+[node name="Vertex" type="TextureButton" parent="Canvas/Shape"]
+margin_left = -8.0
+margin_top = -8.0
+rect_pivot_offset = Vector2( 4, 4 )
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 11 )
+script = ExtResource( 12 )
 __meta__ = {
 "_editor_description_": "YXNlcHJpdGVfd2l6YXJkX2NvbmZpZwpwbGF5ZXJ8PQpzb3VyY2V8PQpsYXllcnw9Cm9wX2V4cHw9VHJ1ZQpvX2ZvbGRlcnw9Cm9fbmFtZXw9Cm9ubHlfdmlzaWJsZXw9RmFsc2UKb19leF9wfD0K"
 }
@@ -401,7 +420,7 @@ margin_right = 235.0
 margin_bottom = 509.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Canvas/UI/Panel"]
-margin_right = 400.0
+margin_right = 236.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 40, 0 )
 
@@ -617,7 +636,7 @@ margin_bottom = 90.0
 [node name="PixelPerfectLabel" type="Label" parent="Canvas/UI/Tabs/Camera/PixPerf"]
 margin_right = 346.0
 margin_bottom = 14.0
-text = "Pixel Perfect Movement:"
+text = "Pixel Perfect Movement"
 
 [node name="PixelPerfectButton" type="CheckButton" parent="Canvas/UI/Tabs/Camera/PixPerf"]
 margin_left = 155.0
@@ -742,6 +761,9 @@ margin_bottom = 14.0
 text = "y"
 align = 2
 
+[connection signal="mouse_entered" from="Canvas/Shape" to="Canvas/Shape" method="_on_Shape_mouse_entered"]
+[connection signal="mouse_exited" from="Canvas/Shape" to="Canvas/Shape" method="_on_Shape_mouse_exited"]
+[connection signal="pressed" from="Canvas/Shape/Vertex" to="Canvas/Shape/Vertex" method="_on_Vertex_pressed"]
 [connection signal="pressed" from="Canvas/UI/ShowPanel" to="Canvas/UI/ShowPanel" method="_on_ShowPanel_pressed"]
 [connection signal="pressed" from="Canvas/UI/Panel/HBoxContainer/Back" to="Canvas/UI/Panel/HBoxContainer/Back" method="_on_Back_pressed"]
 [connection signal="file_selected" from="Canvas/UI/Panel/HBoxContainer/File/Open/FileDialog" to="Canvas/UI/Panel/HBoxContainer/File/Open" method="_on_FileDialog_file_selected"]

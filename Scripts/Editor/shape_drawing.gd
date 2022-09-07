@@ -11,6 +11,9 @@ var node: Node2D
 var points: PoolVector2Array
 var colours: PoolColorArray
 
+var mouse_down = false
+var mouse_in = false
+
 
 func _ready():
 	colours.append(Color.red)
@@ -34,11 +37,6 @@ func stop_drawing():
 		editor.current_node = editor.current_node
 
 	points = []
-
-	for child in get_children():
-		if child.name != "Vertex":
-			remove_child(child)
-
 	drawing = false
 
 
@@ -48,24 +46,48 @@ func _draw():
 			var offset_points = []
 			for point in points:
 				# We have to deduct the camera's position again to show it on the screen.
-				offset_points.append(point - cam.position)
+				offset_points.append(point - cam.position / cam.zoom.x)
 			draw_polygon(offset_points, colours, PoolVector2Array())
 
 
 func _input(event):
 	if drawing and !viewing:
-		if event is InputEventMouseButton:
+		if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
-				if event.button_index == BUTTON_LEFT:
-					var mouse_pos = get_global_mouse_position()
-					if mouse_pos > panel.rect_size:
-						var vertex = $Vertex.duplicate()
-						vertex.position = mouse_pos
-						add_child(vertex)
-
-						# Need to place where the camera is + mouse pos
-						points.append(mouse_pos + cam.position)
+				mouse_down = true
+			else:
+				mouse_down = false
 
 
 func _process(delta):
 	update()
+
+	if !drawing:
+		for child in get_children():
+			if child.name != "Vertex":
+				remove_child(child)
+
+	if mouse_down and mouse_in:
+		print("HI")
+		var mouse_pos = get_global_mouse_position()
+		var vertex = $Vertex.duplicate()
+		vertex.rect_position = mouse_pos
+		add_child(vertex)
+
+		# Need to place where the camera is + mouse pos
+		points.append(mouse_pos + cam.position)
+
+
+func _on_Shape_mouse_entered():
+	mouse_in = true
+
+
+func _on_Shape_mouse_exited():
+	mouse_in = false
+
+
+func _on_Vertex_pressed(vertex_name: String):
+	remove_child(get_node(vertex_name))
+	points = []
+	for vertex in get_children():
+		points.append(vertex.rect_position)

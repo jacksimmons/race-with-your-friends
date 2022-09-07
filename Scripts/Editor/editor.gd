@@ -133,11 +133,15 @@ func refresh_nodes():
 	path.text = path_text
 
 	#delete_all_children(tabs, ["Camera", "File"])
+	delete_all_children(display)
 
 	var visible_node = current_node.duplicate()
 	visible_node.visible = true
 	visible_node.position = cam.get_parent().position # Place the node at the camera offset
 	display.add_child(visible_node)
+
+	# Clear shape points
+	shape.points = []
 
 	if buttons.get_child_count() > 0:
 		for button in buttons.get_children():
@@ -269,7 +273,8 @@ func refresh_nodes():
 
 	elif current_node is CollisionPolygon2D:
 		shape.drawing = true
-		shape.points = current_node.polygon
+		for point in current_node.polygon:
+			shape.points.append(point * cam.zoom.x)
 
 		# We have already made the polygon, so view until user selects "edit".
 		shape.viewing = true
