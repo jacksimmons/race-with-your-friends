@@ -21,6 +21,10 @@ onready var unsaved_progress_dialog = $UnsavedProgressDialog
 
 
 func _handle_back():
+	# Disable editor collision display
+	if !Global.DEBUG_COLLISION_SHAPES:
+		get_tree().set_debug_collisions_hint(false)
+
 	var title_menu = preload(\"res://Scenes/MenuTitle.tscn\").instance()
 	get_node(\"/root\").add_child(title_menu)
 	editor.queue_free()
@@ -384,6 +388,7 @@ func _process(delta):
 script = ExtResource( 1 )
 
 [node name="Object" type="Node2D" parent="."]
+visible = false
 
 [node name="Canvas" type="CanvasLayer" parent="."]
 
@@ -556,7 +561,6 @@ margin_bottom = 200.0
 tab_align = 0
 
 [node name="Camera" type="VBoxContainer" parent="Canvas/UI/Tabs"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -695,6 +699,7 @@ text = "Stop Testing"
 script = ExtResource( 8 )
 
 [node name="Obj" type="VBoxContainer" parent="Canvas/UI/Tabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -763,6 +768,7 @@ align = 2
 [node name="Vertices" type="Node2D" parent="CamOffset"]
 
 [node name="Vertex" type="TextureButton" parent="CamOffset/Vertices"]
+visible = false
 margin_left = -488.0
 margin_top = -278.0
 margin_right = -480.0

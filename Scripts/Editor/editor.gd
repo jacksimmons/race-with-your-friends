@@ -71,6 +71,10 @@ func _ready():
 	tabs.set_tab_hidden(TabNames.TEST, true) # Testing
 	tabs.set_tab_hidden(TabNames.OBJ, true) # Testing
 
+	# Show collision
+	if !Global.DEBUG_COLLISION_SHAPES:
+		get_tree().set_debug_collisions_hint(true)
+
 
 func clear_current_file():
 	# For when a New file is selected, or an internal game scene is opened.
@@ -85,6 +89,9 @@ func replace_project_root(new_root:Node):
 	move_child(new_root, 0)
 	project_root = new_root
 	current_node = project_root
+
+	# So we can display only with the display node
+	current_node.hide()
 
 	if current_node.name == "Map":
 		for ggchild in current_node.get_node("Ground").get_children():

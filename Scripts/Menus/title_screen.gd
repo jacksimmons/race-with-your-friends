@@ -1,6 +1,10 @@
 extends Node2D
 
 
+func _ready():
+	Global.DEBUG_COLLISION_SHAPES = get_tree().debug_collisions_hint
+
+
 func _process(delta):
 	if !Game.ONLINE:
 		$OfflineLabel.show()

@@ -1,5 +1,8 @@
 extends Node
 
+# Set at main menu
+var DEBUG_COLLISION_SHAPES
+
 var g = 9.81
 var COEFFICIENT_OF_RESTITUTION = 0.1
 var e = COEFFICIENT_OF_RESTITUTION
