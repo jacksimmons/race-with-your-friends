@@ -392,17 +392,6 @@ margin_right = 960.0
 margin_bottom = 540.0
 script = ExtResource( 4 )
 
-[node name="Vertex" type="TextureButton" parent="Canvas/Shape"]
-margin_left = -8.0
-margin_top = -8.0
-rect_pivot_offset = Vector2( 4, 4 )
-texture_normal = ExtResource( 5 )
-texture_pressed = ExtResource( 11 )
-script = ExtResource( 12 )
-__meta__ = {
-"_editor_description_": "YXNlcHJpdGVfd2l6YXJkX2NvbmZpZwpwbGF5ZXJ8PQpzb3VyY2V8PQpsYXllcnw9Cm9wX2V4cHw9VHJ1ZQpvX2ZvbGRlcnw9Cm9fbmFtZXw9Cm9ubHlfdmlzaWJsZXw9RmFsc2UKb19leF9wfD0K"
-}
-
 [node name="UI" type="Control" parent="Canvas"]
 margin_right = 234.0
 margin_bottom = 25.0
@@ -567,6 +556,7 @@ margin_bottom = 200.0
 tab_align = 0
 
 [node name="Camera" type="VBoxContainer" parent="Canvas/UI/Tabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -705,13 +695,22 @@ text = "Stop Testing"
 script = ExtResource( 8 )
 
 [node name="Obj" type="VBoxContainer" parent="Canvas/UI/Tabs"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
+
+[node name="NameLabel" type="Label" parent="Canvas/UI/Tabs/Obj"]
+margin_right = 227.0
+margin_bottom = 14.0
+text = "Name:"
+
+[node name="NameField" type="LineEdit" parent="Canvas/UI/Tabs/Obj"]
+margin_top = 18.0
+margin_right = 227.0
+margin_bottom = 42.0
 
 [node name="Path" type="Label" parent="Canvas/UI"]
 margin_left = 227.0
@@ -761,9 +760,23 @@ margin_bottom = 14.0
 text = "y"
 align = 2
 
+[node name="Vertices" type="Node2D" parent="CamOffset"]
+
+[node name="Vertex" type="TextureButton" parent="CamOffset/Vertices"]
+margin_left = -488.0
+margin_top = -278.0
+margin_right = -480.0
+margin_bottom = -270.0
+rect_pivot_offset = Vector2( 4, 4 )
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 11 )
+script = ExtResource( 12 )
+__meta__ = {
+"_editor_description_": "YXNlcHJpdGVfd2l6YXJkX2NvbmZpZwpwbGF5ZXJ8PQpzb3VyY2V8PQpsYXllcnw9Cm9wX2V4cHw9VHJ1ZQpvX2ZvbGRlcnw9Cm9fbmFtZXw9Cm9ubHlfdmlzaWJsZXw9RmFsc2UKb19leF9wfD0K"
+}
+
 [connection signal="mouse_entered" from="Canvas/Shape" to="Canvas/Shape" method="_on_Shape_mouse_entered"]
 [connection signal="mouse_exited" from="Canvas/Shape" to="Canvas/Shape" method="_on_Shape_mouse_exited"]
-[connection signal="pressed" from="Canvas/Shape/Vertex" to="Canvas/Shape/Vertex" method="_on_Vertex_pressed"]
 [connection signal="pressed" from="Canvas/UI/ShowPanel" to="Canvas/UI/ShowPanel" method="_on_ShowPanel_pressed"]
 [connection signal="pressed" from="Canvas/UI/Panel/HBoxContainer/Back" to="Canvas/UI/Panel/HBoxContainer/Back" method="_on_Back_pressed"]
 [connection signal="file_selected" from="Canvas/UI/Panel/HBoxContainer/File/Open/FileDialog" to="Canvas/UI/Panel/HBoxContainer/File/Open" method="_on_FileDialog_file_selected"]
@@ -777,3 +790,4 @@ align = 2
 [connection signal="value_changed" from="Canvas/UI/Tabs/Camera/CamRot/CameraRotation" to="." method="_on_CameraRotation_value_changed"]
 [connection signal="toggled" from="Canvas/UI/Tabs/Camera/ShowAxes/ShowAxesButton" to="." method="_on_ShowAxesButton_toggled"]
 [connection signal="pressed" from="Canvas/UI/Tabs/Test/StopTestingButton" to="Canvas/UI/Tabs/Test/StopTestingButton" method="_on_StopTestingButton_pressed"]
+[connection signal="pressed" from="CamOffset/Vertices/Vertex" to="CamOffset/Vertices/Vertex" method="_on_Vertex_pressed"]

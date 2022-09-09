@@ -16,8 +16,8 @@ func _on_Button_pressed():
 	node.get_parent().remove_child(node)
 	node.queue_free()
 
-	shape.points = []
-	shape.stop_drawing()
+	shape.points = {}
+	shape.drawing = false
 
 	editor.refresh_nodes()
 "

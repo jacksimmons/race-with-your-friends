@@ -6,14 +6,18 @@
 script/source = "extends Button
 
 onready var editor = $\"/root/Editor\"
-onready var replacement_name = $\"/root/Editor/Canvas/UI/Tabs/ObjectName/TextEdit\"
+onready var tabs = $\"/root/Editor/Canvas/UI/Tabs\"
+onready var replacement_name = $\"/root/Editor/Canvas/UI/Tabs/Obj/NameField\"
 
 var node: Node2D
 
 
 func _on_Button_pressed():
-	node.name = replacement_name.text
-	editor.refresh_nodes()
+	if replacement_name.text != \"\":
+		node.name = replacement_name.text
+		editor.refresh_nodes()
+	else:
+		tabs.current_tab = editor.TabNames.OBJ
 "
 
 [node name="Button" type="Button"]

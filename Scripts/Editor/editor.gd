@@ -124,7 +124,6 @@ func stop_testing():
 	cam.current = true
 
 
-
 func refresh_nodes():
 	progress = true
 	var path_text = str(get_path_to(current_node)) + " [" + str(current_node.get_class()) + "]"
@@ -141,7 +140,11 @@ func refresh_nodes():
 	display.add_child(visible_node)
 
 	# Clear shape points
-	shape.points = []
+	shape.points = {}
+
+	# Hide any tabs which hide by refreshing
+	tabs.set_tab_hidden(TabNames.OBJ, true)
+
 
 	if buttons.get_child_count() > 0:
 		for button in buttons.get_children():
@@ -273,14 +276,13 @@ func refresh_nodes():
 
 	elif current_node is CollisionPolygon2D:
 		shape.drawing = true
-		for point in current_node.polygon:
-			shape.points.append(point * cam.zoom.x)
+		for vertex in shape.get_children():
+			shape.points[vertex] = vertex.rect_position
 
 		# We have already made the polygon, so view until user selects "edit".
 		shape.viewing = true
 
-		var obj_name = preload("res://Scenes/Editor/ObjectName.tscn").instance()
-		tabs.add_child(obj_name)
+		tabs.set_tab_hidden(TabNames.OBJ, false)
 
 		var set_name_button = preload("res://Scenes/Editor/RenameNodeButton.tscn").instance()
 		set_name_button.text = "Set Name"

@@ -1,0 +1,26 @@
+[gd_scene format=2]
+
+[node name="Map" type="Node2D"]
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="MapSprite" type="Sprite" parent="Sprites"]
+
+[node name="Paths" type="Node2D" parent="."]
+
+[node name="Checkpoints" type="Node2D" parent="."]
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="Concrete" type="Area2D" parent="Ground"]
+
+[node name="@@259" type="CollisionPolygon2D" parent="Ground/Concrete"]
+polygon = PoolVector2Array( -161, -694, 521, -690, 529, -988, -513, -702 )
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Layers" type="Node2D" parent="."]
+
+[node name="StartPoints" type="Node2D" parent="."]
+
+[node name="Objects" type="Node2D" parent="."]
