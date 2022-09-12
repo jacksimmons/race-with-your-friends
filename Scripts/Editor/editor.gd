@@ -243,8 +243,8 @@ func refresh_nodes():
 	elif current_node is Node2D and current_node.name == "Checkpoints":
 		# Collision management buttons.
 		var button = preload("res://Scenes/Editor/AddCheckpointButton.tscn").instance()
-		button.obj_name = str(highest_checkpoint_no + 1)
-		button.text = "Add new checkpoint: Checkpoint " + str(button.obj_name)
+		button.obj_name = "cp_" + str(highest_checkpoint_no + 1)
+		button.text = "New Checkpoint (" + str(button.obj_name) + ")"
 		button.node = current_node
 		add_button_font_colour_override(button, Color.yellow)
 		buttons.add_child(button)

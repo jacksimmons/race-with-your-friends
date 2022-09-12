@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/Editor/editor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Editor/editor_camera.gd" type="Script" id=2]
@@ -330,6 +330,36 @@ func _on_UnsavedProgressDialog_cancelled():
 	selected_id = -1
 "
 
+[sub_resource type="GDScript" id=9]
+script/source = "extends VBoxContainer
+
+onready var vscrollbar = $\"../VScrollBar\"
+
+const MAX_BUTTONS = 20
+
+var prev_scroll: int = 0
+var unassembled: bool = true
+
+
+func _process(delta):
+	var num_children = get_child_count()
+	var scroll = vscrollbar.value
+	vscrollbar.max_value = num_children - MAX_BUTTONS
+	if scroll != prev_scroll:
+		unassembled = true
+	if num_children > MAX_BUTTONS and unassembled:
+		assemble_buttons(scroll)
+	prev_scroll = scroll
+
+
+func assemble_buttons(top_id: int=0):
+	for i in range(get_child_count()):
+		if i < top_id or i > top_id + MAX_BUTTONS - 1:
+			get_child(i).hide()
+		else:
+			get_child(i).show()
+"
+
 [sub_resource type="GDScript" id=8]
 script/source = "extends Node2D
 
@@ -412,6 +442,13 @@ script = ExtResource( 6 )
 [node name="Panel" type="Panel" parent="Canvas/UI"]
 margin_right = 235.0
 margin_bottom = 509.0
+
+[node name="VScrollBar" type="VScrollBar" parent="Canvas/UI/Panel"]
+margin_left = 1.0
+margin_top = 22.0
+margin_right = 13.0
+margin_bottom = 506.0
+rounded = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Canvas/UI/Panel"]
 margin_right = 236.0
@@ -534,9 +571,11 @@ Do you want to proceed anyway?"
 script = ExtResource( 7 )
 
 [node name="Buttons" type="VBoxContainer" parent="Canvas/UI/Panel"]
+margin_left = 17.0
 margin_top = 28.0
-margin_right = 235.0
-margin_bottom = 493.0
+margin_right = 232.0
+margin_bottom = 505.0
+script = SubResource( 9 )
 
 [node name="HidePanel" type="Button" parent="Canvas/UI/Panel"]
 margin_left = 3.0
