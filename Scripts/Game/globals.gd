@@ -128,7 +128,7 @@ func get_random_scene(var scene_type: int) -> String:
 	return get_random_arrayitem(valid_scenes)
 
 
-func _setup_scene(game_mode: int, map: Node2D):
+func _setup_scene(game_mode: int, map: Node2D, race_pos: int):
 	# Sets up a game scene using Global and Game data.
 	var my_id = Game.STEAM_ID
 
@@ -148,6 +148,11 @@ func _setup_scene(game_mode: int, map: Node2D):
 
 	my_player.set_name(str(my_id))
 	var players = get_node("/root/Scene/Players")
+	var start_point = map.get_node("StartPoints").get_node(str(race_pos))
+	var point_l = start_point.get_node("TL").position
+	var point_r = start_point.get_node("TR").position
+	my_player.position = (point_l + point_r) / 2
+	my_player.position.x -= my_player.get_node("VehicleSprite").get_texture().get_height() / 2
 	players.add_child(my_player)
 
 	var my_cam = preload("res://Scenes/Cam.tscn").instance()
@@ -209,6 +214,10 @@ func _vector_is_equal_approx(v1, v2):
 	if is_equal_approx(v1.x, v2.x) and is_equal_approx(v1.y, v2.y):
 		return true
 	return false
+
+
+func vector_stepify(vector, step):
+	return Vector2(stepify(vector.x, step), stepify(vector.y, step))
 
 
 func _multiply_str(string: String, times: int) -> String:

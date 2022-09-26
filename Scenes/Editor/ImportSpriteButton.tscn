@@ -12,11 +12,14 @@ var sprite_node: Sprite
 
 
 func _ready():
+	file_dialog = file_dialog as FileDialog
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog.current_dir = \"res://Mods\"
-	file_dialog.resizable = true
 	file_dialog.mode = FileDialog.MODE_OPEN_FILE
+	file_dialog.resizable = true
 	file_dialog.filters = PoolStringArray([\"*.png ; PNG Images\"])
+	file_dialog.rect_size.x = 1920
+	file_dialog.rect_size.y = 1080
 
 
 func _on_Button_pressed():

@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "lobby_list_scroller_pressed.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 13, "h": 48 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 13, "h": 48 },
+    "sourceSize": { "w": 13, "h": 48 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "lobby_list_scroller_pressed.png",
+  "format": "RGBA8888",
+  "size": { "w": 13, "h": 48 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

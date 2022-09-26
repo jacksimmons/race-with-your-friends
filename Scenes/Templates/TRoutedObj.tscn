@@ -9,7 +9,7 @@ script = ExtResource( 1 )
 collision_layer = 0
 collision_mask = 0
 
-[node name="ObjSprite" type="Sprite" parent="KinematicBody2D"]
+[node name="Sprite" type="Sprite" parent="KinematicBody2D"]
 
 [node name="Shape" type="Polygon2D" parent="."]
 color = Color( 0, 0.764706, 1, 0.462745 )

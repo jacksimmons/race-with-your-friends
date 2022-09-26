@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Scripts/Editor/editor.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Editor/editor_camera.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Sprites/Editor/GREEN_PIXEL.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/Editor/SELECTED_VERTEX.png" type="Texture" id=11]
 [ext_resource path="res://Scripts/Editor/TemplateButtons/shape_vertex_button.gd" type="Script" id=12]
+[ext_resource path="res://Scenes/Templates/TObject.tscn" type="PackedScene" id=13]
 
 [sub_resource type="GDScript" id=7]
 script/source = "extends Button
@@ -150,8 +151,6 @@ func _ready():
 	new_popup.add_separator() # 1
 
 	new_popup.add_item(\"From file\")
-	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
-	file_dialog.filters = PoolStringArray([\"*.tscn ; Godot Scenes\"])
 
 	new_popup.connect(\"id_pressed\", self, \"_on_item_pressed\")
 
@@ -299,7 +298,7 @@ func _handle_test():
 		if map_exists:
 			var vehicle_name = get_popup().get_item_text(selected_id)
 			Game.PLAYER_DATA[Game.STEAM_ID] = {\"vehicle\": vehicle_name}
-			Global._setup_scene(Global.GameMode.EDITOR, editor.project_root)
+			Global._setup_scene(Global.GameMode.EDITOR, editor.project_root, 12)
 
 			if Game.NUM_CHECKPOINTS == 0:
 				pass
@@ -308,7 +307,7 @@ func _handle_test():
 			var vehicle_name = get_popup().get_item_text(selected_id)
 			Game.PLAYER_DATA[Game.STEAM_ID] = {\"vehicle\": vehicle_name}
 			var def_map = preload(\"res://Scenes/Templates/TMap.tscn\").instance()
-			Global._setup_scene(Global.GameMode.EDITOR, def_map)
+			Global._setup_scene(Global.GameMode.EDITOR, def_map, 12)
 
 		editor.start_testing()
 
@@ -417,8 +416,7 @@ func _process(delta):
 [node name="Editor" type="Control"]
 script = ExtResource( 1 )
 
-[node name="Object" type="Node2D" parent="."]
-visible = false
+[node name="Object" parent="." instance=ExtResource( 13 )]
 
 [node name="Canvas" type="CanvasLayer" parent="."]
 
@@ -512,8 +510,10 @@ margin_bottom = 1080.0
 window_title = "Open a File"
 resizable = true
 mode = 0
-current_dir = "res://Mods"
-current_path = "res://Mods/"
+access = 2
+filters = PoolStringArray( "\"*.tscn ; Godot Scenes\"" )
+current_dir = "/Users/sack-/Documents/GitHub/race-with-your-friends"
+current_path = "/Users/sack-/Documents/GitHub/race-with-your-friends/"
 
 [node name="UnsavedProgressDialog" type="ConfirmationDialog" parent="Canvas/UI/Panel/HBoxContainer/File/Open"]
 margin_left = 847.0
@@ -632,6 +632,7 @@ margin_bottom = 30.0
 [node name="CameraZoom" type="Label" parent="Canvas/UI/Tabs/Camera/CamZoom"]
 margin_right = 225.0
 margin_bottom = 14.0
+mouse_filter = 0
 text = "Camera Zoom:"
 
 [node name="CameraZoomReset" type="Button" parent="Canvas/UI/Tabs/Camera/CamZoom"]
@@ -649,6 +650,7 @@ margin_bottom = 60.0
 [node name="CameraPanLabel" type="Label" parent="Canvas/UI/Tabs/Camera/CamPan"]
 margin_right = 141.0
 margin_bottom = 14.0
+mouse_filter = 0
 text = "Camera Pan Spd:"
 
 [node name="CameraPan" type="HSlider" parent="Canvas/UI/Tabs/Camera/CamPan"]
@@ -722,6 +724,20 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
+[node name="ShowMap" type="Control" parent="Canvas/UI/Tabs/Map"]
+margin_right = 227.0
+
+[node name="ShowMapLabel" type="Label" parent="Canvas/UI/Tabs/Map/ShowMap"]
+margin_right = 165.0
+margin_bottom = 14.0
+text = "Show Map"
+
+[node name="ShowMapButton" type="CheckButton" parent="Canvas/UI/Tabs/Map/ShowMap"]
+margin_left = 155.0
+margin_top = -13.0
+margin_right = 231.0
+margin_bottom = 27.0
+
 [node name="Test" type="VBoxContainer" parent="Canvas/UI/Tabs"]
 visible = false
 anchor_right = 1.0
@@ -766,7 +782,7 @@ valign = 2
 autowrap = true
 
 [node name="CamOffset" type="Node2D" parent="."]
-position = Vector2( 480, 270 )
+position = Vector2( 960, 540 )
 
 [node name="Camera2D" type="Camera2D" parent="CamOffset"]
 rotating = true
@@ -834,5 +850,8 @@ __meta__ = {
 [connection signal="toggled" from="Canvas/UI/Tabs/Camera/PixPerf/PixelPerfectButton" to="." method="_on_PixelPerfectButton_toggled"]
 [connection signal="value_changed" from="Canvas/UI/Tabs/Camera/CamRot/CameraRotation" to="." method="_on_CameraRotation_value_changed"]
 [connection signal="toggled" from="Canvas/UI/Tabs/Camera/ShowAxes/ShowAxesButton" to="." method="_on_ShowAxesButton_toggled"]
+[connection signal="toggled" from="Canvas/UI/Tabs/Map/ShowMap/ShowMapButton" to="." method="_on_ShowMapButton_toggled"]
 [connection signal="pressed" from="Canvas/UI/Tabs/Test/StopTestingButton" to="Canvas/UI/Tabs/Test/StopTestingButton" method="_on_StopTestingButton_pressed"]
 [connection signal="pressed" from="CamOffset/Vertices/Vertex" to="CamOffset/Vertices/Vertex" method="_on_Vertex_pressed"]
+
+[editable path="Object"]

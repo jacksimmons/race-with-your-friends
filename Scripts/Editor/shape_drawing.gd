@@ -18,7 +18,7 @@ var mouse_in = false
 
 
 func _ready():
-	colours.append(Color.red)
+	colours.append(Color(1, 0, 0, 0.25))
 
 
 func stop_drawing():

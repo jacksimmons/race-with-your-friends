@@ -56,13 +56,13 @@ var axes_visible: bool
 
 onready var save: MenuButton = $Canvas/UI/Panel/File/Save
 
-onready var obj_sprite = $Map/Sprites/MapSprite
+var obj_sprite: Node = null
 
 var progress = false
+var show_map = false
 
 func _ready():
 	current_node = $Object
-	cam_pp.set_pressed(true)
 
 	_on_CameraPan_value_changed(cam_pan_slider.value)
 	_on_CameraRotation_value_changed(cam_rot_slider.value)
@@ -145,6 +145,17 @@ func refresh_nodes():
 	visible_node.visible = true
 	visible_node.position = cam.get_parent().position # Place the node at the camera offset
 	display.add_child(visible_node)
+
+	if !obj_sprite_loaded:
+		obj_sprite = project_root.get_node("Sprite")
+		obj_sprite_loaded = true
+
+	if show_map and obj_sprite_loaded:
+		var visible_sprite = obj_sprite.duplicate()
+		visible_sprite.visible = true
+		visible_sprite.position = cam.get_parent().position
+		display.add_child(visible_sprite)
+
 
 	# Clear shape points
 	shape.points = {}
@@ -304,7 +315,25 @@ func refresh_nodes():
 		buttons.add_child(del_node_button)
 
 func _process(delta):
-	cam_pos.text = "Camera Position: " + str(cam.position)
+	cam_pos.text = "Camera Position: " + str(Global.vector_stepify(cam.position, 1))
+	if cam.zoom.x <= 1 and cam.pixel_perfect:
+		cam.zoom = Vector2.ONE
+		cam_zoom.add_color_override("font_color", Color.yellow)
+		cam_zoom.set_tooltip("Cannot reduce zoom below 1x when in Pixel Perfect mode.")
+	elif cam.zoom.x > 1 or !cam.pixel_perfect:
+		# ! If changing all default font colours from white, take note of the line below
+		cam_zoom.add_color_override("font_color", Color.white)
+		cam_zoom.set_tooltip("")
+
+	if cam_pan_slider.value <= 1 and cam.pixel_perfect:
+		_on_CameraPan_value_changed(1)
+		cam_pan_label.add_color_override("font_color", Color.yellow)
+		cam_pan_label.set_tooltip("Cannot reduce pan speed below 1x when in Pixel Perfect mode.")
+	elif cam_pan_slider.value > 1 or !cam.pixel_perfect:
+		# ! If changing all default font colours from white, take note of the line below
+		cam_pan_label.add_color_override("font_color", Color.white)
+		cam_pan_label.set_tooltip("")
+
 	cam_zoom.text = "Camera Zoom: " + str(cam.zoom.x) + "x"
 
 
@@ -313,7 +342,7 @@ func _on_CameraPosReset_pressed():
 
 
 func _on_CameraZoomReset_pressed():
-	cam.zoom = cam.DEFAULT_ZOOM
+	cam.zoom = Vector2.ONE * cam.DEFAULT_ZOOM
 
 
 func _on_CameraPan_value_changed(value):
@@ -355,3 +384,17 @@ func _on_ShowAxesButton_toggled(button_pressed):
 		axes.show()
 	else:
 		axes.hide()
+
+
+func _on_ShowMapButton_toggled(button_pressed):
+	if button_pressed:
+		show_map = true
+		var visible_sprite = obj_sprite.duplicate()
+		visible_sprite.visible = true
+		visible_sprite.position = cam.get_parent().position
+		display.add_child(visible_sprite)
+	else:
+		show_map = false
+		var sprite = display.get_node_or_null("Sprite")
+		if sprite != null:
+			display.remove_child(sprite)

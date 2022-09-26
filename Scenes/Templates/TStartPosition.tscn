@@ -1,0 +1,11 @@
+[gd_scene format=2]
+
+[node name="StartPosition" type="Node2D"]
+
+[node name="TL" type="Position2D" parent="."]
+
+[node name="TR" type="Position2D" parent="."]
+
+[node name="BL" type="Position2D" parent="."]
+
+[node name="BR" type="Position2D" parent="."]

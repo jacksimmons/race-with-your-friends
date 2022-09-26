@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/Templates/TVehicle.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Cars/Cock/Cock.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Templates/TWheel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Sprites/Cars/Cock/CockShaftWheel.png" type="Texture" id=4]
 
 [node name="Vehicle" instance=ExtResource( 1 )]
+rotation = 0.0
 DEBUG_DEFAULT = Color( 0, 0, 0, 1 )
 DEBUG_WARN = Color( 0, 0, 0, 1 )
 MAX_SPEED = 3.0
@@ -24,15 +24,6 @@ texture = ExtResource( 4 )
 
 [node name="CollisionPolygon2D" parent="Wheels/Wheel/KinematicBody2D" index="0"]
 polygon = PoolVector2Array( -2.00001, 1.99999, 0.999995, 2, 0.999998, 1, 1.00001, -2, 1.00001, -3, -0.999992, -3, -0.99999, -4, -1.99999, -5.00001, -6.99999, -5.00002, -6.99998, -6.00002, -13, -6.00003, -13, -5.00003, -20, -5.00005, -20, -5.07036e-05, -21, -5.32388e-05, -21, 0.999947, -19, 2.99995, -10, 2.99997, -10, 1.99997, -5.00001, 1.99999, -5, 0.999987, -2, 0.999995 )
-
-[node name="VehicleSprite" parent="." index="1"]
-visible = false
-position = Vector2( 9, 2.28166e-05 )
-texture = ExtResource( 2 )
-
-[node name="HookSprite" parent="." index="2"]
-position = Vector2( 27.8407, -0.299394 )
-scale = Vector2( 0.576638, 0.576638 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="3"]
 rotation = 1.5708

@@ -6,7 +6,9 @@ const SCROLL_MIN = 0.1
 const SCROLL_MAX = 2
 
 var speed = 1
-var pixel_perfect = true
+var pixel_perfect = false
+var time = 0
+var in_sprite = false
 
 
 func _ready():
@@ -29,41 +31,44 @@ func _input(event):
 
 
 func _process(delta):
+	time += delta
 	if current:
+		var multiplier = Vector2.ZERO
+		var direction = Vector2.ZERO
+
 		if Input.is_action_pressed("reset_zoom"):
 			zoom = Vector2(DEFAULT_ZOOM, DEFAULT_ZOOM)
 
 		if Input.is_action_pressed("pan_left"):
-			var multiplier = speed * zoom
-			if pixel_perfect:
-				multiplier = Vector2(int(multiplier.x), int(multiplier.y))
-
-			position += Vector2.LEFT * multiplier
+			multiplier = get_multiplier()
+			direction = Vector2.LEFT
+			position += multiplier * direction
 
 		if Input.is_action_pressed("pan_right"):
-			var multiplier = speed * zoom
-			if pixel_perfect:
-				multiplier = Vector2(int(multiplier.x), int(multiplier.y))
-
-			position += Vector2.RIGHT * multiplier
+			multiplier = get_multiplier()
+			direction = Vector2.RIGHT
+			position += multiplier * direction
 
 		if Input.is_action_pressed("pan_up"):
-			var multiplier = speed * zoom
-			if pixel_perfect:
-				multiplier = Vector2(int(multiplier.x), int(multiplier.y))
-
-			position += Vector2.UP * multiplier
+			multiplier = get_multiplier()
+			direction = Vector2.UP
+			position += multiplier * direction
 
 		if Input.is_action_pressed("pan_down"):
-			var multiplier = speed * zoom
-			if pixel_perfect:
-				multiplier = Vector2(int(multiplier.x), int(multiplier.y))
+			multiplier = get_multiplier()
+			direction = Vector2.DOWN
+			position += multiplier * direction
 
-			position += Vector2.DOWN * multiplier
+
+func get_multiplier():
+	var multiplier = speed * zoom
+	if pixel_perfect:
+		multiplier = Vector2(floor(multiplier.x), floor(multiplier.y))
+	return multiplier
 
 
 func make_pixel_perfect():
-	position = Vector2(int(position.x), int(position.y))
+	position = Vector2(floor(position.x), floor(position.y))
 	pixel_perfect = true
 
 

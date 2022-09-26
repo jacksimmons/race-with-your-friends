@@ -17,9 +17,18 @@ onready var chatOutput = $Chat/MessageList
 onready var playerCount = $Players/NoOfPlayers
 onready var playerList = $Players/PlayerList
 
+onready var texButton = $Players/TextureButton
+
 onready var chatInputButton = $Chat/SendMessageButton
 
+onready var cam = $Camera2D
+
 # Lobby
+var cam_on_stats: bool = false
+var cam_on_lobby: bool = false
+var position_for_cam_on_stats := Vector2(-1920, 0)
+var position_for_cam_on_lobby := Vector2(0, 0)
+
 var host: bool = false
 
 var message_input_shown: bool = false
@@ -99,6 +108,23 @@ func _process(delta):
 					send_P2P_Packet("all", packet)"""
 
 	else:
+		time += delta / 10
+		if time >= delta:
+			time = 0
+			# PING?
+
+		if cam_on_stats:
+			rect_position = lerp(rect_position, position_for_cam_on_stats, 0.2)
+			if Global._vector_is_equal_approx(rect_position, position_for_cam_on_stats):
+				print("HI")
+				cam_on_stats = false
+
+		if cam_on_lobby:
+			print("HI2")
+			rect_position = lerp(rect_position, position_for_cam_on_lobby, 0.2)
+			if Global._vector_is_equal_approx(rect_position, position_for_cam_on_lobby):
+				cam_on_lobby = false
+
 		if Input.is_action_just_pressed("send_message"):
 			var focus_owner = chatInput.get_focus_owner()
 			var conflicting_controls = [chatInput, lobbySetName]
@@ -226,19 +252,20 @@ func add_Player_List(steam_id, steam_name) -> void:
 		else:
 			Game.PLAYER_DATA[MEMBER["steam_id"]] = {"steam_name": MEMBER["steam_name"]}
 
-		var button = MenuButton.new()
+		var button = texButton.duplicate()
 		button.name = str(MEMBER["steam_id"])
-		button.text = text
-		button.flat = false
+		button.get_node("Name").text = text
+		button.show()
 
-		var popup = button.get_popup()
-		popup.add_separator(MEMBER["steam_name"])
-		if host and MEMBER["steam_name"] != Game.STEAM_NAME:
-			popup.add_item("Make Host")
-			popup.add_item("Kick")
-			popup.add_item("Ban")
-		popup.add_item("View Steam Profile")
-		popup.connect("id_pressed", self, "_on_PlayerList_item_selected", [popup, button.name])
+		#var popup = button.get_popup()
+		#popup.add_separator(MEMBER["steam_name"])
+		#if host and MEMBER["steam_name"] != Game.STEAM_NAME:
+		#	popup.add_item("Make Host")
+		#	popup.add_item("Kick")
+		#	popup.add_item("Ban")
+		#popup.add_item("View Steam Profile")
+		#popup.connect("id_pressed", self, "_on_PlayerList_item_selected", [popup, button.name])
+
 		playerList.add_child(button)
 
 
@@ -487,7 +514,7 @@ func fix_vehicle_sprite() -> void:
 func start_Pre_Config() -> void:
 	if !local_pre_config_done:
 		var map = load("res://Scenes/Maps/" + selected_map + ".tscn").instance()
-		my_player = Global._setup_scene(Global.GameMode.MULTI, map)
+		my_player = Global._setup_scene(Global.GameMode.MULTI, map, 12)
 
 		local_pre_config_done = true
 
@@ -829,3 +856,13 @@ func _on_PlayerList_item_selected(id: int, popup, player_id_as_string: String) -
 			send_P2P_Packet(player_id_as_string, {"banned": true})
 		"View Steam Profile":
 			Steam.activateGameOverlayToUser("steamid", int(player_id_as_string))
+
+
+func _on_StatsButton_pressed():
+	if !cam_on_stats:
+		cam_on_stats = true
+
+
+func _on_LobbyButton_pressed():
+	if !cam_on_lobby:
+		cam_on_lobby = true

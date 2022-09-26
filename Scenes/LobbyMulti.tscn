@@ -1,10 +1,61 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Sprites/Maps/Thumbnails/temp_cock_map.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/lobby_multi.gd" type="Script" id=2]
 [ext_resource path="res://Sprites/Cars/CarCunt/Cunt Car.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Maps/Thumbnails/scorpion_map.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Maps/Thumbnails/scorpion_map_large.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Menus/lobby screen.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Menus/lobby_list_scroller.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Menus/lobby_list_bar.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Menus/lobby_list_scroller_highlighted.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Menus/lobby_list_scroller_pressed.png" type="Texture" id=10]
+[ext_resource path="res://Scripts/auto_shrinking_label.gd" type="Script" id=11]
+
+[sub_resource type="DynamicFontData" id=10]
+font_path = "res://8-bit Arcade In.ttf"
+
+[sub_resource type="DynamicFont" id=11]
+size = 64
+outline_size = 1
+font_data = SubResource( 10 )
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0.933333, 0.764706, 0.603922, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="DynamicFontData" id=8]
+font_path = "res://Fipps-Regular.otf"
+
+[sub_resource type="DynamicFont" id=9]
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 8 )
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 7 )
+region_rect = Rect2( 0, 0, 13, 48 )
+
+[sub_resource type="StyleBoxTexture" id=6]
+texture = ExtResource( 9 )
+region_rect = Rect2( 0, 0, 13, 48 )
+
+[sub_resource type="StyleBoxTexture" id=7]
+texture = ExtResource( 10 )
+region_rect = Rect2( 0, 0, 13, 48 )
+
+[sub_resource type="StyleBoxTexture" id=4]
+texture = ExtResource( 8 )
+region_rect = Rect2( 0, 0, 13, 568 )
+
+[sub_resource type="Theme" id=5]
+VScrollBar/styles/grabber = SubResource( 3 )
+VScrollBar/styles/grabber_highlight = SubResource( 6 )
+VScrollBar/styles/grabber_pressed = SubResource( 7 )
+VScrollBar/styles/scroll = SubResource( 4 )
+VScrollBar/styles/scroll_focus = null
 
 [node name="Lobby" type="Control"]
 script = ExtResource( 2 )
@@ -16,54 +67,102 @@ margin_right = 151.0
 margin_bottom = 22.0
 text = "Back"
 
-[node name="Chat" type="Panel" parent="."]
-margin_left = 1.0
-margin_top = 420.0
-margin_right = 678.0
-margin_bottom = 539.0
+[node name="Menu" type="Sprite" parent="."]
+position = Vector2( 1920, 540 )
+texture = ExtResource( 6 )
 
-[node name="LobbyLabel" type="Label" parent="Chat"]
-margin_left = 3.0
-margin_top = -391.0
-margin_right = 46.0
-margin_bottom = -376.0
-text = "Lobby:"
+[node name="Chat" type="Control" parent="."]
+margin_left = 16.0
+margin_top = 832.0
+margin_right = 1418.0
+margin_bottom = 1066.0
 
 [node name="MessageList" type="RichTextLabel" parent="Chat"]
 margin_left = 1.0
-margin_right = 675.0
-margin_bottom = 96.0
+margin_right = 1407.0
+margin_bottom = 204.0
 
 [node name="TextEdit" type="LineEdit" parent="Chat"]
 margin_left = 1.0
-margin_top = 96.0
-margin_right = 617.0
-margin_bottom = 120.0
+margin_top = 208.0
+margin_right = 1345.0
+margin_bottom = 232.0
 
 [node name="SendMessageButton" type="Button" parent="Chat"]
-margin_left = 618.0
-margin_top = 97.0
-margin_right = 676.0
-margin_bottom = 119.0
+margin_left = 1348.0
+margin_top = 209.0
+margin_right = 1406.0
+margin_bottom = 231.0
 text = "Send"
 
-[node name="Players" type="Panel" parent="."]
-margin_left = 1.0
-margin_top = 49.0
-margin_right = 151.0
-margin_bottom = 419.0
+[node name="Players" type="Control" parent="."]
+margin_left = 16.0
+margin_top = 144.0
+margin_right = 416.0
+margin_bottom = 816.0
 
 [node name="NoOfPlayers" type="Label" parent="Players"]
 margin_top = 2.0
-margin_right = 150.0
-margin_bottom = 17.0
-text = "Players (0)"
+margin_right = 400.0
+margin_bottom = 45.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 11 )
+text = "Players 0"
 align = 1
 
 [node name="PlayerList" type="VBoxContainer" parent="Players"]
-margin_top = 18.0
-margin_right = 150.0
-margin_bottom = 370.0
+margin_left = 15.0
+margin_top = 55.0
+margin_right = 396.0
+margin_bottom = 668.0
+
+[node name="TextureButton" type="TextureButton" parent="Players"]
+margin_left = -6.0
+margin_top = -234.0
+margin_right = 366.0
+margin_bottom = -154.0
+rect_min_size = Vector2( 0, 80 )
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Name" type="Label" parent="Players/TextureButton"]
+margin_right = 189.0
+margin_bottom = 41.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 9 )
+text = "NAME"
+script = ExtResource( 11 )
+
+[node name="Elo" type="Label" parent="Players/TextureButton"]
+margin_top = 40.0
+margin_right = 190.0
+margin_bottom = 80.0
+custom_colors/font_color = Color( 0.0117647, 0.137255, 0.380392, 1 )
+custom_fonts/font = SubResource( 9 )
+text = "ELO:"
+script = ExtResource( 11 )
+
+[node name="VScrollBar" type="VScrollBar" parent="Players"]
+margin_left = 1.0
+margin_top = 55.0
+margin_right = 14.0
+margin_bottom = 671.0
+theme = SubResource( 5 )
+
+[node name="StatsButton" type="Button" parent="."]
+margin_left = 1427.0
+margin_top = 655.0
+margin_right = 1919.0
+margin_bottom = 890.0
+rect_pivot_offset = Vector2( -869, -66 )
+flat = true
+
+[node name="LobbyButton" type="Button" parent="."]
+margin_left = 1922.0
+margin_top = 656.0
+margin_right = 2414.0
+margin_bottom = 891.0
+flat = true
 
 [node name="LobbyNameLabel" type="RichTextLabel" parent="."]
 visible = false
@@ -83,6 +182,7 @@ caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="Vehicle" type="Panel" parent="."]
+visible = false
 margin_left = 701.0
 margin_top = 420.0
 margin_right = 939.0
@@ -121,6 +221,7 @@ align = 1
 valign = 1
 
 [node name="Map" type="Panel" parent="."]
+visible = false
 margin_left = 152.0
 margin_top = 1.0
 margin_right = 960.0
@@ -184,8 +285,13 @@ margin_right = 804.0
 margin_bottom = 414.0
 text = "Cancel"
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 960, 540 )
+
 [connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]
 [connection signal="pressed" from="Chat/SendMessageButton" to="." method="_on_SendMessageButton_pressed"]
+[connection signal="pressed" from="StatsButton" to="." method="_on_StatsButton_pressed"]
+[connection signal="pressed" from="LobbyButton" to="." method="_on_LobbyButton_pressed"]
 [connection signal="text_entered" from="LobbyNameEdit" to="." method="_on_LobbyNameEdit_text_entered"]
 [connection signal="pressed" from="Vehicle/VehicleLeftButton" to="." method="_on_VehicleLeftButton_pressed"]
 [connection signal="pressed" from="Vehicle/VehicleRightButton" to="." method="_on_VehicleRightButton_pressed"]

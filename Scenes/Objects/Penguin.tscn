@@ -5,7 +5,7 @@
 
 [node name="Penguin" instance=ExtResource( 1 )]
 
-[node name="ObjSprite" parent="KinematicBody2D" index="0"]
+[node name="Sprite" parent="KinematicBody2D" index="0"]
 rotation = -1.5708
 texture = ExtResource( 2 )
 

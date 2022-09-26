@@ -5,7 +5,7 @@
 
 [node name="Wheel" instance=ExtResource( 1 )]
 
-[node name="ObjSprite" parent="." index="0"]
+[node name="Sprite" parent="." index="0"]
 texture = ExtResource( 2 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="." index="1"]

@@ -7,7 +7,7 @@
 [node name="Eagle" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
 
-[node name="ObjSprite" parent="KinematicBody2D" index="0"]
+[node name="Sprite" parent="KinematicBody2D" index="0"]
 rotation = 1.5708
 texture = ExtResource( 1 )
 
