@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "lobby_screen_dankamobil_pressed.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 98, "h": 97 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 98, "h": 97 },
+    "sourceSize": { "w": 98, "h": 97 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "lobby_screen_dankamobil_pressed.png",
+  "format": "RGBA8888",
+  "size": { "w": 98, "h": 97 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

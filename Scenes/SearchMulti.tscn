@@ -214,6 +214,7 @@ margin_right = 104.0
 margin_bottom = 93.0
 text = "Region"
 align = 1
+selected = 0
 script = SubResource( 2 )
 
 [node name="JoinType" type="OptionButton" parent="."]

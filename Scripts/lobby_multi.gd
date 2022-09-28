@@ -1,15 +1,19 @@
 extends Control
 
 # Enum
-enum LobbyStatus {Private, Friends, Public, Invisible}
+enum JoinType {Private, Friends, Public, Invisible}
 enum SearchDistance {Close, Default, Far, Worldwide}
 enum SendType {Unreliable, UnreliableNoDelay, Reliable, ReliableNoDelay}
 enum SortCondition { LAP, POSITION }
 enum LeaveReason { NONE, KICKED, BANNED }
+enum Fullness {Any, Empty, Full}
+enum LobbyComparison {LTE = -2, LT = -1, E = 0, GT = 1, GTE = 2, NE = 3}
 
 # Onreadies
-onready var lobbySetName = $LobbyNameEdit
-onready var lobbyGetName = $LobbyNameLabel
+onready var lobbySetName = $Settings/Popup/LobbyNameEdit
+onready var lobbyGetName = $Settings/LobbyNameLabel
+onready var lobbySettings = $Settings/LobbySettingsButton
+onready var lobbySettingsPopup = $Settings/Popup
 
 onready var chatInput = $Chat/TextEdit
 onready var chatOutput = $Chat/MessageList
@@ -24,6 +28,8 @@ onready var chatInputButton = $Chat/SendMessageButton
 onready var cam = $Camera2D
 
 # Lobby
+var join_type: int = JoinType.Public
+
 var cam_on_stats: bool = false
 var cam_on_lobby: bool = false
 var position_for_cam_on_stats := Vector2(-1920, 0)
@@ -115,14 +121,12 @@ func _process(delta):
 
 		if cam_on_stats:
 			rect_position = lerp(rect_position, position_for_cam_on_stats, 0.2)
-			if Global._vector_is_equal_approx(rect_position, position_for_cam_on_stats):
-				print("HI")
+			if Global._vector_is_equal_approx_to_step(rect_position, position_for_cam_on_stats, 1):
 				cam_on_stats = false
 
 		if cam_on_lobby:
-			print("HI2")
 			rect_position = lerp(rect_position, position_for_cam_on_lobby, 0.2)
-			if Global._vector_is_equal_approx(rect_position, position_for_cam_on_lobby):
+			if Global._vector_is_equal_approx_to_step(rect_position, position_for_cam_on_lobby, 1):
 				cam_on_lobby = false
 
 		if Input.is_action_just_pressed("send_message"):
@@ -193,13 +197,18 @@ func read_All_P2P_Packets(read_count: int = 0):
 		read_All_P2P_Packets(read_count + 1)
 
 
+func get_lobby_data(key: String):
+	# Implementation function to reduce other scripts' usage of Steam library
+	return Steam.getLobbyData(Game.LOBBY_ID, key)
+
+
 ## Self-Made Functions
 
 
 func create_Lobby() -> void:
 	# Check no other lobbies are running
 	if Game.LOBBY_ID == 0:
-		Steam.createLobby(LobbyStatus.Public, Game.MAX_MEMBERS)
+		Steam.createLobby(join_type, Game.MAX_MEMBERS)
 		Game.PLAYER_DATA[Game.STEAM_ID] = {}
 		Game.PLAYER_DATA[Game.STEAM_ID]["start_position"] = 0
 	set_host_status(true)
@@ -461,11 +470,9 @@ func set_host_status(set_host: bool) -> void:
 	host = set_host
 
 	if host:
-		lobbyGetName.hide()
-		lobbySetName.show()
+		lobbySettings.show()
 	else:
-		lobbyGetName.show()
-		lobbySetName.hide()
+		lobbySettings.hide()
 
 
 func leave_Lobby() -> void:
@@ -560,8 +567,10 @@ func _on_Lobby_Created(connect, lobbyID):
 		# Make it joinable (this should be done by default anyway)
 		Steam.setLobbyJoinable(Game.LOBBY_ID, true)
 
-		# Set Lobby Data
+		# Set Lobby Data - this is custom data, I need to do this manually.
 		Steam.setLobbyData(lobbyID, "name", lobby_name)
+		Steam.setLobbyData(lobbyID, "type", JoinType.keys()[join_type])
+
 		Steam.setLobbyMemberLimit(lobbyID, Game.MAX_MEMBERS)
 
 		var RELAY = Steam.allowP2PPacketRelay(true)
@@ -733,6 +742,7 @@ func _on_All_Pre_Configs_Complete():
 
 
 func _on_LobbyNameEdit_text_entered(new_text):
+	lobbyGetName.text = new_text
 	Steam.setLobbyData(Game.LOBBY_ID, "name", new_text)
 	display_Message("Lobby name changed to: " + new_text)
 
@@ -859,10 +869,21 @@ func _on_PlayerList_item_selected(id: int, popup, player_id_as_string: String) -
 
 
 func _on_StatsButton_pressed():
-	if !cam_on_stats:
+	if !cam_on_stats and !cam_on_lobby:
 		cam_on_stats = true
 
 
 func _on_LobbyButton_pressed():
-	if !cam_on_lobby:
+	if !cam_on_lobby and !cam_on_stats:
 		cam_on_lobby = true
+
+
+func _on_LobbySettingsButton_pressed():
+	lobbySettingsPopup.popup()
+	lobbySettings.disabled = true
+
+
+func _on_LobbySettingsCloseButton_pressed():
+	print("HI")
+	lobbySettingsPopup.hide()
+	lobbySettings.disabled = false

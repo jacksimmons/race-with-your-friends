@@ -21,6 +21,12 @@ func _on_JoinLobby_pressed():
 	var search_multi = preload(\"res://Scenes/SearchMulti.tscn\").instance()
 	get_node(\"/root\").add_child(search_multi)
 	self.queue_free()
+
+
+func _on_Back_pressed():
+	var scene = load(\"res://Scenes/MenuTitle.tscn\").instance()
+	get_node(\"/root\").add_child(scene)
+	self.queue_free()
 "
 
 [node name="MenuMulti" type="Node2D"]
@@ -48,6 +54,11 @@ margin_right = 631.0
 margin_bottom = 314.0
 text = "Join Lobby"
 
+[node name="Back" type="Button" parent="."]
+margin_right = 42.0
+margin_bottom = 20.0
+text = "Back"
+
 [node name="AcceptDialog" type="AcceptDialog" parent="."]
 margin_right = 83.0
 margin_bottom = 58.0
@@ -55,3 +66,4 @@ margin_bottom = 58.0
 [connection signal="pressed" from="QuickJoin" to="." method="_on_QuickJoin_pressed"]
 [connection signal="pressed" from="CreateLobby" to="." method="_on_CreateLobby_pressed"]
 [connection signal="pressed" from="JoinLobby" to="." method="_on_JoinLobby_pressed"]
+[connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]

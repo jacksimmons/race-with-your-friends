@@ -210,6 +210,13 @@ func _find_vector_direction(v1, v2):
 	return direction
 
 
+func _vector_is_equal_approx_to_step(v1, v2, step):
+	var v1_rounded = Vector2(stepify(v1.x, step), stepify(v1.y, step))
+	var v2_rounded = Vector2(stepify(v2.x, step), stepify(v2.y, step))
+
+	return _vector_is_equal_approx(v1_rounded, v2_rounded)
+
+
 func _vector_is_equal_approx(v1, v2):
 	if is_equal_approx(v1.x, v2.x) and is_equal_approx(v1.y, v2.y):
 		return true
