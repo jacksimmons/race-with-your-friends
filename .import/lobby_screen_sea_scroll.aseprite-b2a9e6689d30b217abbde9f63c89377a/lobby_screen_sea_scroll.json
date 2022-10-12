@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "lobby_screen_sea_scroll.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 152, "h": 334 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 152, "h": 334 },
+    "sourceSize": { "w": 152, "h": 334 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "lobby_screen_sea_scroll.png",
+  "format": "RGBA8888",
+  "size": { "w": 152, "h": 334 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

@@ -11,7 +11,6 @@ enum LobbyComparison {LTE = -2, LT = -1, E = 0, GT = 1, GTE = 2, NE = 3}
 
 # Onreadies
 onready var lobbySetName = $Settings/Popup/LobbyNameEdit
-onready var lobbyGetName = $Settings/LobbyNameLabel
 onready var lobbySettings = $Settings/LobbySettingsButton
 onready var lobbySettingsPopup = $Settings/Popup
 
@@ -28,7 +27,11 @@ onready var chatInputButton = $Chat/SendMessageButton
 onready var cam = $Camera2D
 
 # Lobby
+
+# Host data (add to HOST_DATA)
 var join_type: int = JoinType.Public
+var num_races: int = 1
+# End host data
 
 var cam_on_stats: bool = false
 var cam_on_lobby: bool = false
@@ -221,7 +224,7 @@ func get_Lobby_Members() -> void:
 	# Get number of members in lobby
 	var MEMBER_COUNT = Steam.getNumLobbyMembers(Game.LOBBY_ID)
 	# Update player list count
-	playerCount.set_text("Players (" + str(MEMBER_COUNT) + ")")
+	playerCount.set_text("Players: " + str(MEMBER_COUNT))
 
 	# Get members data
 	for MEMBER in range(0, MEMBER_COUNT):
@@ -334,8 +337,33 @@ func read_P2P_Packet():
 
 		if READABLE.has("set_host"):
 			if Game.LOBBY_ID != 0:
+				# We have been given host, or had host taken away from us (somehow).
 				set_host_status(READABLE["set_host"])
 
+		if READABLE.has("host_obtained"):
+			if Game.LOBBY_ID != 0:
+				# The new host has received our request to give them host; we
+				# now need to provide them with any data the host needs.
+				Game.PLAYER_DATA[PACKET_SENDER]["host"] = true
+				if host:
+					var HOST_DATA = {}
+					HOST_DATA["join_type"] = join_type
+					HOST_DATA["num_races"] = num_races
+					send_P2P_Packet(str(PACKET_SENDER), {"host_data": HOST_DATA})
+
+		if READABLE.has("host_data"):
+			if Game.LOBBY_ID != 0:
+				# We have received the data from the previous host, and must
+				# interpret it and store it.
+				var HOST_DATA = READABLE["host_data"]
+				join_type = HOST_DATA["join_type"]
+				num_races = HOST_DATA["num_races"]
+				send_P2P_Packet(str(PACKET_SENDER), {"host_ack": true})
+
+		if READABLE.has("host_ack"):
+			if Game.LOBBY_ID != 0:
+				# Our job as host is done, and we now retire host privileges.
+				set_host_status(false)
 
 		if READABLE.has("kicked"):
 			if READABLE["kicked"]:
@@ -471,6 +499,7 @@ func set_host_status(set_host: bool) -> void:
 
 	if host:
 		lobbySettings.show()
+		send_P2P_Packet("all", {"host_obtained": true})
 	else:
 		lobbySettings.hide()
 
@@ -479,14 +508,22 @@ func leave_Lobby() -> void:
 	# If we are in a lobby, leave it.
 	if Game.LOBBY_ID != 0:
 		display_Message("Leaving lobby...")
+
+		# Reset host status first, if we are host
+		if len(Game.PLAYER_DATA) > 1 and host:
+			# If there is someone else to give host to, give it to the first
+			# person who joined (excluding us).
+			send_P2P_Packet(Game.PLAYER_DATA[0], {"set_host": true})
+
 		# Send leave request
 		Steam.leaveLobby(Game.LOBBY_ID)
+
 		# Wipe Lobby ID (to show we aren't in a lobby anymore)
 		Game.LOBBY_ID = 0
 
-		lobbyGetName.text = "Name"
-		playerCount.text = "Players (0)"
+		playerCount.text = "Players: 0"
 
+		# Empty the playerlist
 		for child in playerList.get_children():
 			child.queue_free()
 
@@ -496,9 +533,6 @@ func leave_Lobby() -> void:
 
 		# Clear lobby list
 		Game.LOBBY_MEMBERS.clear()
-
-		# Reset host status
-		set_host_status(false)
 
 
 func display_Message(message) -> void:
@@ -553,19 +587,27 @@ func start_Game() -> void:
 ## Steam Callbacks
 
 
+func generate_random_code():
+	randomize()
+	var lobby_name = ""
+	var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+	for i in range(5):
+		lobby_name += characters[randi() % len(characters)]
+
+
 # Lobby (No charselect popup)
 func _on_Lobby_Created(connect, lobbyID):
 	if connect == 1:
 		# Set Lobby ID
 		Game.LOBBY_ID = lobbyID
 
-		var lobby_name = Game.STEAM_NAME + "'s lobby"
+		#!!!generate_random_code()
 
 		# Equivalent of printing into the chatbox
 		display_Message("Created lobby: " + lobby_name)
 
 		# Make it joinable (this should be done by default anyway)
-		Steam.setLobbyJoinable(Game.LOBBY_ID, true)
+		Steam.setLobbyJoinable(lobby_id, true)
 
 		# Set Lobby Data - this is custom data, I need to do this manually.
 		Steam.setLobbyData(lobbyID, "name", lobby_name)
@@ -585,7 +627,6 @@ func _on_Lobby_Joined(lobbyID, perms, locked, response) -> void:
 
 		# Get lobby name
 		var name = Steam.getLobbyData(lobbyID, "name")
-		lobbyGetName.text = str(name)
 
 		# Get lobby members
 		get_Lobby_Members()
@@ -742,7 +783,6 @@ func _on_All_Pre_Configs_Complete():
 
 
 func _on_LobbyNameEdit_text_entered(new_text):
-	lobbyGetName.text = new_text
 	Steam.setLobbyData(Game.LOBBY_ID, "name", new_text)
 	display_Message("Lobby name changed to: " + new_text)
 
@@ -858,6 +898,8 @@ func _on_SendMessageButton_pressed() -> void:
 func _on_PlayerList_item_selected(id: int, popup, player_id_as_string: String) -> void:
 	match popup.get_item_text(id):
 		"Make Host":
+			# Note that we will remain host until the new host acknowledges it with a
+			# "host_obtained" packet.
 			send_P2P_Packet(player_id_as_string, {"set_host": true})
 		"Kick":
 			send_P2P_Packet(player_id_as_string, {"kicked": true})

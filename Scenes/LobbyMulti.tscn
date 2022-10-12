@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Sprites/Maps/Thumbnails/temp_cock_map.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/lobby_multi.gd" type="Script" id=2]
@@ -14,14 +14,30 @@
 [ext_resource path="res://Sprites/Menus/lobby_screen_dankamobil_pressed.png" type="Texture" id=12]
 [ext_resource path="res://Sprites/Menus/lobby_screen_dankamobil_unpressed.png" type="Texture" id=13]
 [ext_resource path="res://Scripts/Menus/lobby_settings_join_type_button.gd" type="Script" id=14]
+[ext_resource path="res://Scripts/Anim/start_anim.gd" type="Script" id=15]
+[ext_resource path="res://PressStart2P.ttf" type="DynamicFontData" id=16]
+[ext_resource path="res://Scripts/Menus/lobby_settings_num_races_slider.gd" type="Script" id=17]
 
-[sub_resource type="DynamicFontData" id=10]
-font_path = "res://8-bit Arcade In.ttf"
+[sub_resource type="Animation" id=12]
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("Road:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 ]
+}
 
-[sub_resource type="DynamicFont" id=11]
-size = 64
-outline_size = 1
-font_data = SubResource( 10 )
+[sub_resource type="StreamTexture" id=13]
+load_path = "res://.import/Layer 1.png-6da211b0ce292d84a8f961ac69e2d1fe.stex"
+
+[sub_resource type="DynamicFont" id=14]
+font_data = ExtResource( 16 )
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0 )
@@ -63,9 +79,23 @@ VScrollBar/styles/scroll_focus = null
 [node name="Lobby" type="Control"]
 script = ExtResource( 2 )
 
+[node name="AnimPlayer" type="AnimationPlayer" parent="."]
+anims/default = SubResource( 12 )
+script = ExtResource( 15 )
+
 [node name="Menu" type="Sprite" parent="."]
 position = Vector2( 1920, 540 )
 texture = ExtResource( 6 )
+
+[node name="Road" type="Sprite" parent="."]
+position = Vector2( 1378, 132 )
+texture = SubResource( 13 )
+hframes = 3
+vframes = 3
+frame = 7
+__meta__ = {
+"_editor_description_": "YXNlcHJpdGVfd2l6YXJkX2NvbmZpZwpwbGF5ZXJ8PUFuaW1QbGF5ZXIKc291cmNlfD1yZXM6Ly9TcHJpdGVzL01lbnVzL2xvYmJ5X3NjcmVlbl9sYW5kX3Njcm9sbC5hc2Vwcml0ZQpsYXllcnw9TGF5ZXIgMQpvcF9leHB8PUZhbHNlCm9fZm9sZGVyfD0Kb19uYW1lfD0Kb25seV92aXNpYmxlfD1GYWxzZQpvX2V4X3B8PQo="
+}
 
 [node name="Back" type="TextureButton" parent="."]
 margin_left = 241.0
@@ -107,13 +137,13 @@ margin_right = 416.0
 margin_bottom = 816.0
 
 [node name="NoOfPlayers" type="Label" parent="Players"]
-margin_left = 1.0
-margin_top = 12.0
-margin_right = 401.0
-margin_bottom = 55.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = SubResource( 11 )
-text = "Players 0"
+margin_top = 6.0
+margin_right = 400.0
+margin_bottom = 22.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 14 )
+text = "Players: 0"
 align = 1
 
 [node name="PlayerList" type="VBoxContainer" parent="Players"]
@@ -212,30 +242,8 @@ margin_bottom = 570.0
 rect_min_size = Vector2( 0, 25 )
 custom_constants/separation = 25
 
-[node name="Name" type="Control" parent="Settings/Popup/Panel/VBoxContainer"]
-margin_right = 380.0
-
-[node name="LobbyNameEditLabel" type="Label" parent="Settings/Popup/Panel/VBoxContainer/Name"]
-margin_left = 1.0
-margin_top = 2.0
-margin_right = 86.0
-margin_bottom = 16.0
-text = "Lobby Name:"
-align = 2
-
-[node name="LobbyNameEdit" type="LineEdit" parent="Settings/Popup/Panel/VBoxContainer/Name"]
-margin_left = 87.0
-margin_top = -3.0
-margin_right = 379.0
-margin_bottom = 21.0
-max_length = 20
-caret_blink = true
-caret_blink_speed = 0.5
-
 [node name="JoinType" type="Control" parent="Settings/Popup/Panel/VBoxContainer"]
-margin_top = 25.0
 margin_right = 380.0
-margin_bottom = 25.0
 
 [node name="JoinType" type="OptionButton" parent="Settings/Popup/Panel/VBoxContainer/JoinType"]
 margin_left = 88.0
@@ -253,19 +261,41 @@ margin_bottom = 17.0
 text = "Join Type:"
 align = 2
 
+[node name="Races" type="Control" parent="Settings/Popup/Panel/VBoxContainer"]
+margin_top = 25.0
+margin_right = 380.0
+margin_bottom = 25.0
+
+[node name="NumRaces" type="HSlider" parent="Settings/Popup/Panel/VBoxContainer/Races"]
+margin_left = 104.0
+margin_top = -2.0
+margin_right = 379.0
+margin_bottom = 22.0
+min_value = 1.0
+max_value = 32.0
+value = 1.0
+script = ExtResource( 17 )
+
+[node name="NumRacesLabel" type="Label" parent="Settings/Popup/Panel/VBoxContainer/Races"]
+margin_top = 3.0
+margin_right = 86.0
+margin_bottom = 17.0
+text = "Races:"
+align = 2
+
+[node name="NumRacesValue" type="Label" parent="Settings/Popup/Panel/VBoxContainer/Races"]
+margin_left = 90.0
+margin_top = 3.0
+margin_right = 131.0
+margin_bottom = 17.0
+text = "1"
+
 [node name="LobbySettingsCloseButton" type="Button" parent="Settings/Popup"]
 margin_left = 1.0
 margin_top = 573.0
 margin_right = 380.0
 margin_bottom = 613.0
 text = "Close Settings"
-
-[node name="LobbyNameLabel" type="Label" parent="Settings"]
-margin_left = 16.0
-margin_top = 149.0
-margin_right = 415.0
-margin_bottom = 165.0
-align = 1
 
 [node name="StatsButton" type="Button" parent="."]
 margin_left = 1427.0
@@ -369,8 +399,10 @@ position = Vector2( 960, 540 )
 [connection signal="pressed" from="Map/MapButton0" to="." method="_on_Map_Selected" binds= [ "ScorpionMap" ]]
 [connection signal="pressed" from="Map/MapButton1" to="." method="_on_Map_Selected" binds= [ "TemporaryCockMap" ]]
 [connection signal="pressed" from="Settings/LobbySettingsButton" to="." method="_on_LobbySettingsButton_pressed"]
-[connection signal="text_entered" from="Settings/Popup/Panel/VBoxContainer/Name/LobbyNameEdit" to="." method="_on_LobbyNameEdit_text_entered"]
+[connection signal="item_selected" from="Settings/Popup/Panel/VBoxContainer/JoinType/JoinType" to="Settings/Popup/Panel/VBoxContainer/JoinType/JoinType" method="_on_JoinType_item_selected"]
 [connection signal="visibility_changed" from="Settings/Popup/Panel/VBoxContainer/JoinType/JoinType" to="Settings/Popup/Panel/VBoxContainer/JoinType/JoinType" method="_on_JoinType_visibility_changed"]
+[connection signal="value_changed" from="Settings/Popup/Panel/VBoxContainer/Races/NumRaces" to="Settings/Popup/Panel/VBoxContainer/Races/NumRaces" method="_on_NumRaces_value_changed"]
+[connection signal="visibility_changed" from="Settings/Popup/Panel/VBoxContainer/Races/NumRaces" to="Settings/Popup/Panel/VBoxContainer/Races/NumRaces" method="_on_JoinType_visibility_changed"]
 [connection signal="pressed" from="Settings/Popup/LobbySettingsCloseButton" to="." method="_on_LobbySettingsCloseButton_pressed"]
 [connection signal="pressed" from="StatsButton" to="." method="_on_StatsButton_pressed"]
 [connection signal="pressed" from="LobbyButton" to="." method="_on_LobbyButton_pressed"]
