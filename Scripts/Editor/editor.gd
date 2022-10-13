@@ -7,10 +7,8 @@ enum TabNames {
 	OBJ = 3
 }
 
-
-var ground_names = ["Concrete", "Tyre", "Grass", "Ice", "Sand", "Lava"]
-var ground_names_already_present = []
-var ground_names_to_colour = \
+const GROUND_NAMES = ["Concrete", "Tyre", "Grass", "Ice", "Sand", "Lava"]
+const GROUND_NAMES_TO_COLOUR = \
 {
 	"Concrete": Color.darkgray,
 	"Tyre": Color.black,
@@ -19,20 +17,21 @@ var ground_names_to_colour = \
 	"Sand": Color.yellow,
 	"Lava": Color.orangered
 }
+const MAX_LAYERS: int = 4
+
+var ground_names_already_present
 
 var wall_names = ["Solid", "Bouncy"]
-var wall_names_already_present = []
+var wall_names_already_present
 
-var highest_layer_no: int = -1
-var max_layers: int = 4
+var highest_layer_no: int
+var highest_checkpoint_no: int
 
-var highest_checkpoint_no: int = -1
-
-var current_file: String = ""
+var current_file: String
 var current_node: Node
 var current_pan: float
 
-var obj_sprite_loaded: bool = false
+var obj_sprite_loaded: bool
 
 onready var project_root = $Object
 
@@ -56,13 +55,16 @@ var axes_visible: bool
 
 onready var save: MenuButton = $Canvas/UI/Panel/File/Save
 
-var obj_sprite: Node = null
+var obj_sprite: Node
 
-var progress = false
-var show_map = false
+var progress
+var show_map
 
 func _ready():
 	current_node = $Object
+
+	# Variable definitions
+	reset_variables()
 
 	_on_CameraPan_value_changed(cam_pan_slider.value)
 	_on_CameraRotation_value_changed(cam_rot_slider.value)
@@ -76,6 +78,18 @@ func _ready():
 		get_tree().set_debug_collisions_hint(true)
 
 
+func reset_variables():
+	highest_layer_no = -1
+	highest_checkpoint_no = -1
+	ground_names_already_present = []
+	wall_names_already_present = []
+	current_file = ""
+	obj_sprite_loaded = false
+	obj_sprite = null
+	progress = false
+	show_map = false
+
+
 func clear_current_file():
 	# For when a New file is selected, or an internal game scene is opened.
 	# The user will have to save the scene as a new one, rather than overwriting.
@@ -84,6 +98,9 @@ func clear_current_file():
 
 
 func replace_project_root(new_root:Node):
+	# Reset variables
+	reset_variables()
+
 	remove_child(project_root)
 	add_child(new_root)
 	move_child(new_root, 0)
@@ -229,7 +246,7 @@ func refresh_nodes():
 
 	elif current_node is Node2D and current_node.name == "Ground":
 		# Collision management buttons.
-		for mat in ground_names:
+		for mat in GROUND_NAMES:
 			if not mat in ground_names_already_present:
 				var button = preload("res://Scenes/Editor/AddCollisionTypeButton.tscn").instance()
 				button.col_name = mat
@@ -262,7 +279,7 @@ func refresh_nodes():
 
 	elif current_node is Node2D and current_node.name == "Layers":
 		# Collision management buttons.
-		if highest_layer_no < max_layers - 1:
+		if highest_layer_no < MAX_LAYERS - 1:
 			var button = preload("res://Scenes/Editor/AddLayerButton.tscn").instance()
 			button.obj_name = str(highest_layer_no + 1)
 			button.text = "Add new layer: Layer " + str(button.obj_name)
@@ -271,7 +288,7 @@ func refresh_nodes():
 			buttons.add_child(button)
 		else:
 			var button = Button.new()
-			button.text = "Max layers reached: " + str(max_layers)
+			button.text = "Max layers reached: " + str(MAX_LAYERS)
 			add_button_font_colour_override(button, Color.red)
 			buttons.add_child(button)
 
@@ -290,6 +307,33 @@ func refresh_nodes():
 			button.text = "Finish"
 			button.starting_collision_drawing = false
 			add_button_font_colour_override(button, Color.green)
+			buttons.add_child(button)
+
+		if current_node.get_parent().name == "Layers":
+			# i.e. if the current node is a layer...
+			var button = preload("res://Scenes/Editor/ImportSpriteButton.tscn").instance()
+			button.text = "Add sprite to layer"
+			var overlay = project_root.get_node("Overlay")
+
+			# The most recently added sprite
+			var sprite0: Sprite = overlay.get_node_or_null("Sprite0")
+			if sprite0 != null:
+				if sprite0.get_texture() == null:
+					button.sprite_node = sprite0
+				else:
+					# No order to sprite names; 2nd most recent is sent to the back
+					sprite0.name = "Sprite" + str(overlay.get_child_count())
+					var new_sprite0 = Sprite.new()
+					overlay.add_child(new_sprite0)
+					new_sprite0.name = "Sprite0"
+					button.sprite_node = new_sprite0
+			else:
+				sprite0 = Sprite.new()
+				sprite0.name = "Sprite0"
+				overlay.add_child(sprite0)
+				button.sprite_node = sprite0
+			print(button.sprite_node.name)
+			add_button_font_colour_override(button, Color.hotpink)
 			buttons.add_child(button)
 
 	elif current_node is CollisionPolygon2D:

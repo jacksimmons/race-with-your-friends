@@ -601,13 +601,13 @@ func _on_Lobby_Created(connect, lobbyID):
 		# Set Lobby ID
 		Game.LOBBY_ID = lobbyID
 
-		#!!!generate_random_code()
+		var lobby_name = "Lobby of " + Game.STEAM_NAME
 
 		# Equivalent of printing into the chatbox
 		display_Message("Created lobby: " + lobby_name)
 
 		# Make it joinable (this should be done by default anyway)
-		Steam.setLobbyJoinable(lobby_id, true)
+		Steam.setLobbyJoinable(lobbyID, true)
 
 		# Set Lobby Data - this is custom data, I need to do this manually.
 		Steam.setLobbyData(lobbyID, "name", lobby_name)

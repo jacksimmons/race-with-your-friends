@@ -149,8 +149,8 @@ func _setup_scene(game_mode: int, map: Node2D, race_pos: int):
 	my_player.set_name(str(my_id))
 	var players = get_node("/root/Scene/Players")
 	var start_point = map.get_node("StartPoints").get_node(str(race_pos))
-	var point_l = start_point.get_node("TL").position
-	var point_r = start_point.get_node("TR").position
+	var point_l = start_point.get_node("Front").position
+	var point_r = start_point.get_node("Back").position
 	my_player.position = (point_l + point_r) / 2
 	my_player.position.x -= my_player.get_node("VehicleSprite").get_texture().get_height() / 2
 	players.add_child(my_player)

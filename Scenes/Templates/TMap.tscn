@@ -14,6 +14,8 @@
 
 [node name="Layers" type="Node2D" parent="."]
 
+[node name="Overlay" type="Node2D" parent="."]
+
 [node name="StartPoints" type="Node2D" parent="."]
 
 [node name="Objects" type="Node2D" parent="."]
