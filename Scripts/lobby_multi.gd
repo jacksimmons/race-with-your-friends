@@ -58,6 +58,9 @@ var race_position_last_update: Dictionary = {}
 
 var lerps: Dictionary = {}
 
+var in_game_ranking: Array = []
+var final_ranking: Array = []
+
 
 func _ready():
 	# Steamwork Connections
@@ -89,8 +92,15 @@ func _process(delta):
 		if time >= delta:
 			time = 0
 			if my_player.position != position_last_update:
+				# Send updated position
 				send_P2P_Packet("all", {"position": my_player.position})
 				position_last_update = my_player.position
+				# Also send updated path position
+				var race_pos = my_player.get_race_position()
+				send_P2P_Packet("all", {"path_position": {
+					"path": race_pos[0],
+					"offset": race_pos[1]
+					}})
 			if my_player.rotation != rotation_last_update:
 				send_P2P_Packet("all", {"rotation": my_player.rotation})
 				rotation_last_update = my_player.rotation
@@ -469,6 +479,47 @@ func read_P2P_Packet():
 			if PACKET_SENDER != Game.STEAM_ID:
 				for player_id in READABLE["all_race_positions"]:
 					Game.PLAYER_DATA[player_id]["race_pos"] = READABLE["all_race_positions"][player_id]"""
+
+		if READABLE.has("path_position"):
+			if PACKET_SENDER != Game.STEAM_ID:
+				# This assumes the list without this ranking is ranked,
+				# which it is as every new ranking is insertion-sorted.
+				var path = READABLE["path"]
+				var offset = READABLE["offset"]
+				var provided_ranking = {"path": path, "offset": offset, "id": PACKET_SENDER}
+				for ranking in in_game_ranking:
+					# If they are on a lower path than this ranking, they
+					# must be inserted further along the list.
+					if ranking["path"] > path:
+						continue
+					# If the paths are equal, we need to compare offsets.
+					elif ranking["path"] == path:
+						# If they are on a lower offset, they must be inserted
+						# further along the list.
+						if ranking["offset"] > offset:
+							continue
+						# If the offsets are equal, insert them after the ranking.
+						elif ranking["offset"] == offset:
+							var index = in_game_ranking.find(ranking)
+							Global.slot_in(provided_ranking, in_game_ranking, index)
+						# If they are on a higher offset, insert them before.
+						else:
+							var index = in_game_ranking.find(ranking) - 1
+							Global.slot_in(provided_ranking, in_game_ranking, index)
+					# If they are on a higher path than this ranking, they
+					# must be inserted before in this list.
+					else:
+						var index = in_game_ranking.find(ranking) - 1
+						Global.slot_in(provided_ranking, in_game_ranking, index)
+
+				for ranking in in_game_ranking:
+					if ranking["id"] == Game.STEAM_ID:
+						my_player.race_placement = in_game_ranking.find(ranking)
+
+
+		if READABLE.has("race_complete"):
+			if READABLE["race_complete"]:
+				final_ranking.append(PACKET_SENDER)
 
 
 func send_P2P_Packet(target: String, packet_data: Dictionary) -> void:

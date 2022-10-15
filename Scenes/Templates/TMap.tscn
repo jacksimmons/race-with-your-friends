@@ -4,7 +4,7 @@
 
 [node name="Sprite" type="Sprite" parent="."]
 
-[node name="Paths" type="Node2D" parent="."]
+[node name="Overlay" type="Node2D" parent="."]
 
 [node name="Checkpoints" type="Node2D" parent="."]
 
@@ -13,8 +13,6 @@
 [node name="Walls" type="Node2D" parent="."]
 
 [node name="Layers" type="Node2D" parent="."]
-
-[node name="Overlay" type="Node2D" parent="."]
 
 [node name="StartPoints" type="Node2D" parent="."]
 

@@ -42,7 +42,8 @@ func _on_cp_entered(body, cp_name):
 					if lap < lap_count:
 						lap += 1
 					elif lap == lap_count:
-						var end = load("res://Scenes/RaceEnd.tscn").instance()
+						lobby.send_P2P_Packet("all", {"race_complete": true})
+						var end = preload("res://Scenes/RaceEnd.tscn").instance()
 						get_node("/root").add_child(end)
 						self.queue_free()
 				else:

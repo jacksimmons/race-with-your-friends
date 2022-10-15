@@ -53,11 +53,7 @@ var on_object_vectors: Array = []
 var cur_checkpoint:int = 0
 var next_checkpoint:int = 0
 var lap_count:int = 0
-var path_count:int = 0
 var race_placement:int = 0
-var race_pos: Dictionary = {}
-var cur_racepoint:int = 0
-var cur_path: Path2D = null
 
 # Text
 export (Color, RGB) var DEBUG_DEFAULT
@@ -127,6 +123,9 @@ func _ready():
 
 
 func _process(delta):
+
+	print(str(race_placement + 1))
+
 	if int(name) == Game.STEAM_ID:
 		#! This is only because handling changes with DEBUG!
 		#max_turn = get_angle_to(transform.x.rotated(wheel_turn) + Vector2(sprite_length / 2, 0))
@@ -199,7 +198,7 @@ func _handle_debug():
 	on_mat.text = "On Material: " + Global.Surface.keys()[on_material[-1] - 1]
 
 	# racepos
-	race_pos_value.text = "Offset: " + str(_get_race_position())
+	race_pos_value.text = "Path Position: " + str(get_race_position())
 
 
 func _unhandled_input(event):
@@ -311,12 +310,12 @@ func _handle_input():
 		net_acc *= 2.5
 
 
-func _get_race_position():
+func get_race_position() -> Array:
 	var paths = $"/root/Scene/Map/Paths"
 
 	var precision = 1 # 1 pixel
 	var smallest_sq_dist = INF
-	cur_path = null
+	var cur_path = null
 	for path in paths.get_children():
 		var point = path.get_curve().get_closest_point(position)
 		var sq_dist = position.distance_squared_to(point)
@@ -331,8 +330,10 @@ func _get_race_position():
 		var points = path_curve.get_baked_points() as Array
 		var path_offset = path_curve.get_closest_offset(position)
 
-		return path_offset
-	return -1
+		var path_count = int(cur_path.name[0])
+
+		return [path_count, path_offset]
+	return [-1, -1]
 
 
 func _handle_hook():

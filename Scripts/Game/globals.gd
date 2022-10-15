@@ -112,6 +112,34 @@ enum Surface {
 enum SceneType { VEHICLE, MAP }
 
 
+func get_int_suffix(var integer: int):
+	var final_digit = str(integer)[-1]
+	match final_digit:
+		1:
+			if str(integer).substr(-2, 2) != "11":
+				return "st"
+			return "th"
+		2:
+			if str(integer).substr(-2, 2) != "12":
+				return "nd"
+			return "th"
+		3:
+			if str(integer).substr(-2, 2) != "13":
+				return "rd"
+			return "th"
+		_:
+			return "th"
+
+
+func slot_in(var item, var array: Array, var index: int) -> Array:
+	# Negative increment for loop to move elements one along
+	array.append(null)
+	for i in range(len(array) - 1, index, -1):
+		array[i+1] = array[i]
+	array[index+1] = item
+	return array
+
+
 func get_random_arrayitem(var array: Array):
 	randomize()
 	var item = array[randi() % array.size()]
