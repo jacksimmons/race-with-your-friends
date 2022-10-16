@@ -29,8 +29,8 @@ const VEHICLES: Array =\
 	"MiniCar",
 	"CuntCar",
 	"DankaMobil",
-	"ShortLimo",
-	"LongLimo",
+	#"ShortLimo",
+	#"LongLimo",
 	"JCL"
 ]
 
@@ -113,18 +113,23 @@ enum SceneType { VEHICLE, MAP }
 
 
 func get_int_suffix(var integer: int):
-	var final_digit = str(integer)[-1]
-	match final_digit:
+	var penultimate_digit
+	if len(str(integer)) > 1:
+		penultimate_digit = str(integer)[-2]
+	else:
+		penultimate_digit = ""
+	var ultimate_digit = str(integer)[-1]
+	match int(ultimate_digit):
 		1:
-			if str(integer).substr(-2, 2) != "11":
+			if str(penultimate_digit) + str(ultimate_digit) != "11":
 				return "st"
 			return "th"
 		2:
-			if str(integer).substr(-2, 2) != "12":
+			if str(penultimate_digit) + str(ultimate_digit) != "12":
 				return "nd"
 			return "th"
 		3:
-			if str(integer).substr(-2, 2) != "13":
+			if str(penultimate_digit) + str(ultimate_digit) != "13":
 				return "rd"
 			return "th"
 		_:
@@ -177,9 +182,9 @@ func _setup_scene(game_mode: int, map: Node2D, race_pos: int):
 	my_player.set_name(str(my_id))
 	var players = get_node("/root/Scene/Players")
 	var start_point = map.get_node("StartPoints").get_node(str(race_pos))
-	var point_l = start_point.get_node("Front").position
-	var point_r = start_point.get_node("Back").position
-	my_player.position = (point_l + point_r) / 2
+	var point_f = start_point.to_global(start_point.get_node("Front").position)
+	var point_b = start_point.to_global(start_point.get_node("Back").position)
+	my_player.position = ((point_f + point_b) / 2)
 	my_player.position.x -= my_player.get_node("VehicleSprite").get_texture().get_height() / 2
 	players.add_child(my_player)
 

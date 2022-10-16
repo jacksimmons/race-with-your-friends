@@ -1,16 +1,12 @@
-extends Node2D
+extends "res://Scripts/Game/Objects/kinematic_obj.gd"
+
+class_name Homing
 
 
 onready var paths = $"/root/Scene/Map/Paths"
 
 var speed: float = 20
-var velocity := Vector2.ZERO
-
 var off_path: bool = false
-
-
-func _physics_process(delta):
-	position += velocity
 
 
 func _hit_player(target_player):

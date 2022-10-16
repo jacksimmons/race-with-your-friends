@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "Homing",
+"language": "GDScript",
+"path": "res://Scripts/Game/Objects/homing_obj.gd"
+}, {
 "base": "RigidBody2D",
 "class": "Player",
 "language": "GDScript",
@@ -20,6 +25,7 @@ _global_script_classes=[ {
 "path": "res://Scripts/Game/Objects/routed_obj.gd"
 } ]
 _global_script_class_icons={
+"Homing": "",
 "Player": "",
 "Routed": ""
 }

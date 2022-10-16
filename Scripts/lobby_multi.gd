@@ -632,6 +632,7 @@ func start_Bot_Config() -> void:
 
 func start_Game() -> void:
 	# ! Need to set this to false whenever it ends.
+	visible = false
 	Game.GAME_STARTED = true
 
 

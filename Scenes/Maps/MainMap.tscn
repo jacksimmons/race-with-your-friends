@@ -1,10 +1,14 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scenes/Templates/TMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Maps/Main/bg.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Maps/Main/bridge.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Maps/Main/obj_outline.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Maps/Main/road.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/Objects/Spinner.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Templates/TStartPosition.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scripts/Game/Activators/layer.gd" type="Script" id=8]
+[ext_resource path="res://Scripts/Game/Activators/layer_handler.gd" type="Script" id=9]
 
 [sub_resource type="SegmentShape2D" id=2]
 b = Vector2( 218, -162 )
@@ -42,6 +46,60 @@ texture = ExtResource( 4 )
 
 [node name="col" type="CollisionPolygon2D" parent="Checkpoints/0" index="0"]
 polygon = PoolVector2Array( 98, 33, 107, 33, 107, 416, 114, 416, 114, 424, 98, 424 )
+
+[node name="1" type="Area2D" parent="Checkpoints" index="1"]
+
+[node name="col" type="CollisionPolygon2D" parent="Checkpoints/1" index="0"]
+position = Vector2( -502, -8 )
+polygon = PoolVector2Array( 98, 33, 107, 33, 107, 429, 98, 428 )
+
+[node name="2" type="Area2D" parent="Checkpoints" index="2"]
+
+[node name="col" type="CollisionPolygon2D" parent="Checkpoints/2" index="0"]
+position = Vector2( -503, -461 )
+polygon = PoolVector2Array( 90, -143, 104, -169, 108, 428, 98, 428 )
+
+[node name="3" type="Area2D" parent="Checkpoints" index="3"]
+position = Vector2( 817, -125 )
+
+[node name="col" type="CollisionPolygon2D" parent="Checkpoints/3" index="0"]
+position = Vector2( -503, -461 )
+polygon = PoolVector2Array( 96, 12, 105, 7, 108, 428, 98, 428 )
+
+[node name="4" type="Area2D" parent="Checkpoints" index="4"]
+position = Vector2( -287, -1065 )
+
+[node name="col" type="CollisionPolygon2D" parent="Checkpoints/4" index="0"]
+position = Vector2( -503, -461 )
+polygon = PoolVector2Array( 96, -354, 108, -354, 108, 428, 98, 428 )
+
+[node name="5" type="Area2D" parent="Checkpoints" index="5"]
+position = Vector2( -287, -1065 )
+
+[node name="col" type="CollisionPolygon2D" parent="Checkpoints/5" index="0"]
+position = Vector2( -1906, 150 )
+polygon = PoolVector2Array( -111, 228, -112, 215, 316, 216, 316, 230 )
+
+[node name="6" type="Area2D" parent="Checkpoints" index="6"]
+position = Vector2( 37, 1049 )
+
+[node name="col" type="CollisionPolygon2D" parent="Checkpoints/6" index="0"]
+position = Vector2( -1906, 150 )
+polygon = PoolVector2Array( -111, 228, -112, 215, 770, -51, 776, -40 )
+
+[node name="7" type="Area2D" parent="Checkpoints" index="7"]
+position = Vector2( 2766, 951 )
+
+[node name="col" type="CollisionPolygon2D" parent="Checkpoints/7" index="0"]
+position = Vector2( -1906, 150 )
+polygon = PoolVector2Array( -127, 216, -112, 215, -117, -191, -134, -189 )
+
+[node name="8" type="Area2D" parent="Checkpoints" index="8"]
+position = Vector2( 3141, 117 )
+
+[node name="col" type="CollisionPolygon2D" parent="Checkpoints/8" index="0"]
+position = Vector2( -1906, 150 )
+polygon = PoolVector2Array( -127, 216, -112, 215, -124, -904, -140, -905 )
 
 [node name="Concrete" type="StaticBody2D" parent="Walls" index="0"]
 
@@ -95,6 +153,9 @@ polygon = PoolVector2Array( 1220, 1287, 1223, 1297, 1223, 1300, 1216, 1307, 1189
 [node name="ElevatedWallDown" type="CollisionPolygon2D" parent="Walls/Concrete" index="14"]
 polygon = PoolVector2Array( 891, 1314, 865, 1330, 831, 1369, 813, 1445, 848, 1545, 930, 1623, 1061, 1667, 1213, 1682, 1369, 1658, 1466, 1580, 1520, 1473, 1578, 1581, 1623, 1624, 1682, 1654, 1741, 1674, 1807, 1683, 1929, 1680, 1975, 1677, 2063, 1651, 2097, 1637, 2151, 1603, 2195, 1560, 2210, 1545, 2237, 1503, 2260, 1462, 2282, 1409, 2298, 1316, 2303, 1243, 2304, 1198, 2303, 1194, 2313, 1194, 2313, 1186, 2303, 1186, 2302, 1179, 2301, 1156, 2296, 1105, 2290, 1105, 2290, 1107, 2287, 1110, 2290, 1150, 2293, 1182, 2294, 1241, 2293, 1280, 2288, 1307, 2283, 1346, 2273, 1398, 2266, 1422, 2253, 1456, 2230, 1498, 2207, 1531, 2191, 1553, 2151, 1587, 2093, 1627, 2030, 1650, 1971, 1664, 1916, 1670, 1809, 1672, 1743, 1664, 1683, 1644, 1632, 1617, 1605, 1592, 1588, 1577, 1520, 1453, 1458, 1574, 1364, 1649, 1213, 1672, 1061, 1657, 936, 1616, 857, 1541, 825, 1444, 840, 1369, 872, 1335, 895, 1325, 891, 1322 )
 
+[node name="ChainAndIsland" type="CollisionPolygon2D" parent="Walls/Concrete" index="15"]
+polygon = PoolVector2Array( 896, -646, 2263, -645, 2264, -636, 2270, -627, 2275, -614, 2278, -600, 2281, -585, 2288, -575, 2306, -567, 2313, -564, 2313, -741, 2304, -735, 2294, -723, 2287, -710, 2279, -696, 2271, -684, 2266, -672, 2263, -662, 896, -662 )
+
 [node name="Tyre" type="StaticBody2D" parent="Walls" index="1"]
 
 [node name="StartTyres" type="CollisionPolygon2D" parent="Walls/Tyre" index="0"]
@@ -102,7 +163,7 @@ polygon = PoolVector2Array( 41, 26, -405, 26, -405, -32, 41, -32 )
 
 [node name="BeforeStartTyres" type="CollisionPolygon2D" parent="Walls/Tyre" index="1"]
 position = Vector2( 940, -14 )
-polygon = PoolVector2Array( -466, -23, -467, -18, -472, -23, -474, -24, -478, -28, -491, -46, -511, -69, -529, -89, -546, -111, -561, -132, -536, -131, -477, -62, -458, -36, -458, -30 )
+polygon = PoolVector2Array( -466, -23, -467, -18, -472, -23, -474, -24, -478, -28, -491, -46, -511, -69, -529, -89, -546, -111, -561, -132, -561, -139, -557, -142, -520, -142, -494, -148, -97, -148, -85, -147, -89, -138, -491, -139, -512, -133, -536, -132, -477, -62, -458, -36, -458, -30 )
 
 [node name="HayBales" type="CollisionPolygon2D" parent="Walls/Tyre" index="2"]
 polygon = PoolVector2Array( -365, 424, -602, 402, -663, 389, -724, 368, -788, 342, -845, 310, -894, 267, -933, 222, -971, 170, -1007, 114, -1029, 56, -1041, -8, -1042, -74, -1035, -131, -1014, -197, -981, -255, -934, -301, -877, -346, -825, -381, -768, -415, -714, -444, -683, -453, -705, -504, -730, -495, -719, -470, -772, -441, -827, -410, -883, -375, -936, -333, -989, -290, -1031, -225, -1058, -156, -1071, -84, -1070, -16, -1058, 50, -1036, 113, -1003, 174, -964, 226, -922, 279, -870, 324, -812, 361, -748, 390, -683, 413, -616, 426, -551, 434, -366, 450 )
@@ -113,7 +174,11 @@ polygon = PoolVector2Array( 441, -587, 198, -504, 181, -502, 169, -502, -334, -7
 [node name="UpperTyreMaze" type="CollisionPolygon2D" parent="Walls/Tyre" index="4"]
 polygon = PoolVector2Array( 624, -654, 501, -708, 454, -846, 364, -891, 264, -693, 227, -710, 325, -907, 28, -1053, -72, -855, -107, -875, -11, -1071, -160, -1146, -141, -1181, 481, -876, 533, -737, 624, -695 )
 
+[node name="Layers" parent="." index="6"]
+script = ExtResource( 9 )
+
 [node name="0" type="Area2D" parent="Layers" index="0"]
+script = ExtResource( 8 )
 
 [node name="TUNNEL_DOWN" type="CollisionShape2D" parent="Layers/0" index="0"]
 position = Vector2( -578, 1171 )
@@ -136,6 +201,7 @@ polygon = PoolVector2Array( -502, 1193, -192, 1592, -176, 1633, -166, 1652, -155
 polygon = PoolVector2Array( -359, 1096, -372, 1063, -381, 1047, -396, 1023, -389, 1015, -384, 1015, -347, 1057, 17, 1524, 19, 1536, 15, 1543, 7, 1541, -8, 1522, -38, 1494 )
 
 [node name="1" type="Area2D" parent="Layers" index="2"]
+script = ExtResource( 8 )
 
 [node name="TUNNEL_UP_REV" type="CollisionShape2D" parent="Layers/1" index="0"]
 position = Vector2( -579, 1153 )
@@ -165,3 +231,94 @@ polygon = PoolVector2Array( -571, 1150, -564, 1162, -554, 1176, -542, 1186, -524
 position = Vector2( -552, 2686 )
 rotation = -3.14159
 polygon = PoolVector2Array( -397, 1023, -387, 1033, -381, 1045, -380, 1058, -381, 1070, -394, 1102, -415, 1129, -437, 1150, -469, 1166, -499, 1174, -528, 1174, -544, 1165, -559, 1145, -567, 1143, -571, 1151, -568, 1158, -559, 1168, -550, 1180, -538, 1188, -509, 1193, -485, 1192, -457, 1187, -430, 1179, -417, 1171, -400, 1155, -389, 1147, -379, 1135, -369, 1118, -362, 1106, -359, 1095, -355, 1084, -355, 1068, -358, 1051, -366, 1038, -383, 1015, -392, 1016 )
+
+[node name="1" parent="StartPoints" index="0" instance=ExtResource( 7 )]
+position = Vector2( 141, 349 )
+
+[node name="Back" parent="StartPoints/1" index="1"]
+position = Vector2( 109, 0 )
+
+[node name="2" parent="StartPoints" index="1" instance=ExtResource( 7 )]
+position = Vector2( 141, 269 )
+
+[node name="Back" parent="StartPoints/2" index="1"]
+position = Vector2( 109, 0 )
+
+[node name="3" parent="StartPoints" index="2" instance=ExtResource( 7 )]
+position = Vector2( 141, 188 )
+
+[node name="Back" parent="StartPoints/3" index="1"]
+position = Vector2( 109, 0 )
+
+[node name="4" parent="StartPoints" index="3" instance=ExtResource( 7 )]
+position = Vector2( 141, 108 )
+
+[node name="Back" parent="StartPoints/4" index="1"]
+position = Vector2( 109, 0 )
+
+[node name="5" parent="StartPoints" index="4" instance=ExtResource( 7 )]
+position = Vector2( 253, 349 )
+
+[node name="Back" parent="StartPoints/5" index="1"]
+position = Vector2( 109, 0 )
+
+[node name="6" parent="StartPoints" index="5" instance=ExtResource( 7 )]
+position = Vector2( 253, 269 )
+
+[node name="Back" parent="StartPoints/6" index="1"]
+position = Vector2( 109, 0 )
+
+[node name="7" parent="StartPoints" index="6" instance=ExtResource( 7 )]
+position = Vector2( 253, 188 )
+
+[node name="Back" parent="StartPoints/7" index="1"]
+position = Vector2( 109, 0 )
+
+[node name="8" parent="StartPoints" index="7" instance=ExtResource( 7 )]
+position = Vector2( 253, 108 )
+
+[node name="Back" parent="StartPoints/8" index="1"]
+position = Vector2( 109, 0 )
+
+[node name="9" parent="StartPoints" index="8" instance=ExtResource( 7 )]
+position = Vector2( 365, 349 )
+
+[node name="Back" parent="StartPoints/9" index="1"]
+position = Vector2( 109, 0 )
+
+[node name="10" parent="StartPoints" index="9" instance=ExtResource( 7 )]
+position = Vector2( 365, 269 )
+
+[node name="Back" parent="StartPoints/10" index="1"]
+position = Vector2( 109, 0 )
+
+[node name="11" parent="StartPoints" index="10" instance=ExtResource( 7 )]
+position = Vector2( 365, 188 )
+
+[node name="Back" parent="StartPoints/11" index="1"]
+position = Vector2( 109, 0 )
+
+[node name="12" parent="StartPoints" index="11" instance=ExtResource( 7 )]
+position = Vector2( 365, 108 )
+
+[node name="Back" parent="StartPoints/12" index="1"]
+position = Vector2( 109, 0 )
+
+[node name="Spinner" parent="Objects" index="0" instance=ExtResource( 6 )]
+position = Vector2( -79, -275 )
+
+[connection signal="body_shape_entered" from="Layers/0" to="Layers" method="_on_layer_entered" binds= [ 0 ]]
+[connection signal="body_shape_entered" from="Layers/1" to="Layers" method="_on_layer_entered" binds= [ 1 ]]
+
+[editable path="StartPoints/1"]
+[editable path="StartPoints/2"]
+[editable path="StartPoints/3"]
+[editable path="StartPoints/4"]
+[editable path="StartPoints/5"]
+[editable path="StartPoints/6"]
+[editable path="StartPoints/7"]
+[editable path="StartPoints/8"]
+[editable path="StartPoints/9"]
+[editable path="StartPoints/10"]
+[editable path="StartPoints/11"]
+[editable path="StartPoints/12"]

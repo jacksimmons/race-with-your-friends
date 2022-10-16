@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Scenes/Objects/ConveyorBelt.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Templates/TMap.tscn" type="PackedScene" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Scripts/Game/Activators/layer_handler.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Objects/WalkingGuyW.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scenes/Objects/WalkingGuyB.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Scenes/Objects/Spinner.tscn" type="PackedScene" id=14]
 
 [sub_resource type="SegmentShape2D" id=4]
 a = Vector2( -925.049, -1947.44 )
@@ -59,7 +60,12 @@ extents = Vector2( 195, 28 )
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 9 )
 
-[node name="Checkpoints" parent="." index="1"]
+[node name="Sprite0" type="Sprite" parent="Overlay" index="0"]
+position = Vector2( 705, -548 )
+z_index = 1
+texture = ExtResource( 10 )
+
+[node name="Checkpoints" parent="." index="2"]
 position = Vector2( 226, 133 )
 script = ExtResource( 4 )
 
@@ -145,6 +151,9 @@ polygon = PoolVector2Array( 516.488, -788.976, 516.043, -799.667, 523.804, -820.
 position = Vector2( 218, 131 )
 polygon = PoolVector2Array( -26, 270, -26, 189, 249, 189, 249, 270 )
 
+[node name="OuterWall" type="CollisionPolygon2D" parent="Walls/Concrete" index="3"]
+polygon = PoolVector2Array( -2048, 1536, 2048, 1536, 2045, 1533, -2045, 1533, -2045, -1533, 2045, -1533, 2045, 1533, 2048, 1536, 2048, -1536, -2048, -1536 )
+
 [node name="Tyre" type="StaticBody2D" parent="Walls" index="1"]
 collision_layer = 1024
 
@@ -156,7 +165,7 @@ polygon = PoolVector2Array( -883, -356, -860, -379, -856, -379, -756, -279, -756
 position = Vector2( 221, 129 )
 polygon = PoolVector2Array( -856.313, -514.441, -831.145, -488.827, -648.035, -671.946, -464.43, -671.764, -463.648, -450.284, -424.126, -450.284, -424.456, -672.048, -91.8434, -672.69, -90.6708, -450.94, -51.4836, -450.694, -50.2164, -712.395, -660.329, -710.075 )
 
-[node name="Layers" parent="." index="4"]
+[node name="Layers" parent="." index="5"]
 position = Vector2( 220, 133 )
 script = ExtResource( 11 )
 
@@ -218,11 +227,6 @@ polygon = PoolVector2Array( 272.226, -652.587, 275.344, -649.023, 290.49, -651.4
 [node name="OnBridgeCol2" type="CollisionPolygon2D" parent="Layers/col_1" index="1"]
 polygon = PoolVector2Array( 599.107, -722.573, 582.689, -707.042, 560.44, -691.15, 542.165, -681.085, 529.981, -677.112, 520.446, -673.139, 508.262, -667.312, 498.197, -660.691, 489.986, -652.215, 482.305, -644.004, 474.889, -636.058, 469.856, -629.172, 462.175, -623.345, 455.292, -617.627, 447.613, -612.196, 437.312, -607.326, 432.443, -604.142, 429.071, -603.768, 426.075, -601.52, 417.834, -598.149, 411.986, -597.084, 406.647, -593.246, 403.476, -592.078, 399.972, -588.407, 398.137, -588.407, 384.169, -574.078, 384.319, -571.179, 386.737, -569.077, 387.893, -569.287, 623.301, -733.92, 622.133, -736.089, 619.63, -737.924, 614.791, -734.253, 608.618, -729.748, 601.443, -723.741 )
 
-[node name="Sprite0" type="Sprite" parent="Overlay" index="0"]
-position = Vector2( 705, -548 )
-z_index = 1
-texture = ExtResource( 10 )
-
 [node name="1" parent="StartPoints" index="0" instance=ExtResource( 3 )]
 position = Vector2( 219, 254 )
 
@@ -248,49 +252,49 @@ position = Vector2( 219, 13 )
 position = Vector2( 109, 0 )
 
 [node name="5" parent="StartPoints" index="4" instance=ExtResource( 3 )]
-position = Vector2( 331, 13 )
+position = Vector2( 331, 254 )
 
 [node name="Back" parent="StartPoints/5" index="1"]
 position = Vector2( 109, 0 )
 
 [node name="6" parent="StartPoints" index="5" instance=ExtResource( 3 )]
-position = Vector2( 331, 93 )
+position = Vector2( 331, 174 )
 
 [node name="Back" parent="StartPoints/6" index="1"]
 position = Vector2( 109, 0 )
 
 [node name="7" parent="StartPoints" index="6" instance=ExtResource( 3 )]
-position = Vector2( 331, 174 )
+position = Vector2( 331, 93 )
 
 [node name="Back" parent="StartPoints/7" index="1"]
 position = Vector2( 109, 0 )
 
 [node name="8" parent="StartPoints" index="7" instance=ExtResource( 3 )]
-position = Vector2( 331, 254 )
+position = Vector2( 331, 13 )
 
 [node name="Back" parent="StartPoints/8" index="1"]
 position = Vector2( 109, 0 )
 
 [node name="9" parent="StartPoints" index="8" instance=ExtResource( 3 )]
-position = Vector2( 443, 13 )
+position = Vector2( 443, 254 )
 
 [node name="Back" parent="StartPoints/9" index="1"]
 position = Vector2( 109, 0 )
 
 [node name="10" parent="StartPoints" index="9" instance=ExtResource( 3 )]
-position = Vector2( 443, 93 )
+position = Vector2( 443, 174 )
 
 [node name="Back" parent="StartPoints/10" index="1"]
 position = Vector2( 109, 0 )
 
 [node name="11" parent="StartPoints" index="10" instance=ExtResource( 3 )]
-position = Vector2( 443, 174 )
+position = Vector2( 443, 93 )
 
 [node name="Back" parent="StartPoints/11" index="1"]
 position = Vector2( 109, 0 )
 
 [node name="12" parent="StartPoints" index="11" instance=ExtResource( 3 )]
-position = Vector2( 443, 254 )
+position = Vector2( 443, 13 )
 
 [node name="Back" parent="StartPoints/12" index="1"]
 position = Vector2( 109, 0 )
@@ -324,8 +328,12 @@ speed = 1.0
 visible = false
 polygon = PoolVector2Array( 0, 0, 24, 15, 44, 76, 41, 160, 27, 264, 36, 160, 37, 76 )
 
-[connection signal="body_shape_entered" from="Layers/0" to="Layers/0" method="_on_body_shape_entered" binds= [ 0 ]]
-[connection signal="body_shape_entered" from="Layers/1" to="Layers/1" method="_on_body_shape_entered" binds= [ 1 ]]
+[node name="Spinner" parent="Objects" index="3" instance=ExtResource( 14 )]
+position = Vector2( -554, 370 )
+angular_period = 2.0
+
+[connection signal="body_shape_entered" from="Layers/0" to="Layers" method="_on_layer_entered" binds= [ 0 ]]
+[connection signal="body_shape_entered" from="Layers/1" to="Layers" method="_on_layer_entered"]
 
 [editable path="StartPoints/1"]
 [editable path="StartPoints/2"]

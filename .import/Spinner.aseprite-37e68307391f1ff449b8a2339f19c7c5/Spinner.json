@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "Spinner.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 244, "h": 244 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 244, "h": 244 },
+    "sourceSize": { "w": 244, "h": 244 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "Spinner.png",
+  "format": "RGBA8888",
+  "size": { "w": 244, "h": 244 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

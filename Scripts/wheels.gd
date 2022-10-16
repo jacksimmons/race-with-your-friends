@@ -21,8 +21,9 @@ func _ready():
 		# Assume all wheels have the same starting rotation, change if necessary
 		starting_wheel_rotation = get_child(0).rotation_degrees
 
-	wheel_rotation_speed = player.HANDLING
-	max_wheel_rotation = player.HANDLING * 10
+	var effective_handling = sqrt(player.HANDLING)
+	wheel_rotation_speed = effective_handling * 5
+	max_wheel_rotation = effective_handling * 10
 
 
 func _process(delta):

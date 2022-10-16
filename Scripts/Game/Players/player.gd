@@ -49,6 +49,12 @@ enum InputFlags {
 var on_material: Array = [Global.Surface.CONCRETE]
 var on_object_vectors: Array = []
 
+# Transform (tr) at collision instant (ci) from the collider to the player
+# https://godotengine.org/qa/27382/making-a-rigidbody-stick-on-a-moving-kinematicbody
+var tr_ci_collider_to_player = Transform2D()
+var is_sticking = false
+var body_stuck_on = null
+
 # Checkpoints
 var cur_checkpoint:int = 0
 var next_checkpoint:int = 0
@@ -101,6 +107,13 @@ var time = 0
 
 
 func _ready():
+	# Collision (set max contacts to 5)
+	set_contact_monitor(true)
+	set_max_contacts_reported(5)
+
+	# Apply Godot physics to begin with
+	set_use_custom_integrator(false)
+
 	# Get player data
 	var my_data := Game.PLAYER_DATA[Game.STEAM_ID] as Dictionary
 
@@ -119,12 +132,39 @@ func _ready():
 	sprite_length = $VehicleSprite.texture.get_height()
 
 	# Turn
-	max_turn = abs(get_angle_to(transform.x.rotated($Wheels.max_wheel_rotation) + Vector2(sprite_length / 2, 0))) * max_turn_mod
+	max_turn = $Wheels.max_wheel_rotation * max_turn_mod
+
+
+func _integrate_forces(state):
+	if !is_sticking and state.get_contact_count() == 1:
+		is_sticking = true
+
+		# Ignore custom integrator once sticking
+		#set_use_custom_integrator(false)
+
+		# Get the RB on which the player will stick (the only one as contacts=1)
+		body_stuck_on = state.get_contact_collider_object(0)
+
+		print("Stuck on: " + body_stuck_on.name)
+
+		var tr_ci_world_to_player = get_global_transform()
+		var tr_ci_world_to_collider = body_stuck_on.get_global_transform()
+		# collider->player        = (collider->world) -> (world->player)
+		# (Multiply matrices)     = (collider->world) * (world->player)
+		# (Basic inverse law)     = (world->collider)^(-1) * (world->player)
+		tr_ci_collider_to_player = tr_ci_world_to_collider.inverse() * tr_ci_world_to_player
+
+	if is_sticking:
+		# Take the last transform of the moving collider
+		# Keep the same relative position of the player to the collider...
+		# ...at the instant of the collision
+		#global_transform = body_stuck_on.get_global_transform() * tr_ci_collider_to_player
+		pass
 
 
 func _process(delta):
 
-	print(str(race_placement + 1))
+	print(str(race_placement + 1) + Global.get_int_suffix(race_placement + 1))
 
 	if int(name) == Game.STEAM_ID:
 		#! This is only because handling changes with DEBUG!
@@ -198,7 +238,7 @@ func _handle_debug():
 	on_mat.text = "On Material: " + Global.Surface.keys()[on_material[-1] - 1]
 
 	# racepos
-	race_pos_value.text = "Path Position: " + str(get_race_position())
+	#race_pos_value.text = "Path Position: " + str(get_race_position())
 
 
 func _unhandled_input(event):
@@ -395,6 +435,7 @@ func _handle_torque():
 				wheel_direction = -1
 
 		var final_turn = turn_magnitude * wheel_direction
+		print(final_turn)
 		rotate(final_turn)
 
 		linear_velocity = linear_velocity.rotated(final_turn)
