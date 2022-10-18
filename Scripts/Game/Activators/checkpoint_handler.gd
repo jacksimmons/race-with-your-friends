@@ -23,6 +23,7 @@ func _process(delta):
 
 func _on_cp_entered(body, cp_name):
 	race_debug.get_node("CheckpointCount").text = "Checkpoint: " + cp_name + "/" + str(len(checkpoints) - 1)
+	print("hi")
 	if body is Player:
 		body.cur_checkpoint = int(cp_name)
 
@@ -31,7 +32,9 @@ func _on_cp_entered(body, cp_name):
 		else:
 			body.next_checkpoint = 0
 
-		# 0 -> 4 -> 0 is a problem
+		# Cases covered:
+		# Last -> 0
+		# a -> a + 1
 		if int(cp_name) == 0:
 			if body.lap_count == 0:
 				# They have entered the first lap, i.e. lap 1, so...
@@ -50,10 +53,11 @@ func _on_cp_entered(body, cp_name):
 					# Either player went 1 -> 0 or cheated this lap.
 					# Don't count this lap, but count the next assuming player behaves.
 					count_lap = true
+
 		elif not int(cp_name) in range(int(last_checkpoint) - 1, int(last_checkpoint) + 1):
-			print("new lap")
-			# The player cheated, or the checkpoints are badly designed.
+			# A checkpoint was skipped; don't count the lap
 			count_lap = false
+
 		print(range(int(last_checkpoint) - 1, int(last_checkpoint) + 1))
 		race_debug.get_node("LapCount").text = "Lap: " + str(lap) + "/" + str(lap_count)
 		last_checkpoint = cp_name

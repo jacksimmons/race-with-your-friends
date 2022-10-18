@@ -96,10 +96,11 @@ func _process(delta):
 				send_P2P_Packet("all", {"position": my_player.position})
 				position_last_update = my_player.position
 				# Also send updated path position
-				var race_pos = my_player.get_race_position()
-				send_P2P_Packet("all", {"path_position": {
-					"path": race_pos[0],
-					"offset": race_pos[1]
+				var dist = my_player.get_dist_from_next_checkpoint()
+				send_P2P_Packet("all", {"checkpoint_position": {
+					"lap": my_player.lap_count,
+					"checkpoint": my_player.cur_checkpoint,
+					"distance": dist
 					}})
 			if my_player.rotation != rotation_last_update:
 				send_P2P_Packet("all", {"rotation": my_player.rotation})
@@ -480,34 +481,54 @@ func read_P2P_Packet():
 				for player_id in READABLE["all_race_positions"]:
 					Game.PLAYER_DATA[player_id]["race_pos"] = READABLE["all_race_positions"][player_id]"""
 
-		if READABLE.has("path_position"):
+		if READABLE.has("checkpoint_position"):
+			# This is a very "local resource" heavy packet to handle
 			if PACKET_SENDER != Game.STEAM_ID:
 				# This assumes the list without this ranking is ranked,
 				# which it is as every new ranking is insertion-sorted.
-				var path = READABLE["path"]
-				var offset = READABLE["offset"]
-				var provided_ranking = {"path": path, "offset": offset, "id": PACKET_SENDER}
+				var lap = READABLE["lap"]
+				var cp = READABLE["checkpoint"]
+				var dist = READABLE["distance"]
+				var provided_ranking = {
+					"lap": lap,
+					"checkpoint": cp,
+					"distance": dist,
+					"id": PACKET_SENDER
+					}
 				for ranking in in_game_ranking:
-					# If they are on a lower path than this ranking, they
+					# If they are on a lower lap than this ranking, they
 					# must be inserted further along the list.
-					if ranking["path"] > path:
+					if lap < ranking["lap"]:
 						continue
-					# If the paths are equal, we need to compare offsets.
-					elif ranking["path"] == path:
-						# If they are on a lower offset, they must be inserted
-						# further along the list.
-						if ranking["offset"] > offset:
+
+					# If the laps are equal, we need to compare checkpoints...
+					elif lap == ranking["lap"]:
+						# If they are on a lower cp than this ranking, they
+						# must be inserted further along the list.
+						if cp < ranking["checkpoint"]:
 							continue
-						# If the offsets are equal, insert them after the ranking.
-						elif ranking["offset"] == offset:
-							var index = in_game_ranking.find(ranking)
-							Global.slot_in(provided_ranking, in_game_ranking, index)
-						# If they are on a higher offset, insert them before.
+						# If the cps are equal, we need to compare dists.
+						elif cp == ranking["checkpoint"]:
+							# If they are on a higher distance, they must be inserted
+							# further along the list.
+							if dist > ranking["distance"]:
+								continue
+							# If the distances are equal, insert them after the ranking.
+							elif dist == ranking["distance"]:
+								var index = in_game_ranking.find(ranking)
+								Global.slot_in(provided_ranking, in_game_ranking, index)
+							# If they are on a lower distance, insert them before.
+							else:
+								var index = in_game_ranking.find(ranking) - 1
+								Global.slot_in(provided_ranking, in_game_ranking, index)
+						# If they are on a higher cp than this ranking, they
+						# must be inserted before in this list.
 						else:
 							var index = in_game_ranking.find(ranking) - 1
 							Global.slot_in(provided_ranking, in_game_ranking, index)
-					# If they are on a higher path than this ranking, they
-					# must be inserted before in this list.
+
+					# If they are on a higher lap than this ranking, they must be
+					# inserted before in this list.
 					else:
 						var index = in_game_ranking.find(ranking) - 1
 						Global.slot_in(provided_ranking, in_game_ranking, index)

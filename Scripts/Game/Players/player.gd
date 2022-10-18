@@ -13,8 +13,11 @@ onready var spd_button = $"/root/Scene/Canvas/Stats/Speed/SpeedButton"
 onready var spd_0er = $"/root/Scene/Canvas/Stats/Speed/SpeedZeroer"
 onready var friction_value = $"/root/Scene/Canvas/Stats/Physics/Friction"
 onready var hp_value = $"/root/Scene/Canvas/Stats/HP/Label"
-onready var race_pos_value = $"/root/Scene/Canvas/Race/Position"
+
+onready var place_value = $"/root/Scene/Canvas/Race/Placement"
 onready var lap_count_value = $"/root/Scene/Canvas/Race/LapCount"
+onready var cp_count_value = $"/root/Scene/Canvas/Race/CheckpointCount"
+onready var dist_value = $"/root/Scene/Canvas/Race/DistanceToNextCheckpoint"
 
 onready var on_mat = $"/root/Scene/Canvas/Stats/Physics/OnMaterial"
 
@@ -163,9 +166,6 @@ func _integrate_forces(state):
 
 
 func _process(delta):
-
-	print(str(race_placement + 1) + Global.get_int_suffix(race_placement + 1))
-
 	if int(name) == Game.STEAM_ID:
 		#! This is only because handling changes with DEBUG!
 		#max_turn = get_angle_to(transform.x.rotated(wheel_turn) + Vector2(sprite_length / 2, 0))
@@ -237,8 +237,11 @@ func _handle_debug():
 	# material
 	on_mat.text = "On Material: " + Global.Surface.keys()[on_material[-1] - 1]
 
-	# racepos
-	#race_pos_value.text = "Path Position: " + str(get_race_position())
+	# race
+	place_value.text = "Place: " + str(race_placement + 1) + Global.get_int_suffix(race_placement + 1)
+	lap_count_value.text = "Lap: " + str(lap_count)
+	cp_count_value.text = "Checkpoint: " + str(cur_checkpoint)
+	dist_value.text = "Dist: " + str(get_dist_from_next_checkpoint())
 
 
 func _unhandled_input(event):
@@ -350,30 +353,13 @@ func _handle_input():
 		net_acc *= 2.5
 
 
-func get_race_position() -> Array:
-	var paths = $"/root/Scene/Map/Paths"
-
-	var precision = 1 # 1 pixel
-	var smallest_sq_dist = INF
-	var cur_path = null
-	for path in paths.get_children():
-		var point = path.get_curve().get_closest_point(position)
-		var sq_dist = position.distance_squared_to(point)
-		if sq_dist < smallest_sq_dist and !is_equal_approx(sq_dist, smallest_sq_dist):
-			if smallest_sq_dist - sq_dist > precision:
-				smallest_sq_dist = sq_dist
-				cur_path = path
-
-	if cur_path:
-		#print(cur_path.name)
-		var path_curve = cur_path.get_curve()
-		var points = path_curve.get_baked_points() as Array
-		var path_offset = path_curve.get_closest_offset(position)
-
-		var path_count = int(cur_path.name[0])
-
-		return [path_count, path_offset]
-	return [-1, -1]
+func get_dist_from_next_checkpoint() -> int:
+	# next_checkpoint is in use as a global variable
+	var checkpoints = $"/root/Scene/Map/Checkpoints"
+	var next = checkpoints.get_node(str(next_checkpoint))
+	var next_pos = next.get_node("centre").global_position
+	var dist = (next_pos - position).length()
+	return dist
 
 
 func _handle_hook():
@@ -435,7 +421,6 @@ func _handle_torque():
 				wheel_direction = -1
 
 		var final_turn = turn_magnitude * wheel_direction
-		print(final_turn)
 		rotate(final_turn)
 
 		linear_velocity = linear_velocity.rotated(final_turn)

@@ -56,9 +56,6 @@ margin_top = 18.2109
 margin_right = 175.828
 margin_bottom = 40.2109
 text = "Teleport"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PosLabel" type="Label" parent="Canvas/Stats/Position"]
 margin_left = 5.0
@@ -114,25 +111,22 @@ margin_right = 39.2929
 margin_bottom = 93.033
 
 [node name="Friction" type="Label" parent="Canvas/Stats/Physics"]
-margin_left = 8.02205
-margin_top = 87.255
-margin_right = 60.022
-margin_bottom = 101.255
+margin_left = 7.70711
+margin_top = 102.967
+margin_right = 59.7071
+margin_bottom = 116.967
 text = "Friction:"
 
 [node name="OnMaterial" type="Label" parent="Canvas/Stats/Physics"]
 margin_left = 7.70711
-margin_top = 102.967
+margin_top = 116.967
 margin_right = 86.7071
-margin_bottom = 116.967
+margin_bottom = 130.967
 text = "On Material:"
 
 [node name="Network" type="Control" parent="Canvas"]
 margin_right = 40.0
 margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Race" type="Control" parent="Canvas"]
 margin_left = -1.0
@@ -141,27 +135,34 @@ margin_right = 39.0
 margin_bottom = -96.0
 
 [node name="LapCount" type="Label" parent="Canvas/Race"]
-margin_left = 7.77758
-margin_top = 259.929
-margin_right = 37.7776
-margin_bottom = 273.929
+margin_left = 8.0
+margin_top = 243.0
+margin_right = 38.0
+margin_bottom = 257.0
 text = "Lap: "
 
 [node name="CheckpointCount" type="Label" parent="Canvas/Race"]
-margin_left = 6.77661
-margin_top = 243.563
-margin_right = 81.7766
-margin_bottom = 257.563
+margin_left = 7.0
+margin_top = 257.0
+margin_right = 82.0
+margin_bottom = 271.0
 text = "Checkpoint:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="DistanceToNextCheckpoint" type="Label" parent="Canvas/Race"]
+margin_left = 8.0
+margin_top = 271.0
+margin_right = 51.0
+margin_bottom = 285.0
+text = "Dist:"
+
 [node name="StageHeight" type="Label" parent="Canvas/Race"]
-margin_left = 8.48631
-margin_top = 307.727
-margin_right = 54.4863
-margin_bottom = 321.727
+margin_left = 9.0
+margin_top = 320.0
+margin_right = 55.0
+margin_bottom = 334.0
 text = "Height:"
 
 [node name="Timer" type="Label" parent="Canvas/Race"]
@@ -180,12 +181,12 @@ margin_bottom = 640.0
 text = "0 mph"
 script = ExtResource( 1 )
 
-[node name="Position" type="Label" parent="Canvas/Race"]
-margin_left = 8.0
-margin_top = 324.0
-margin_right = 51.0
-margin_bottom = 338.0
-text = "Offset:"
+[node name="Placement" type="Label" parent="Canvas/Race"]
+margin_left = 4.0
+margin_top = 1198.0
+margin_right = 42.0
+margin_bottom = 1212.0
+text = "Place:"
 
 [node name="Item" type="Control" parent="Canvas"]
 margin_left = 920.0
