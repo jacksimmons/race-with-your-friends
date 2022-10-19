@@ -158,7 +158,7 @@ margin_right = 51.0
 margin_bottom = 285.0
 text = "Dist:"
 
-[node name="StageHeight" type="Label" parent="Canvas/Race"]
+[node name="Height" type="Label" parent="Canvas/Race"]
 margin_left = 9.0
 margin_top = 320.0
 margin_right = 55.0

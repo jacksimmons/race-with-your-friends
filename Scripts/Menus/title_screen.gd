@@ -6,7 +6,7 @@ func _ready():
 
 
 func _process(delta):
-	if !Game.ONLINE:
+	if !Server.ONLINE:
 		$OfflineLabel.show()
 		$MultiPlayerButton.disabled = true
 
@@ -18,7 +18,7 @@ func _on_SinglePlayerButton_pressed():
 
 
 func _on_MultiPlayerButton_pressed():
-	if Game.ONLINE:
+	if Server.ONLINE:
 		var lobby = load("res://Scenes/MenuMulti.tscn").instance()
 		get_node("/root").add_child(lobby)
 		self.queue_free()

@@ -14,7 +14,10 @@ onready var spd_0er = $"/root/Scene/Canvas/Stats/Speed/SpeedZeroer"
 onready var friction_value = $"/root/Scene/Canvas/Stats/Physics/Friction"
 onready var hp_value = $"/root/Scene/Canvas/Stats/HP/Label"
 
+onready var height_value = $"/root/Scene/Canvas/Race/Height"
+
 onready var place_value = $"/root/Scene/Canvas/Race/Placement"
+
 onready var lap_count_value = $"/root/Scene/Canvas/Race/LapCount"
 onready var cp_count_value = $"/root/Scene/Canvas/Race/CheckpointCount"
 onready var dist_value = $"/root/Scene/Canvas/Race/DistanceToNextCheckpoint"
@@ -118,7 +121,7 @@ func _ready():
 	set_use_custom_integrator(false)
 
 	# Get player data
-	var my_data := Game.PLAYER_DATA[Game.STEAM_ID] as Dictionary
+	var my_data := Server.PLAYER_DATA[Server.STEAM_ID] as Dictionary
 
 	mass = WEIGHT * weight_mod
 	engine_strength = ACCELERATION * mass * acc_mod
@@ -166,14 +169,14 @@ func _integrate_forces(state):
 
 
 func _process(delta):
-	if int(name) == Game.STEAM_ID:
+	if int(name) == Server.STEAM_ID:
 		#! This is only because handling changes with DEBUG!
 		#max_turn = get_angle_to(transform.x.rotated(wheel_turn) + Vector2(sprite_length / 2, 0))
 		_handle_debug()
 
 
 func _physics_process(delta):
-	if int(name) == Game.STEAM_ID:
+	if int(name) == Server.STEAM_ID:
 		#var next_checkpoint_distance := position.distance_squared_to(checkpoints.get_node(str(next_checkpoint)).position)
 		#race_pos = {"checkpoints": cur_checkpoint, "distance_from_next": next_checkpoint_distance}
 
@@ -236,6 +239,9 @@ func _handle_debug():
 
 	# material
 	on_mat.text = "On Material: " + Global.Surface.keys()[on_material[-1] - 1]
+
+	# layer
+	height_value.text = "Height: " + str(z_index)
 
 	# race
 	place_value.text = "Place: " + str(race_placement + 1) + Global.get_int_suffix(race_placement + 1)

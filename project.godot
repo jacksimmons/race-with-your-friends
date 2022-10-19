@@ -39,7 +39,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Global="*res://Scripts/Game/globals.gd"
-Game="*res://Scripts/Steam/steam_global.gd"
+Server="*res://Scripts/Steam/server.gd"
 
 [debug]
 

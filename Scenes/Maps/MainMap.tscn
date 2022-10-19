@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scenes/Templates/TMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Maps/Main/bg.png" type="Texture" id=2]
@@ -29,6 +29,9 @@ b = Vector2( 195, -138 )
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 213.5, 191.5 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 5, 183 )
 
 [node name="Map" instance=ExtResource( 1 )]
 
@@ -219,6 +222,50 @@ polygon = PoolVector2Array( 441, -587, 198, -504, 181, -502, 169, -502, -334, -7
 [node name="UpperTyreMaze" type="CollisionPolygon2D" parent="Walls/Tyre" index="4"]
 polygon = PoolVector2Array( 624, -654, 501, -708, 454, -846, 364, -891, 264, -693, 227, -710, 325, -907, 28, -1053, -72, -855, -107, -875, -11, -1071, -160, -1146, -141, -1181, 481, -876, 533, -737, 624, -695 )
 
+[node name="UnderTunnel" type="StaticBody2D" parent="Walls" index="2"]
+collision_layer = 2147484160
+collision_mask = 0
+
+[node name="UnderTunnelLeft" type="CollisionPolygon2D" parent="Walls/UnderTunnel" index="0"]
+polygon = PoolVector2Array( -502, 1193, -192, 1592, -176, 1633, -166, 1652, -155, 1662, -160, 1670, -169, 1671, -190, 1645, -192, 1647, -549, 1185, -570, 1159, -571, 1150, -568, 1144, -561, 1143, -545, 1163 )
+
+[node name="UnderTunnelRight" type="CollisionPolygon2D" parent="Walls/UnderTunnel" index="1"]
+polygon = PoolVector2Array( -359, 1096, -372, 1063, -381, 1047, -396, 1023, -389, 1015, -384, 1015, -347, 1057, 17, 1524, 19, 1536, 15, 1543, 7, 1541, -8, 1522, -38, 1494 )
+
+[node name="AboveTunne;" type="StaticBody2D" parent="Walls" index="3"]
+collision_layer = 1073742336
+collision_mask = 0
+
+[node name="TunnelUp" type="CollisionPolygon2D" parent="Walls/AboveTunne;" index="0"]
+polygon = PoolVector2Array( -571, 1150, -564, 1162, -554, 1176, -542, 1186, -524, 1191, -502, 1193, -465, 1188, -431, 1179, -409, 1164, -391, 1148, -372, 1126, -362, 1102, -355, 1076, -356, 1056, -366, 1039, -379, 1018, -389, 1015, -395, 1023, -381, 1047, -381, 1065, -392, 1100, -413, 1127, -432, 1146, -459, 1162, -491, 1172, -519, 1174, -533, 1171, -547, 1161, -561, 1143, -568, 1144 )
+
+[node name="TunnelDownLeft" type="CollisionPolygon2D" parent="Walls/AboveTunne;" index="1"]
+position = Vector2( -552, 2686 )
+rotation = -3.14159
+polygon = PoolVector2Array( -397, 1023, -387, 1033, -381, 1045, -380, 1058, -381, 1070, -394, 1102, -415, 1129, -437, 1150, -469, 1166, -499, 1174, -528, 1174, -544, 1165, -559, 1145, -567, 1143, -571, 1151, -568, 1158, -559, 1168, -550, 1180, -538, 1188, -509, 1193, -485, 1192, -457, 1187, -430, 1179, -417, 1171, -400, 1155, -389, 1147, -379, 1135, -369, 1118, -362, 1106, -359, 1095, -355, 1084, -355, 1068, -358, 1051, -366, 1038, -383, 1015, -392, 1016 )
+
+[node name="BelowBridge" type="StaticBody2D" parent="Walls" index="4"]
+collision_layer = 1073742336
+collision_mask = 0
+
+[node name="BridgeBaseUp" type="CollisionPolygon2D" parent="Walls/BelowBridge" index="0"]
+polygon = PoolVector2Array( 885, 937, 1164, 937, 1159, 930, 888, 931 )
+
+[node name="BridgeBaseDown" type="CollisionPolygon2D" parent="Walls/BelowBridge" index="1"]
+position = Vector2( 6, 376 )
+polygon = PoolVector2Array( 885, 937, 1166, 919, 1159, 914, 885, 930 )
+
+[node name="AboveBridge" type="StaticBody2D" parent="Walls" index="5"]
+collision_layer = 536871424
+collision_mask = 0
+
+[node name="BridgeLeft" type="CollisionPolygon2D" parent="Walls/AboveBridge" index="0"]
+polygon = PoolVector2Array( 896, 1325, 900, 1322, 900, 1281, 899, 1204, 895, 933, 891, 930, 887, 932, 886, 936, 886, 974, 887, 1051, 888, 1129, 889, 1205, 890, 1284, 891, 1323 )
+
+[node name="BridgeRight" type="CollisionPolygon2D" parent="Walls/AboveBridge" index="1"]
+position = Vector2( 264, -32 )
+polygon = PoolVector2Array( 896, 1325, 900, 1322, 900, 1281, 899, 1204, 895, 964, 892, 961, 889, 961, 886, 964, 886, 974, 887, 1051, 888, 1129, 889, 1205, 890, 1284, 891, 1323 )
+
 [node name="Layers" parent="." index="6"]
 script = ExtResource( 9 )
 
@@ -237,15 +284,7 @@ shape = SubResource( 4 )
 position = Vector2( 1229, 1280 )
 shape = SubResource( 5 )
 
-[node name="col_0" type="StaticBody2D" parent="Layers" index="1"]
-
-[node name="UnderTunnelLeft" type="CollisionPolygon2D" parent="Layers/col_0" index="0"]
-polygon = PoolVector2Array( -502, 1193, -192, 1592, -176, 1633, -166, 1652, -155, 1662, -160, 1670, -169, 1671, -190, 1645, -192, 1647, -549, 1185, -570, 1159, -571, 1150, -568, 1144, -561, 1143, -545, 1163 )
-
-[node name="UnderTunnelRight" type="CollisionPolygon2D" parent="Layers/col_0" index="1"]
-polygon = PoolVector2Array( -359, 1096, -372, 1063, -381, 1047, -396, 1023, -389, 1015, -384, 1015, -347, 1057, 17, 1524, 19, 1536, 15, 1543, 7, 1541, -8, 1522, -38, 1494 )
-
-[node name="1" type="Area2D" parent="Layers" index="2"]
+[node name="1" type="Area2D" parent="Layers" index="1"]
 script = ExtResource( 8 )
 
 [node name="TUNNEL_UP_REV" type="CollisionShape2D" parent="Layers/1" index="0"]
@@ -260,22 +299,27 @@ shape = SubResource( 6 )
 position = Vector2( 260.5, 224.5 )
 shape = SubResource( 1 )
 
-[node name="col_1" type="StaticBody2D" parent="Layers" index="3"]
+[node name="BRIDGE_DOWN" type="CollisionPolygon2D" parent="Layers/1" index="3"]
+position = Vector2( 1044, 897 )
+rotation = 1.5708
+polygon = PoolVector2Array( 6, 176, -8, 188, -7, -255, 17, -255, 17, -240, 3, -240 )
 
-[node name="BridgeLeft" type="CollisionPolygon2D" parent="Layers/col_1" index="0"]
-polygon = PoolVector2Array( 896, 1325, 900, 1322, 900, 1281, 899, 1204, 895, 933, 891, 930, 887, 932, 886, 936, 886, 974, 887, 1051, 888, 1129, 889, 1205, 890, 1284, 891, 1323 )
+[node name="BRIDGE_DOWN_REV" type="CollisionPolygon2D" parent="Layers/1" index="4"]
+position = Vector2( 1465, 1322 )
+rotation = -1.5708
+polygon = PoolVector2Array( -348, -237, -350, -254, -7, -255, 17, -255, 17, -240, 3, -240 )
 
-[node name="BridgeRight" type="CollisionPolygon2D" parent="Layers/col_1" index="1"]
-position = Vector2( 264, -32 )
-polygon = PoolVector2Array( 896, 1325, 900, 1322, 900, 1281, 899, 1204, 895, 964, 892, 961, 889, 961, 886, 964, 886, 974, 887, 1051, 888, 1129, 889, 1205, 890, 1284, 891, 1323 )
+[node name="2" type="Area2D" parent="Layers" index="2"]
+script = ExtResource( 8 )
 
-[node name="TunnelUp" type="CollisionPolygon2D" parent="Layers/col_1" index="2"]
-polygon = PoolVector2Array( -571, 1150, -564, 1162, -554, 1176, -542, 1186, -524, 1191, -502, 1193, -465, 1188, -431, 1179, -409, 1164, -391, 1148, -372, 1126, -362, 1102, -355, 1076, -356, 1056, -366, 1039, -379, 1018, -389, 1015, -395, 1023, -381, 1047, -381, 1065, -392, 1100, -413, 1127, -432, 1146, -459, 1162, -491, 1172, -519, 1174, -533, 1171, -547, 1161, -561, 1143, -568, 1144 )
+[node name="BRIDGE_UP" type="CollisionShape2D" parent="Layers/2" index="0"]
+position = Vector2( 1196, 1490 )
+shape = SubResource( 7 )
 
-[node name="TunnelDownLeft" type="CollisionPolygon2D" parent="Layers/col_1" index="3"]
-position = Vector2( -552, 2686 )
-rotation = -3.14159
-polygon = PoolVector2Array( -397, 1023, -387, 1033, -381, 1045, -380, 1058, -381, 1070, -394, 1102, -415, 1129, -437, 1150, -469, 1166, -499, 1174, -528, 1174, -544, 1165, -559, 1145, -567, 1143, -571, 1151, -568, 1158, -559, 1168, -550, 1180, -538, 1188, -509, 1193, -485, 1192, -457, 1187, -430, 1179, -417, 1171, -400, 1155, -389, 1147, -379, 1135, -369, 1118, -362, 1106, -359, 1095, -355, 1084, -355, 1068, -358, 1051, -366, 1038, -383, 1015, -392, 1016 )
+[node name="BRIDGE_UP_REV" type="CollisionShape2D" parent="Layers/2" index="1"]
+position = Vector2( 1056, 916 )
+rotation = 1.5708
+shape = SubResource( 7 )
 
 [node name="1" parent="StartPoints" index="0" instance=ExtResource( 7 )]
 position = Vector2( 141, 349 )
@@ -352,8 +396,9 @@ position = Vector2( 109, 0 )
 [node name="Spinner" parent="Objects" index="0" instance=ExtResource( 6 )]
 position = Vector2( -79, -275 )
 
-[connection signal="body_shape_entered" from="Layers/0" to="Layers" method="_on_layer_entered" binds= [ 0 ]]
-[connection signal="body_shape_entered" from="Layers/1" to="Layers" method="_on_layer_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Layers/0" to="Layers/0" method="_on_body_entered"]
+[connection signal="body_entered" from="Layers/1" to="Layers/1" method="_on_body_entered"]
+[connection signal="body_entered" from="Layers/2" to="Layers/2" method="_on_body_entered"]
 
 [editable path="StartPoints/1"]
 [editable path="StartPoints/2"]

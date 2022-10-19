@@ -10,4 +10,4 @@ func _ready():
 
 
 func _on_Button_Pressed(vehicle):
-	Game.PLAYER_DATA[Game.STEAM_ID]["vehicle"] = vehicle
+	Server.PLAYER_DATA[Server.STEAM_ID]["vehicle"] = vehicle

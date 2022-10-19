@@ -1,8 +1,13 @@
 extends "res://Scripts/Game/Map/map.gd"
 
+var player: Player
 
 var bridge = null
-var prev_stage_height = null
+var prev_z_index = null
+
+
+func _ready():
+	player = get_node("/root/Scene/Players/" + str(Server.STEAM_ID))
 
 
 func _change_collision_layer(layer_name):
@@ -26,12 +31,12 @@ func _change_collision_layer(layer_name):
 
 func _process(delta):
 	# Handle height management
-	if prev_stage_height != Global.STAGE_HEIGHT:
+	if prev_z_index != player.z_index:
 	# Ensuring we don't endlessly execute this code
-		if Global.STAGE_HEIGHT == 0:
+		if player.z_index == 0:
 			_change_collision_layer("0")
 
-		if Global.STAGE_HEIGHT == 1:
+		if player.z_index == 1:
 			_change_collision_layer("1")
 
-	prev_stage_height = Global.STAGE_HEIGHT
+	prev_z_index = player.z_index

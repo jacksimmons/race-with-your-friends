@@ -2,7 +2,7 @@ extends Node2D
 
 
 func _process(delta):
-	var player = get_node("/root/Scene/Players/" + str(Game.STEAM_ID))
+	var player = get_node("/root/Scene/Players/" + str(Server.STEAM_ID))
 	if player != null:
 
 		# Disable all levels.
@@ -19,7 +19,7 @@ func _process(delta):
 
 func _on_layer_entered(layer):
 	# Name of body must be the layer of the player.
-	var player = get_node("/root/Scene/Players/" + str(Game.STEAM_ID))
-	Global.STAGE_HEIGHT = int(layer)
+	print(layer)
+	var player = get_node("/root/Scene/Players/" + str(Server.STEAM_ID))
 	if player != null:
 		player.z_index = int(layer)

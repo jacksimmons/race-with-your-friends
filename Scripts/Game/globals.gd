@@ -163,7 +163,7 @@ func get_random_scene(var scene_type: int) -> String:
 
 func _setup_scene(game_mode: int, map: Node2D, race_pos: int):
 	# Sets up a game scene using Global and Game data.
-	var my_id = Game.STEAM_ID
+	var my_id = Server.STEAM_ID
 
 	# Load Scene
 	var scene = preload("res://Scenes/Scene.tscn").instance()
@@ -173,10 +173,10 @@ func _setup_scene(game_mode: int, map: Node2D, race_pos: int):
 	scene.get_node("Map").replace_by(map)
 	var checkpoints = map.get_node("Checkpoints")
 
-	Game.NUM_CHECKPOINTS = checkpoints.get_child_count()
+	Server.NUM_CHECKPOINTS = checkpoints.get_child_count()
 
 	# Load my Player and Camera
-	var vehicle = Game.PLAYER_DATA[my_id]["vehicle"]
+	var vehicle = Server.PLAYER_DATA[my_id]["vehicle"]
 	var my_player = load("res://Scenes/Vehicles/" + vehicle + ".tscn").instance()
 
 	my_player.set_name(str(my_id))
@@ -196,12 +196,12 @@ func _setup_scene(game_mode: int, map: Node2D, race_pos: int):
 		pass
 
 	elif game_mode == GameMode.MULTI:
-		var ids = Game.PLAYER_DATA.keys()
+		var ids = Server.PLAYER_DATA.keys()
 		var num_players = len(ids)
 
 		for player_id in ids:
 			if int(player_id) != my_id:
-				var friend_vehicle = Game.PLAYER_DATA[player_id]["vehicle"]
+				var friend_vehicle = Server.PLAYER_DATA[player_id]["vehicle"]
 				var friend = load("res://Scenes/Vehicles/" + friend_vehicle + ".tscn").instance()
 				friend.set_name(str(player_id))
 				players.add_child(friend)
@@ -210,7 +210,7 @@ func _setup_scene(game_mode: int, map: Node2D, race_pos: int):
 				cam.set_name("CAM_" + str(player_id))
 				friend.add_child(cam)
 
-	Game.PLAYER_DATA[my_id]["pre_config_complete"] = true
+	Server.PLAYER_DATA[my_id]["pre_config_complete"] = true
 	GAME_MODE = game_mode
 
 

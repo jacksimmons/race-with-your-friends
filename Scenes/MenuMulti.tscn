@@ -12,7 +12,7 @@ func _on_CreateLobby_pressed():
 	var lobby_multi = preload(\"res://Scenes/LobbyMulti.tscn\").instance()
 	get_node(\"/root\").add_child(lobby_multi)
 
-	lobby_multi.create_Lobby()
+	Server.create_Lobby()
 
 	self.queue_free()
 

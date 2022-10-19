@@ -26,6 +26,10 @@ tracks/0/keys = {
 scale = Vector2( 2, 2 )
 script = ExtResource( 3 )
 
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+margin_right = 83.0
+margin_bottom = 58.0
+
 [node name="BG" type="Sprite" parent="."]
 position = Vector2( 480, 270 )
 texture = ExtResource( 1 )

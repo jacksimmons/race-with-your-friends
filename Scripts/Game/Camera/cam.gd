@@ -35,7 +35,7 @@ func _input(event):
 func _process(delta):
 	if player and player.name != "Player" and check_player_name:
 		check_player_name = false
-		if player.name != str(Game.STEAM_ID):
+		if player.name != str(Server.STEAM_ID):
 			spectating = true
 		else:
 			current = true

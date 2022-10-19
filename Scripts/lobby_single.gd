@@ -33,14 +33,14 @@ func _on_CloseCharSelect_pressed():
 
 
 func _on_Vehicle_Selected(vehicle: String):
-	Game.PLAYER_DATA[Game.STEAM_ID]["vehicle"] = vehicle
+	Server.PLAYER_DATA[Server.STEAM_ID]["vehicle"] = vehicle
 	charSelectPopup.hide()
 
 
 func _on_Start_pressed():
-	if !Game.PLAYER_DATA[Game.STEAM_ID].has("vehicle"):
+	if !Server.PLAYER_DATA[Server.STEAM_ID].has("vehicle"):
 		var random_vehicle = Global.get_random_scene(Global.SceneType.VEHICLE)
-		Game.PLAYER_DATA[Game.STEAM_ID]["vehicle"] = random_vehicle
+		Server.PLAYER_DATA[Server.STEAM_ID]["vehicle"] = random_vehicle
 
 	var map = preload("res://Scenes/Maps/ScorpionMap.tscn").instance()
 	Global._setup_scene(Global.GameMode.SINGLE, map, 12)
@@ -50,4 +50,4 @@ func _on_Start_pressed():
 
 func _ready():
 	# Add the player data dictionary
-	Game.PLAYER_DATA[Game.STEAM_ID] = {}
+	Server.PLAYER_DATA[Server.STEAM_ID] = {}
