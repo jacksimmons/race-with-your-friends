@@ -11,7 +11,7 @@ absorbent = true
 
 [node name="Player" type="RigidBody2D"]
 rotation = 3.14159
-collision_mask = 1539
+collision_mask = 3
 mode = 2
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0

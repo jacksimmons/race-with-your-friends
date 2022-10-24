@@ -5,6 +5,13 @@ extends Node
 var lobby: Node
 
 
+# Signals
+signal host_status_update
+signal vehicle_update
+signal player_list_update
+signal lobby_message
+
+
 # Misc. Variables
 var time := 0
 
@@ -39,13 +46,16 @@ var local_pre_config_done := false
 
 
 # Game Variables
+var game_mode: int
 var game_started := false
 
 var player_data := {}
 var bot_data := {}
 var num_checkpoints := 0
 var blacklist := []
+
 var my_player: Player
+var my_starting_pos: int
 
 var lerps := {}
 var position_last_update: Vector2
@@ -56,6 +66,7 @@ var final_ranking: Array = []
 
 
 # Enums
+enum GameMode { SINGLE, MULTI, EDITOR }
 enum SendType {Unreliable, UnreliableNoDelay, Reliable, ReliableNoDelay}
 enum LeaveReason { NONE, KICKED, BANNED }
 enum JoinType {Private, Friends, Public, Invisible}
@@ -549,6 +560,58 @@ func add_player_to_list(steam_id, steam_name) -> void:
 		emit_signal("player_list_update", lobby_members)
 
 
+func setup_scene(map, race_pos):
+		# Sets up a game scene using Global and Game data.
+	var my_id = STEAM_ID
+
+	# Load Scene
+	var scene = preload("res://Scenes/Scene.tscn").instance()
+	get_node("/root").add_child(scene)
+
+	# Load the Map
+	scene.get_node("Map").replace_by(map)
+	var checkpoints = map.get_node("Checkpoints")
+
+	num_checkpoints = checkpoints.get_child_count()
+
+	# Load my Player and Camera
+	var vehicle = player_data[my_id]["vehicle"]
+	my_player = load("res://Scenes/Vehicles/" + vehicle + ".tscn").instance()
+
+	my_player.set_name(str(my_id))
+	var players = get_node("/root/Scene/Players")
+	var start_point = map.get_node("StartPoints").get_node(str(race_pos))
+	var point_f = start_point.to_global(start_point.get_node("Front").position)
+	var point_b = start_point.to_global(start_point.get_node("Back").position)
+	my_player.position = ((point_f + point_b) / 2)
+	my_player.position.x -= my_player.get_node("VehicleSprite").get_texture().get_height() / 2
+	players.add_child(my_player)
+
+	var my_cam = preload("res://Scenes/Cam.tscn").instance()
+	my_cam.name = "CAM_" + str(my_id)
+	my_player.add_child(my_cam)
+
+	if game_mode == GameMode.SINGLE:
+		pass
+
+	elif game_mode == GameMode.MULTI:
+		var ids = Server.player_data.keys()
+		var num_players = len(ids)
+
+		for player_id in ids:
+			if int(player_id) != my_id:
+				var friend_vehicle = Server.player_data[player_id]["vehicle"]
+				var friend = load("res://Scenes/Vehicles/" + friend_vehicle + ".tscn").instance()
+				friend.set_name(str(player_id))
+				players.add_child(friend)
+
+				var cam = preload("res://Scenes/Cam.tscn").instance()
+				cam.set_name("CAM_" + str(player_id))
+				friend.add_child(cam)
+
+	player_data[my_id]["pre_config_complete"] = true
+
+
 func start_pre_config() -> void:
 	# Initially, only run by the last player to ready up. Then the others are notified in order and they each call this.
 	get_tree().set_pause(true)
@@ -561,7 +624,8 @@ func start_pre_config() -> void:
 
 	if !local_pre_config_done:
 		var map = load("res://Scenes/Maps/" + selected_map + ".tscn").instance()
-		my_player = Global._setup_scene(Global.GameMode.MULTI, map, 12)
+		game_mode = GameMode.MULTI
+		setup_scene(map, 12)
 
 		local_pre_config_done = true
 
@@ -600,7 +664,7 @@ func start_bot_config() -> void:
 
 	if !local_pre_config_done:
 		var map = load("res://Scenes/Maps/" + selected_map + ".tscn").instance()
-		my_player = Global._setup_scene(Global.GameMode.MULTI, map, 12)
+		setup_scene(map, 12)
 
 		local_pre_config_done = true
 

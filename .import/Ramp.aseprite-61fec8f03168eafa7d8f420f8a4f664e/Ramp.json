@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "Ramp.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 37, "h": 36 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 37, "h": 36 },
+    "sourceSize": { "w": 37, "h": 36 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "Ramp.png",
+  "format": "RGBA8888",
+  "size": { "w": 37, "h": 36 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

@@ -23,7 +23,6 @@ func _process(delta):
 
 func _on_cp_entered(body, cp_name):
 	race_debug.get_node("CheckpointCount").text = "Checkpoint: " + cp_name + "/" + str(len(checkpoints) - 1)
-	print("hi")
 	if body is Player:
 		body.cur_checkpoint = int(cp_name)
 

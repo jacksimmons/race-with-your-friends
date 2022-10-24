@@ -17,6 +17,11 @@ onready var chat_input_button = $Chat/SendMessageButton
 
 onready var cam = $Camera2D
 
+# Signals
+signal vehicle_selected
+signal map_selected
+signal player_ready
+
 # Lobby
 
 var cam_on_stats: bool = false
@@ -90,8 +95,8 @@ func display_message(message) -> void:
 
 
 func start_Bot_Config() -> void:
-	for i in range(Server.BOT_DATA.size()):
-		var vehicle = Server.BOT_DATA["BOT" + str(i)]["vehicle"]
+	for i in range(Server.bot_data.size()):
+		var vehicle = Server.bot_data["BOT" + str(i)]["vehicle"]
 
 		var bot = load("res://Scenes/Vehicles/" + vehicle + ".tscn").instance()
 		bot.set_name("BOT" + str(i))
@@ -112,7 +117,7 @@ func start_Bot_Config() -> void:
 
 
 func _on_LobbyNameEdit_text_entered(new_text):
-	Steam.setLobbyData(Server.LOBBY_ID, "name", new_text)
+	Steam.setLobbyData(Server.lobby_id, "name", new_text)
 	display_message("Lobby name changed to: " + new_text)
 
 
@@ -228,7 +233,7 @@ func _on_PlayerList_item_selected(id: int, popup, player_id_as_string: String) -
 		"Kick":
 			Server.send_P2P_Packet(player_id_as_string, {"kicked": true})
 		"Ban":
-			Server.BLACKLIST.append(int(player_id_as_string))
+			Server.blacklist.append(int(player_id_as_string))
 			Server.send_P2P_Packet(player_id_as_string, {"banned": true})
 		"View Steam Profile":
 			Steam.activateGameOverlayToUser("steamid", int(player_id_as_string))
@@ -250,6 +255,5 @@ func _on_LobbySettingsButton_pressed():
 
 
 func _on_LobbySettingsCloseButton_pressed():
-	print("HI")
 	lobby_settings_popup.hide()
 	lobby_settings.disabled = false

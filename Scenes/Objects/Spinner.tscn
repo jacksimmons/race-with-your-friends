@@ -6,6 +6,7 @@
 
 [node name="Spinner" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
+angular_period = 3.0
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="." index="0"]
 collision_layer = 512

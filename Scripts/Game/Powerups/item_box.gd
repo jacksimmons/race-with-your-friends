@@ -55,7 +55,6 @@ func _select_random_weight(weight_list):
 		pass
 
 
-
 func _on_Area2D_body_entered(body):
 	if body is Player:
 		print(value)

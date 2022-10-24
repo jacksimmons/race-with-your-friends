@@ -3,12 +3,10 @@ extends Node
 # Set at main menu
 var DEBUG_COLLISION_SHAPES
 
-var g = 9.81
 var COEFFICIENT_OF_RESTITUTION = 0.1
 var e = COEFFICIENT_OF_RESTITUTION
 
-# Controls multi-layer levels (going under some stage elements)
-var STAGE_HEIGHT = 0
+const MAX_LAYER = 3
 
 var SURFACE_FRICTION_VALUES = \
 [
@@ -94,9 +92,6 @@ enum TimeFormat {
 	MMSS = 4 | 2
 }
 
-enum GameMode { SINGLE, MULTI, EDITOR }
-var GAME_MODE
-
 enum Surface {
 	PLAYER = 1,
 	CONTROL = 2,
@@ -159,62 +154,6 @@ func get_random_scene(var scene_type: int) -> String:
 		SceneType.MAP:
 			valid_scenes = MAPS
 	return get_random_arrayitem(valid_scenes)
-
-
-func _setup_scene(game_mode: int, map: Node2D, race_pos: int):
-	# Sets up a game scene using Global and Game data.
-	var my_id = Server.STEAM_ID
-
-	# Load Scene
-	var scene = preload("res://Scenes/Scene.tscn").instance()
-	get_node("/root").add_child(scene)
-
-	# Load the Map
-	scene.get_node("Map").replace_by(map)
-	var checkpoints = map.get_node("Checkpoints")
-
-	Server.NUM_CHECKPOINTS = checkpoints.get_child_count()
-
-	# Load my Player and Camera
-	var vehicle = Server.PLAYER_DATA[my_id]["vehicle"]
-	var my_player = load("res://Scenes/Vehicles/" + vehicle + ".tscn").instance()
-
-	my_player.set_name(str(my_id))
-	var players = get_node("/root/Scene/Players")
-	var start_point = map.get_node("StartPoints").get_node(str(race_pos))
-	var point_f = start_point.to_global(start_point.get_node("Front").position)
-	var point_b = start_point.to_global(start_point.get_node("Back").position)
-	my_player.position = ((point_f + point_b) / 2)
-	my_player.position.x -= my_player.get_node("VehicleSprite").get_texture().get_height() / 2
-	players.add_child(my_player)
-
-	var my_cam = preload("res://Scenes/Cam.tscn").instance()
-	my_cam.name = "CAM_" + str(my_id)
-	my_player.add_child(my_cam)
-
-	if game_mode == GameMode.SINGLE:
-		pass
-
-	elif game_mode == GameMode.MULTI:
-		var ids = Server.PLAYER_DATA.keys()
-		var num_players = len(ids)
-
-		for player_id in ids:
-			if int(player_id) != my_id:
-				var friend_vehicle = Server.PLAYER_DATA[player_id]["vehicle"]
-				var friend = load("res://Scenes/Vehicles/" + friend_vehicle + ".tscn").instance()
-				friend.set_name(str(player_id))
-				players.add_child(friend)
-
-				var cam = preload("res://Scenes/Cam.tscn").instance()
-				cam.set_name("CAM_" + str(player_id))
-				friend.add_child(cam)
-
-	Server.PLAYER_DATA[my_id]["pre_config_complete"] = true
-	GAME_MODE = game_mode
-
-
-	return my_player
 
 
 func _find_vector_angle(v1, v2) -> float:

@@ -121,7 +121,7 @@ func _ready():
 	set_use_custom_integrator(false)
 
 	# Get player data
-	var my_data := Server.PLAYER_DATA[Server.STEAM_ID] as Dictionary
+	var my_data := Server.player_data[Server.STEAM_ID] as Dictionary
 
 	mass = WEIGHT * weight_mod
 	engine_strength = ACCELERATION * mass * acc_mod
