@@ -560,16 +560,14 @@ func add_player_to_list(steam_id, steam_name) -> void:
 		emit_signal("player_list_update", lobby_members)
 
 
-func setup_scene(map, race_pos):
+func setup_scene(map_obj, race_pos):
 		# Sets up a game scene using Global and Game data.
 	var my_id = STEAM_ID
 
-	# Load Scene
-	var scene = preload("res://Scenes/Scene.tscn").instance()
-	get_node("/root").add_child(scene)
+	# Load map_obj
+	get_node("/root").add_child(map_obj)
 
-	# Load the Map
-	scene.get_node("Map").replace_by(map)
+	var map = map_obj.get_node("Map")
 	var checkpoints = map.get_node("Checkpoints")
 
 	num_checkpoints = checkpoints.get_child_count()

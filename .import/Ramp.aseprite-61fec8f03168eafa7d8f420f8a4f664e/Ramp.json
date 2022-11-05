@@ -1,11 +1,11 @@
 { "frames": [
    {
     "filename": "Ramp.aseprite",
-    "frame": { "x": 0, "y": 0, "w": 37, "h": 36 },
+    "frame": { "x": 0, "y": 0, "w": 36, "h": 36 },
     "rotated": false,
     "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 37, "h": 36 },
-    "sourceSize": { "w": 37, "h": 36 },
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 36, "h": 36 },
+    "sourceSize": { "w": 36, "h": 36 },
     "duration": 100
    }
  ],
@@ -14,7 +14,7 @@
   "version": "1.2.40-x64",
   "image": "Ramp.png",
   "format": "RGBA8888",
-  "size": { "w": 37, "h": 36 },
+  "size": { "w": 36, "h": 36 },
   "scale": "1",
   "frameTags": [
   ]

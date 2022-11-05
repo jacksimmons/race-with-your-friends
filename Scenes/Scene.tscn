@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/Game/UI/accelerometer.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/Game/UI/timer.gd" type="Script" id=2]
@@ -6,16 +6,34 @@
 [ext_resource path="res://Sprites/Powerups/Red Barrle.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Powerups/Finished Egal.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Powerups/Sock.png" type="Texture" id=6]
+[ext_resource path="res://Scripts/Game/Activators/checkpoint_handler.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/Game/Activators/layer_handler.gd" type="Script" id=8]
 
 [node name="Scene" type="Node2D"]
 
-[node name="Powerups" type="Node2D" parent="."]
-
-[node name="Map" type="Node2D" parent="."]
+[node name="Overlay" type="Node2D" parent="."]
 
 [node name="Players" type="Node2D" parent="."]
 
 [node name="Bots" type="Node2D" parent="."]
+
+[node name="Underlay" type="Node2D" parent="."]
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="Map" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Map"]
+
+[node name="Checkpoints" type="Node2D" parent="Map"]
+script = ExtResource( 7 )
+
+[node name="Layers" type="Node2D" parent="Map"]
+script = ExtResource( 8 )
+
+[node name="StartPoints" type="Node2D" parent="Map"]
 
 [node name="Cameras" type="Node2D" parent="."]
 

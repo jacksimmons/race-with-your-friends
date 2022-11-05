@@ -17,6 +17,7 @@ b = Vector2( 37, 0 )
 b = Vector2( 37, 0 )
 
 [node name="Ramp" instance=ExtResource( 2 )]
+rotation = -1.5708
 scale = Vector2( 2, 2 )
 script = ExtResource( 4 )
 starting_layer = 1
@@ -24,6 +25,7 @@ starting_layer = 1
 [node name="ConveyorBelt" parent="." index="0" instance=ExtResource( 6 )]
 position = Vector2( 1, -50 )
 speed = 5.0
+is_ramp_air = true
 
 [node name="Sprite" parent="ConveyorBelt" index="0"]
 visible = false
@@ -66,6 +68,12 @@ collision_layer = 512
 collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Collision" index="0"]
+polygon = PoolVector2Array( 11, 18, 14, 15, 14, 13, 12, 11, 15, 8, 15, 6, 13, 4, 16, 1, 16, -0.999999, 14, -3, 17, -6, 17, -8, 15, -10, 18, -13, 18, -15, 15, -18, 15, -16, 17, -14, 14, -11, 14, -9, 16, -7, 13, -4, 13, -2, 15, 6.55671e-07, 12, 3, 12, 5, 14, 7, 11, 10, 11, 12, 13, 14, 10, 17 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Collision" index="1"]
+position = Vector2( 1.06581e-14, 2.38419e-07 )
+scale = Vector2( -1, 1 )
+polygon = PoolVector2Array( 11, 18, 14, 15, 14, 13, 12, 11, 15, 8, 15, 6, 13, 4, 16, 1, 16, -0.999999, 14, -3, 17, -6, 17, -8, 15, -10, 18, -13, 18, -15, 15, -18, 15, -16, 17, -14, 14, -11, 14, -9, 16, -7, 13, -4, 13, -2, 15, 6.55671e-07, 12, 3, 12, 5, 14, 7, 11, 10, 11, 12, 13, 14, 10, 17 )
 
 [connection signal="body_entered" from="Layers/+0" to="Layers/+0" method="_on_body_entered"]
 [connection signal="body_entered" from="Layers/+1" to="Layers/+1" method="_on_body_entered"]

@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 onready var layer0: Area2D = $"Layers/+0"
 onready var layer1: Area2D = $"Layers/+1"

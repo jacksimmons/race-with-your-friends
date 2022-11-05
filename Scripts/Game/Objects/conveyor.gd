@@ -3,6 +3,7 @@ extends Area2D
 var layer = 0
 export (float) var speed
 export (float, 0, 360) var angle
+export (bool) var is_ramp_air
 
 var velocity: Vector2
 
@@ -11,6 +12,8 @@ var accepted_parent_classes = [Routed]
 
 
 func _ready():
+	if is_ramp_air:
+		angle = get_parent().get_parent().rotation
 	velocity = -transform.x.rotated(angle) * speed
 
 
