@@ -11,31 +11,29 @@
 
 [node name="Scene" type="Node2D"]
 
-[node name="Overlay" type="Node2D" parent="."]
+[node name="Cameras" type="Node2D" parent="."]
+
+[node name="Background" type="Sprite" parent="."]
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="Underlay" type="Node2D" parent="."]
 
 [node name="Players" type="Node2D" parent="."]
 
 [node name="Bots" type="Node2D" parent="."]
 
-[node name="Underlay" type="Node2D" parent="."]
+[node name="Overlay" type="Node2D" parent="."]
 
 [node name="Walls" type="Node2D" parent="."]
 
-[node name="Ground" type="Node2D" parent="."]
+[node name="StartPoints" type="Node2D" parent="."]
 
-[node name="Map" type="Node2D" parent="."]
-
-[node name="Sprite" type="Sprite" parent="Map"]
-
-[node name="Checkpoints" type="Node2D" parent="Map"]
+[node name="Checkpoints" type="Node2D" parent="."]
 script = ExtResource( 7 )
 
-[node name="Layers" type="Node2D" parent="Map"]
+[node name="Layers" type="Node2D" parent="."]
 script = ExtResource( 8 )
-
-[node name="StartPoints" type="Node2D" parent="Map"]
-
-[node name="Cameras" type="Node2D" parent="."]
 
 [node name="Canvas" type="CanvasLayer" parent="."]
 

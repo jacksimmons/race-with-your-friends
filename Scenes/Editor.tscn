@@ -297,15 +297,15 @@ func _handle_test():
 
 		if map_exists:
 			var vehicle_name = get_popup().get_item_text(selected_id)
-			Game.PLAYER_DATA[Game.STEAM_ID] = {\"vehicle\": vehicle_name}
+			Server.PLAYER_DATA[Server.STEAM_ID] = {\"vehicle\": vehicle_name}
 			Global._setup_scene(Global.GameMode.EDITOR, editor.project_root, 12)
 
-			if Game.NUM_CHECKPOINTS == 0:
+			if Server.NUM_CHECKPOINTS == 0:
 				pass
 
 		else:
 			var vehicle_name = get_popup().get_item_text(selected_id)
-			Game.PLAYER_DATA[Game.STEAM_ID] = {\"vehicle\": vehicle_name}
+			Server.PLAYER_DATA[Server.STEAM_ID] = {\"vehicle\": vehicle_name}
 			var def_map = preload(\"res://Scenes/Templates/TMap.tscn\").instance()
 			Global._setup_scene(Global.GameMode.EDITOR, def_map, 12)
 

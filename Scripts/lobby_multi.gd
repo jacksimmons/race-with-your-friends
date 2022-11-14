@@ -141,7 +141,7 @@ func _on_VehicleRightButton_pressed():
 func _on_Map_Selected(map_name: String):
 	emit_signal("map_selected", map_name)
 	_on_Start_pressed()
-	hide()
+	get_node("/root/Lobby").hide()
 
 
 func _on_host_status_update(host: bool) -> void:

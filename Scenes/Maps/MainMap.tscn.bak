@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Scenes/Scene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Maps/Main/bg.png" type="Texture" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://Sprites/Maps/Main/obj_outline.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Maps/Main/road.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Objects/Spinner.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/Templates/TStartPosition.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scripts/Game/Activators/layer.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/Objects/RampHandler.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Objects/ItemBoxArray.tscn" type="PackedScene" id=10]
@@ -43,16 +42,6 @@ b = Vector2( -334, 243 )
 b = Vector2( -131.999, 413 )
 
 [node name="Scene" instance=ExtResource( 1 )]
-
-[node name="Obj_Outline" type="Sprite" parent="." index="1"]
-z_index = 1
-texture = ExtResource( 4 )
-
-[node name="Background" parent="." index="2"]
-texture = ExtResource( 2 )
-
-[node name="Ground" parent="." index="3"]
-z_index = 5
 
 [node name="Sprites" type="Node2D" parent="Overlay" index="0"]
 
@@ -99,7 +88,11 @@ rotation = -2.68257
 [node name="ConveyorBelt" parent="Overlay/Objects/RampHandler2/Ramp" index="0"]
 angle = 90.0
 
-[node name="Walls" parent="." index="8"]
+[node name="Obj_Outline" type="Sprite" parent="." index="1"]
+z_index = 1
+texture = ExtResource( 4 )
+
+[node name="Walls" parent="." index="5"]
 z_index = 5
 
 [node name="Concrete" type="StaticBody2D" parent="Walls" index="0"]
@@ -223,41 +216,8 @@ polygon = PoolVector2Array( 896, 1325, 900, 1322, 900, 1281, 899, 1204, 895, 933
 position = Vector2( 264, -32 )
 polygon = PoolVector2Array( 896, 1325, 900, 1322, 900, 1281, 899, 1204, 895, 964, 892, 961, 889, 961, 886, 964, 886, 974, 887, 1051, 888, 1129, 889, 1205, 890, 1284, 891, 1323 )
 
-[node name="1" parent="StartPoints" index="0" instance=ExtResource( 7 )]
-position = Vector2( 141, 349 )
-
-[node name="2" parent="StartPoints" index="1" instance=ExtResource( 7 )]
-position = Vector2( 141, 269 )
-
-[node name="3" parent="StartPoints" index="2" instance=ExtResource( 7 )]
-position = Vector2( 141, 188 )
-
-[node name="4" parent="StartPoints" index="3" instance=ExtResource( 7 )]
-position = Vector2( 141, 108 )
-
-[node name="5" parent="StartPoints" index="4" instance=ExtResource( 7 )]
-position = Vector2( 253, 349 )
-
-[node name="6" parent="StartPoints" index="5" instance=ExtResource( 7 )]
-position = Vector2( 253, 269 )
-
-[node name="7" parent="StartPoints" index="6" instance=ExtResource( 7 )]
-position = Vector2( 253, 188 )
-
-[node name="8" parent="StartPoints" index="7" instance=ExtResource( 7 )]
-position = Vector2( 253, 108 )
-
-[node name="9" parent="StartPoints" index="8" instance=ExtResource( 7 )]
-position = Vector2( 365, 349 )
-
-[node name="10" parent="StartPoints" index="9" instance=ExtResource( 7 )]
-position = Vector2( 365, 269 )
-
-[node name="11" parent="StartPoints" index="10" instance=ExtResource( 7 )]
-position = Vector2( 365, 188 )
-
-[node name="12" parent="StartPoints" index="11" instance=ExtResource( 7 )]
-position = Vector2( 365, 108 )
+[node name="Ground" parent="." index="6"]
+z_index = 5
 
 [node name="0" type="Area2D" parent="Checkpoints" index="0"]
 script = ExtResource( 11 )
@@ -406,6 +366,9 @@ shape = SubResource( 8 )
 position = Vector2( 1267, 915 )
 rotation = 1.5708
 shape = SubResource( 9 )
+
+[node name="Background" parent="." index="9"]
+texture = ExtResource( 2 )
 
 [connection signal="body_entered" from="Layers/0" to="Layers/0" method="_on_body_entered"]
 [connection signal="body_entered" from="Layers/1" to="Layers/1" method="_on_body_entered"]

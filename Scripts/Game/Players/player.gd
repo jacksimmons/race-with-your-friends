@@ -111,6 +111,8 @@ var weight_mod = 10
 
 var time = 0
 
+var paralised = false
+
 
 func _ready():
 	# Collision (set max contacts to 5)
@@ -176,7 +178,7 @@ func _process(delta):
 
 
 func _physics_process(delta):
-	if int(name) == Server.STEAM_ID:
+	if int(name) == Server.STEAM_ID and !paralised:
 		#var next_checkpoint_distance := position.distance_squared_to(checkpoints.get_node(str(next_checkpoint)).position)
 		#race_pos = {"checkpoints": cur_checkpoint, "distance_from_next": next_checkpoint_distance}
 

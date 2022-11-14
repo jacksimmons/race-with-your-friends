@@ -23,7 +23,7 @@ var SURFACE_FRICTION_VALUES = \
 
 const VEHICLES: Array =\
 [
-	"Cock",
+	#"Cock",
 	"MiniCar",
 	"CuntCar",
 	"DankaMobil",

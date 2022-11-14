@@ -4,11 +4,14 @@ var layer = 0
 export (float) var speed
 export (float, 0, 360) var angle
 export (bool) var is_ramp_air
+export (bool) var use_custom_speed
 
 var velocity: Vector2
 
 var accepted_classes = [Player]
 var accepted_parent_classes = [Routed]
+
+var velocities = {}
 
 
 func _ready():
@@ -40,11 +43,17 @@ func _on_ConveyorBelt_body_entered(body):
 
 	if the_body:
 		if the_body.get_collision_mask_bit(31 - layer):
-			the_body.on_object_vectors.append(velocity)
+			if use_custom_speed:
+				the_body.on_object_vectors.append(velocity)
+			else:
+				the_body.paralised = true
 
 
 func _on_ConveyorBelt_body_exited(body):
 	var the_body = _get_body(body)
 
 	if the_body:
-		the_body.on_object_vectors.erase(velocity)
+		if use_custom_speed:
+			the_body.on_object_vectors.erase(velocity)
+		else:
+			the_body.paralised = false

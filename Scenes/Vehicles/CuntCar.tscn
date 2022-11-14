@@ -27,7 +27,7 @@ rotation = -1.5708
 position = Vector2( -18, 14 )
 rotation = -1.5708
 
-[node name="VehicleSprite" parent="." index="1"]
+[node name="VehicleSprite" parent="." index="2"]
 texture = ExtResource( 2 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="3"]
