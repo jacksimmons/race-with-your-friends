@@ -25,7 +25,7 @@ onready var dist_value = $"/root/Scene/Canvas/Race/DistanceToNextCheckpoint"
 onready var on_mat = $"/root/Scene/Canvas/Stats/Physics/OnMaterial"
 
 onready var drawing = $"/root/Scene/Canvas/Object"
-onready var hook = $HookSprite
+onready var hook = $Hook
 
 onready var lobby = $"/root/Lobby"
 onready var checkpoints = $"/root/Scene/Map/Checkpoints"
@@ -54,12 +54,6 @@ enum InputFlags {
 # is the default surface, for when no surface is in collision.
 var on_material: Array = [Global.Surface.CONCRETE]
 var on_object_vectors: Array = []
-
-# Transform (tr) at collision instant (ci) from the collider to the player
-# https://godotengine.org/qa/27382/making-a-rigidbody-stick-on-a-moving-kinematicbody
-var tr_ci_collider_to_player = Transform2D()
-var is_sticking = false
-var body_stuck_on = null
 
 # Checkpoints
 var cur_checkpoint:int = 0
@@ -115,13 +109,6 @@ var paralised = false
 
 
 func _ready():
-	# Collision (set max contacts to 5)
-	set_contact_monitor(true)
-	set_max_contacts_reported(5)
-
-	# Apply Godot physics to begin with
-	set_use_custom_integrator(false)
-
 	# Get player data
 	var my_data := Server.player_data[Server.STEAM_ID] as Dictionary
 
@@ -141,33 +128,6 @@ func _ready():
 
 	# Turn
 	max_turn = $Wheels.max_wheel_rotation * max_turn_mod
-
-
-func _integrate_forces(state):
-	if !is_sticking and state.get_contact_count() == 1:
-		is_sticking = true
-
-		# Ignore custom integrator once sticking
-		#set_use_custom_integrator(false)
-
-		# Get the RB on which the player will stick (the only one as contacts=1)
-		body_stuck_on = state.get_contact_collider_object(0)
-
-		print("Stuck on: " + body_stuck_on.name)
-
-		var tr_ci_world_to_player = get_global_transform()
-		var tr_ci_world_to_collider = body_stuck_on.get_global_transform()
-		# collider->player        = (collider->world) -> (world->player)
-		# (Multiply matrices)     = (collider->world) * (world->player)
-		# (Basic inverse law)     = (world->collider)^(-1) * (world->player)
-		tr_ci_collider_to_player = tr_ci_world_to_collider.inverse() * tr_ci_world_to_player
-
-	if is_sticking:
-		# Take the last transform of the moving collider
-		# Keep the same relative position of the player to the collider...
-		# ...at the instant of the collision
-		#global_transform = body_stuck_on.get_global_transform() * tr_ci_collider_to_player
-		pass
 
 
 func _process(delta):
@@ -321,6 +281,22 @@ func _unhandled_input(event):
 			pass
 
 
+func _calc_driving_force(driving_direction):
+	return driving_direction * transform.x * engine_strength
+
+
+func _calc_rotation(turning_direction):
+	return turning_direction * wheel_turn
+
+
+func _handle_braking():
+	var velocity = get_linear_velocity()
+	if velocity.length() > 2:
+		driving_force = -get_linear_velocity().normalized() * engine_strength
+	else:
+		set_linear_velocity(Vector2.ZERO)
+
+
 func _handle_input():
 	# Handles any held user input events.
 
@@ -334,7 +310,7 @@ func _handle_input():
 	if input_flags & InputFlags.REVERSE_DOWN:
 		driving_direction -= 1
 
-	driving_force = driving_direction * transform.x * engine_strength
+	driving_force = _calc_driving_force(driving_direction)
 
 	turning_direction = 0
 	if input_flags & InputFlags.LEFT_DOWN:
@@ -342,15 +318,11 @@ func _handle_input():
 	if input_flags & InputFlags.RIGHT_DOWN:
 		turning_direction += 1
 
-	current_turn = turning_direction * wheel_turn
+	current_turn = _calc_rotation(turning_direction)
 
 	if input_flags & InputFlags.BRAKE_DOWN:
 		braking = true
-		var velocity = get_linear_velocity()
-		if velocity.length() > 2:
-			driving_force = -get_linear_velocity().normalized() * engine_strength
-		else:
-			set_linear_velocity(Vector2.ZERO)
+		_handle_braking()
 	else:
 		braking = false
 
@@ -361,28 +333,29 @@ func _handle_input():
 		net_acc *= 2.5
 
 
-func get_dist_from_next_checkpoint() -> int:
+func get_target_position_at_next_checkpoint() -> Vector2:
 	# next_checkpoint is in use as a global variable
-	var checkpoints = $"/root/Scene/Map/Checkpoints"
+	var checkpoints = $"/root/Scene/Checkpoints"
 	var next = checkpoints.get_node(str(next_checkpoint))
-	var next_pos = next.get_node("centre").global_position
-	var dist = (next_pos - position).length()
-	return dist
+
+	var shape: CollisionShape2D = next.get_node("CollisionShape2D")
+	var segment: SegmentShape2D = shape.get_shape()
+	var segment_vector: Vector2 = segment.get_a() - segment.get_b()
+	var astar: AStar2D = AStar2D.new()
+	astar.add_point(0, segment.get_a())
+	astar.add_point(1, segment.get_b())
+	astar.connect_points(0, 1)
+	var next_pos = astar.get_closest_position_in_segment(position)
+	return next_pos
+
+
+func get_dist_from_next_checkpoint() -> int:
+	var next_pos = get_target_position_at_next_checkpoint()
+	return (next_pos - position).length()
 
 
 func _handle_hook():
-	var targets = get_node("/root/Scene/Map/ScorpionMap/GrapplePoints")
-
-	# Simple Djkstra's
-	var shortest_path = INF
-	var shortest_path_target
-	for target in targets.get_children():
-		if (position - target.position).length() < shortest_path:
-			shortest_path_target = target
-
-	print(shortest_path_target.position)
-
-	drawing.lines.append({"from": position, "to": shortest_path_target.position, "col": Color.black})
+	hook.activate()
 
 
 func _handle_objects():

@@ -32,7 +32,7 @@ func _on_CloseCharSelect_pressed():
 	charSelectPopup.hide()
 
 
-func _on_Vehicle_Selected(vehicle: String):
+func _on_vehicle_selected(vehicle: String):
 	Server.PLAYER_DATA[Server.STEAM_ID]["vehicle"] = vehicle
 	charSelectPopup.hide()
 

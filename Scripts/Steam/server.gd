@@ -63,6 +63,9 @@ var rotation_last_update: float
 
 var in_game_ranking: Array = []
 var final_ranking: Array = []
+var race_finished: bool = false
+var roster_size_after_race: int
+var roster_update_after_race: bool = false
 
 
 # Enums
@@ -335,7 +338,7 @@ func read_P2P_Packet():
 				bot_data[bot_vehicle["name"]]["vehicle"] = bot_vehicle["vehicle"]
 
 			if bot_data.size() == MAX_MEMBERS - player_data.size():
-				start_bot_config()
+				start_bot_config(name)
 
 		## In-Game
 		# a "position" packet.
@@ -419,6 +422,13 @@ func read_P2P_Packet():
 			if readable["race_complete"]:
 				final_ranking.append(packet_sender)
 
+		if readable.has("all_race_complete"):
+			if readable["all_race_complete"]:
+				finish_game()
+
+		if readable.has("roster_size_after_race"):
+			roster_size_after_race = readable["roster_size_after_race"]
+
 
 func read_All_P2P_Packets(read_count: int = 0):
 	# Recursively reads all packets
@@ -474,6 +484,10 @@ func update_lobby_members() -> void:
 
 	# Get number of members in lobby
 	var member_count = Steam.getNumLobbyMembers(lobby_id)
+
+	if race_finished:
+		if member_count != roster_size_after_race:
+			roster_update_after_race = true
 
 	# Get members data
 	for member in range(0, member_count):
@@ -560,14 +574,38 @@ func add_player_to_list(steam_id, steam_name) -> void:
 		emit_signal("player_list_update", lobby_members)
 
 
-func setup_scene(map_obj, race_pos):
-		# Sets up a game scene using Global and Game data.
+# Misc.
+func exit_to_main(leave_reason: int):
+	var scene = preload("res://Scenes/MenuTitle.tscn").instance()
+	get_node("/root").add_child(scene)
+	match leave_reason:
+		LeaveReason.KICKED:
+			var accept_dialog = scene.get_node("AcceptDialog")
+			accept_dialog.dialog_text = "You have been kicked from " + Steam.getLobbyData(lobby_id, "name")
+			accept_dialog.popup()
+		LeaveReason.BANNED:
+			var accept_dialog = scene.get_node("AcceptDialog")
+			accept_dialog.dialog_text = "You have been banned from " + Steam.getLobbyData(lobby_id, "name")
+			accept_dialog.popup()
+	leave_Lobby()
+	self.queue_free()
+
+
+func lobby_screen_entered():
+	lobby = $"/root/Lobby"
+	lobby.connect("vehicle_selected", self, "_on_vehicle_selected")
+	lobby.connect("map_selected", self, "_on_map_selected")
+	lobby.connect("player_ready", self, "_on_player_ready")
+
+
+# Game Setup
+func setup_scene(map, race_pos):
+	# Sets up a game scene using Global and Game data.
 	var my_id = STEAM_ID
 
-	# Load map_obj
-	get_node("/root").add_child(map_obj)
+	# Add scene to root
+	get_node("/root").add_child(map)
 
-	var map = map_obj.get_node("Map")
 	var checkpoints = map.get_node("Checkpoints")
 
 	num_checkpoints = checkpoints.get_child_count()
@@ -610,137 +648,53 @@ func setup_scene(map_obj, race_pos):
 	player_data[my_id]["pre_config_complete"] = true
 
 
-func start_pre_config() -> void:
-	# Initially, only run by the last player to ready up. Then the others are notified in order and they each call this.
-	get_tree().set_pause(true)
+func setup_bot(id, map, race_pos):
+	# Sets up a game scene using Global and Game data.
+	var my_id = bot_data
 
-	if final_readier:
-		var map_votes = []
-		for player_id in player_data:
-			map_votes.append(player_data[player_id]["map_vote"])
-		selected_map = Global.get_random_arrayitem(map_votes)
+	# Add scene to root
+	get_node("/root").add_child(map)
 
-	if !local_pre_config_done:
-		var map = load("res://Scenes/Maps/" + selected_map + ".tscn").instance()
-		game_mode = GameMode.MULTI
-		setup_scene(map, 12)
+	var checkpoints = map.get_node("Checkpoints")
 
-		local_pre_config_done = true
+	num_checkpoints = checkpoints.get_child_count()
 
-		if final_readier:
-			send_P2P_Packet("all", {"pre_config_complete": {"map": selected_map}})
-		else:
-			send_P2P_Packet("all", {"pre_config_complete": true})
+	# Load my Player and Camera
+	var vehicle = player_data[my_id]["vehicle"]
+	my_player = load("res://Scenes/Vehicles/" + vehicle + ".tscn").instance()
 
-	var ids = player_data.keys()
-	var num_players = len(ids)
-	var num_bots = 0 #MAX_MEMBERS - num_players
+	my_player.set_name(str(my_id))
+	var players = get_node("/root/Scene/Players")
+	var start_point = map.get_node("StartPoints").get_node(str(race_pos))
+	var point_f = start_point.to_global(start_point.get_node("Front").position)
+	var point_b = start_point.to_global(start_point.get_node("Back").position)
+	my_player.position = ((point_f + point_b) / 2)
+	my_player.position.x -= my_player.get_node("VehicleSprite").get_texture().get_height() / 2
+	players.add_child(my_player)
 
-	if host:
+	var my_cam = preload("res://Scenes/Cam.tscn").instance()
+	my_cam.name = "CAM_" + str(my_id)
+	my_player.add_child(my_cam)
+
+	if game_mode == GameMode.SINGLE:
 		pass
-		#for i in range(num_bots):
-		#	var name = "BOT" + str(i)
-		#	var vehicle = Global.get_random_scene(Global.SceneType.VEHICLE)
-		#	if !(name in BOT_DATA):
-		#		BOT_DATA[name] = {"vehicle": vehicle}
-		#	else:
-		#		BOT_DATA[name]["vehicle"] = vehicle
-		#	send_P2P_Packet("all", {"bot_vehicle": {"name": "BOT" + str(i), "vehicle": vehicle}})
-		#start_Bot_Config()
-	player_data[STEAM_ID]["pre_config_complete"] = true
-	get_tree().set_pause(false)
 
+	elif game_mode == GameMode.MULTI:
+		var ids = Server.player_data.keys()
+		var num_players = len(ids)
 
-func start_bot_config() -> void:
-	get_tree().set_pause(true)
+		for player_id in ids:
+			if int(player_id) != my_id:
+				var friend_vehicle = Server.player_data[player_id]["vehicle"]
+				var friend = load("res://Scenes/Vehicles/" + friend_vehicle + ".tscn").instance()
+				friend.set_name(str(player_id))
+				players.add_child(friend)
 
-	if final_readier:
-		var map_votes = []
-		for player_id in player_data:
-			map_votes.append(player_data[player_id]["map_vote"])
-		selected_map = Global.get_random_arrayitem(map_votes)
+				var cam = preload("res://Scenes/Cam.tscn").instance()
+				cam.set_name("CAM_" + str(player_id))
+				friend.add_child(cam)
 
-	if !local_pre_config_done:
-		var map = load("res://Scenes/Maps/" + selected_map + ".tscn").instance()
-		setup_scene(map, 12)
-
-		local_pre_config_done = true
-
-		if final_readier:
-			send_P2P_Packet("all", {"pre_config_complete": {"map": selected_map}})
-		else:
-			send_P2P_Packet("all", {"pre_config_complete": true})
-
-	var ids = player_data.keys()
-	var num_players = len(ids)
-	var num_bots = 0 #MAX_MEMBERS - num_players
-
-	if host:
-		pass
-		#for i in range(num_bots):
-		#	var name = "BOT" + str(i)
-		#	var vehicle = Global.get_random_scene(Global.SceneType.VEHICLE)
-		#	if !(name in BOT_DATA):
-		#		BOT_DATA[name] = {"vehicle": vehicle}
-		#	else:
-		#		BOT_DATA[name]["vehicle"] = vehicle
-		#	send_P2P_Packet("all", {"bot_vehicle": {"name": "BOT" + str(i), "vehicle": vehicle}})
-		#start_Bot_Config()
-	player_data[STEAM_ID]["pre_config_complete"] = true
-	get_tree().set_pause(false)
-
-
-func load_game() -> void:
-	# Properly loads the game.
-	get_tree().set_pause(true)
-	start_game()
-	get_tree().set_pause(false)
-
-
-func start_game() -> void:
-	# ! Need to set this to false whenever it ends.
-	game_started = true
-
-
-# Misc.
-func exit_to_main(leave_reason: int):
-	var scene = preload("res://Scenes/MenuTitle.tscn").instance()
-	get_node("/root").add_child(scene)
-	match leave_reason:
-		LeaveReason.KICKED:
-			var accept_dialog = scene.get_node("AcceptDialog")
-			accept_dialog.dialog_text = "You have been kicked from " + Steam.getLobbyData(lobby_id, "name")
-			accept_dialog.popup()
-		LeaveReason.BANNED:
-			var accept_dialog = scene.get_node("AcceptDialog")
-			accept_dialog.dialog_text = "You have been banned from " + Steam.getLobbyData(lobby_id, "name")
-			accept_dialog.popup()
-	leave_Lobby()
-	self.queue_free()
-
-
-func lobby_screen_entered():
-	lobby = $"/root/Lobby"
-	lobby.connect("vehicle_selected", self, "_on_Vehicle_Selected")
-	lobby.connect("map_selected", self, "_on_map_selected")
-	lobby.connect("player_ready", self, "_on_player_ready")
-
-
-# Other Callbacks
-func _on_Vehicle_Selected(vehicle: String):
-	if lobby_id != 0:
-		send_P2P_Packet("all", {"vehicle": vehicle})
-		player_data[STEAM_ID]["vehicle"] = vehicle
-
-		# This selection has no effect unless we're in the lobby
-		if lobby and !game_started:
-			emit_signal("vehicle_update", vehicle)
-
-
-func _on_map_selected(map: String):
-	if lobby_id != 0:
-		send_P2P_Packet("all", {"map_vote": map})
-		player_data[STEAM_ID]["map_vote"] = map
+	player_data[my_id]["pre_config_complete"] = true
 
 
 func _on_player_ready():
@@ -790,6 +744,110 @@ func _on_player_ready():
 			# Secretly start the preconfig process, then after completing it, notify the others one by one.
 			final_readier = true
 			start_pre_config()
+
+
+func start_pre_config() -> void:
+	# Initially, only run by the last player to ready up. Then the others are notified in order and they each call this.
+	get_tree().set_pause(true)
+
+	if final_readier:
+		var map_votes = []
+		for player_id in player_data:
+			map_votes.append(player_data[player_id]["map_vote"])
+		selected_map = Global.get_random_arrayitem(map_votes)
+
+	if !local_pre_config_done:
+		var map = load("res://Scenes/Maps/" + selected_map + ".tscn").instance()
+		game_mode = GameMode.MULTI
+		setup_scene(map, 12)
+
+		local_pre_config_done = true
+
+		if final_readier:
+			send_P2P_Packet("all", {"pre_config_complete": {"map": selected_map}})
+		else:
+			send_P2P_Packet("all", {"pre_config_complete": true})
+
+	var ids = player_data.keys()
+	var num_players = len(ids)
+	var num_bots = 0 #MAX_MEMBERS - num_players
+
+	if host:
+		for i in range(num_bots):
+			var name = "BOT" + str(i)
+			var vehicle = Global.get_random_scene(Global.SceneType.VEHICLE)
+			if !(name in bot_data):
+				bot_data[name] = {"vehicle": vehicle}
+			else:
+				bot_data[name]["vehicle"] = vehicle
+			send_P2P_Packet("all", {"bot_vehicle": {"name": "BOT" + str(i), "vehicle": vehicle}})
+			start_bot_config("BOT" + str(i))
+	player_data[STEAM_ID]["pre_config_complete"] = true
+	get_tree().set_pause(false)
+
+
+func start_bot_config(id) -> void:
+	get_tree().set_pause(true)
+
+	var map = load("res://Scenes/Maps/" + selected_map + ".tscn").instance()
+	setup_bot(id, map, bot_data[id]["start_pos"])
+
+	bot_data[id]["pre_config_complete"] = true
+	get_tree().set_pause(false)
+
+
+func _on_vehicle_selected(vehicle: String):
+	if lobby_id != 0:
+		send_P2P_Packet("all", {"vehicle": vehicle})
+		player_data[STEAM_ID]["vehicle"] = vehicle
+
+		# This selection has no effect unless we're in the lobby
+		if lobby and !game_started:
+			emit_signal("vehicle_update", vehicle)
+
+
+func _on_map_selected(map: String):
+	if lobby_id != 0:
+		send_P2P_Packet("all", {"map_vote": map})
+		player_data[STEAM_ID]["map_vote"] = map
+
+
+func load_game() -> void:
+	# Properly loads the game.
+	get_tree().set_pause(true)
+	start_game()
+	get_tree().set_pause(false)
+
+
+func start_game() -> void:
+	# ! Need to set this to false whenever it ends.
+	game_started = true
+
+
+func finish_game() -> void:
+	race_finished = true
+
+
+func _on_i_finished() -> void:
+	send_P2P_Packet("all", {"race_complete": true})
+	#var end = preload("res://Scenes/RaceEnd.tscn").instance()
+	#get_node("/root").add_child(end)
+
+	if lobby_id != 0:
+		var all_complete = true
+
+		# Check if last to complete - last place sends a packet
+		for player_id in player_data:
+			if player_data[player_id].has("race_complete"):
+				if !player_data[player_id]["race_complete"]:
+					all_complete = false
+			else:
+				all_complete = false
+
+		if all_complete:
+			send_P2P_Packet("all", {"all_race_complete": true})
+			send_P2P_Packet("all", {"roster_size_after_race": player_data.size()})
+			finish_game()
 
 
 # Steam Callbacks
@@ -897,6 +955,7 @@ func _on_Persona_Change(steam_id: int, flag: int) -> void:
 	if lobby and !game_started:
 		# A user has had an info change; update the lobby list
 		lobby.display_message("Persona change has occurred, lobby list will now refresh.")
+
 	# Update the lobby list
 	update_lobby_members()
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Scenes/Scene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Maps/Main/bg.png" type="Texture" id=2]
@@ -10,10 +10,43 @@
 [ext_resource path="res://Scripts/Game/Activators/layer.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/Objects/RampHandler.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Objects/ItemBoxArray.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Scripts/Game/Activators/checkpoint.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/Templates/TCheckpoint.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Sprites/Maps/Main/tunnel.png" type="Texture" id=12]
 [ext_resource path="res://Sprites/Maps/Main/tunnel_entrances.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/Maps/Main/tunnel_entrance_covers.png" type="Texture" id=14]
+[ext_resource path="res://Scenes/Objects/GrapplePoint.tscn" type="PackedScene" id=15]
+
+[sub_resource type="SegmentShape2D" id=10]
+a = Vector2( -400, 21 )
+b = Vector2( -401, 427 )
+
+[sub_resource type="SegmentShape2D" id=11]
+a = Vector2( -390, -24 )
+b = Vector2( -790, -411 )
+
+[sub_resource type="SegmentShape2D" id=12]
+a = Vector2( 416, -148 )
+b = Vector2( 416, -584 )
+
+[sub_resource type="SegmentShape2D" id=13]
+a = Vector2( -688, -1884 )
+b = Vector2( -687, -1095 )
+
+[sub_resource type="SegmentShape2D" id=14]
+a = Vector2( -2310, -693 )
+b = Vector2( -1873, -692 )
+
+[sub_resource type="SegmentShape2D" id=15]
+a = Vector2( -1981, 1422 )
+b = Vector2( -1093, 1152 )
+
+[sub_resource type="SegmentShape2D" id=16]
+a = Vector2( 741, 1321 )
+b = Vector2( 735, 909 )
+
+[sub_resource type="SegmentShape2D" id=17]
+a = Vector2( 1117, 481 )
+b = Vector2( 1103, -649 )
 
 [sub_resource type="SegmentShape2D" id=1]
 b = Vector2( 218, -162 )
@@ -259,104 +292,83 @@ position = Vector2( 365, 188 )
 [node name="12" parent="StartPoints" index="11" instance=ExtResource( 7 )]
 position = Vector2( 365, 108 )
 
-[node name="0" type="Area2D" parent="Checkpoints" index="0"]
-script = ExtResource( 11 )
+[node name="GrapplePoint" parent="Grapplables" index="0" instance=ExtResource( 15 )]
+position = Vector2( -464, -3 )
 
-[node name="col" type="CollisionPolygon2D" parent="Checkpoints/0" index="0"]
-polygon = PoolVector2Array( 98, 33, 107, 33, 107, 416, 114, 416, 114, 424, 98, 424 )
+[node name="GrapplePoint2" parent="Grapplables" index="1" instance=ExtResource( 15 )]
+position = Vector2( 406, -1018 )
 
-[node name="centre" type="Position2D" parent="Checkpoints/0" index="1"]
-position = Vector2( 102, 233 )
+[node name="GrapplePoint3" parent="Grapplables" index="2" instance=ExtResource( 15 )]
+position = Vector2( -926, -1027 )
 
-[node name="1" type="Area2D" parent="Checkpoints" index="1"]
-script = ExtResource( 11 )
+[node name="GrapplePoint4" parent="Grapplables" index="3" instance=ExtResource( 15 )]
+position = Vector2( -807, -755 )
 
-[node name="col" type="CollisionPolygon2D" parent="Checkpoints/1" index="0"]
-position = Vector2( -502, -8 )
-polygon = PoolVector2Array( 98, 33, 107, 33, 107, 429, 98, 428 )
+[node name="GrapplePoint5" parent="Grapplables" index="4" instance=ExtResource( 15 )]
+position = Vector2( -2259, -239 )
 
-[node name="centre" type="Position2D" parent="Checkpoints/1" index="1"]
-position = Vector2( -401, 224 )
+[node name="GrapplePoint6" parent="Grapplables" index="5" instance=ExtResource( 15 )]
+position = Vector2( -1532, 109 )
 
-[node name="2" type="Area2D" parent="Checkpoints" index="2"]
-position = Vector2( -1078, 397 )
-rotation = 1.5708
-script = ExtResource( 11 )
+[node name="GrapplePoint7" parent="Grapplables" index="6" instance=ExtResource( 15 )]
+position = Vector2( -2063, 557 )
 
-[node name="col" type="CollisionPolygon2D" parent="Checkpoints/2" index="0"]
-position = Vector2( -622.717, -618.387 )
-rotation = 0.785398
-scale = Vector2( 1, 0.863927 )
-polygon = PoolVector2Array( 89, -214, 97, -214, 108, 428, 98, 428 )
+[node name="GrapplePoint8" parent="Grapplables" index="7" instance=ExtResource( 15 )]
+position = Vector2( -1312, 653 )
 
-[node name="centre" type="Position2D" parent="Checkpoints/2" index="1"]
-position = Vector2( -616, -489 )
+[node name="GrapplePoint9" parent="Grapplables" index="8" instance=ExtResource( 15 )]
+position = Vector2( -1879, 1186 )
 
-[node name="3" type="Area2D" parent="Checkpoints" index="3"]
-position = Vector2( 817, -125 )
-script = ExtResource( 11 )
+[node name="GrapplePoint10" parent="Grapplables" index="9" instance=ExtResource( 15 )]
+position = Vector2( -1090, 1249 )
 
-[node name="col" type="CollisionPolygon2D" parent="Checkpoints/3" index="0"]
-position = Vector2( -503, -461 )
-polygon = PoolVector2Array( 96, 12, 105, 7, 108, 428, 98, 428 )
+[node name="GrapplePoint11" parent="Grapplables" index="10" instance=ExtResource( 15 )]
+position = Vector2( -722, 1197 )
 
-[node name="centre" type="Position2D" parent="Checkpoints/3" index="1"]
-position = Vector2( -402, -243 )
+[node name="GrapplePoint12" parent="Grapplables" index="11" instance=ExtResource( 15 )]
+position = Vector2( 232, 1507 )
 
-[node name="4" type="Area2D" parent="Checkpoints" index="4"]
-position = Vector2( -287, -1065 )
-script = ExtResource( 11 )
+[node name="0" parent="Checkpoints" index="0" instance=ExtResource( 11 )]
 
-[node name="col" type="CollisionPolygon2D" parent="Checkpoints/4" index="0"]
-position = Vector2( -503, -461 )
-polygon = PoolVector2Array( 96, -354, 108, -354, 108, 428, 98, 428 )
+[node name="1" parent="Checkpoints" index="1" instance=ExtResource( 11 )]
 
-[node name="centre" type="Position2D" parent="Checkpoints/4" index="1"]
-position = Vector2( -401, -138 )
+[node name="CollisionShape2D" parent="Checkpoints/1" index="0"]
+shape = SubResource( 10 )
 
-[node name="5" type="Area2D" parent="Checkpoints" index="5"]
-position = Vector2( -287, -1065 )
-script = ExtResource( 11 )
+[node name="2" parent="Checkpoints" index="2" instance=ExtResource( 11 )]
 
-[node name="col" type="CollisionPolygon2D" parent="Checkpoints/5" index="0"]
-position = Vector2( -1906, 150 )
-polygon = PoolVector2Array( -111, 228, -112, 215, 316, 216, 316, 230 )
+[node name="CollisionShape2D" parent="Checkpoints/2" index="0"]
+shape = SubResource( 11 )
 
-[node name="centre" type="Position2D" parent="Checkpoints/5" index="1"]
-position = Vector2( -1775, 370 )
+[node name="3" parent="Checkpoints" index="3" instance=ExtResource( 11 )]
 
-[node name="6" type="Area2D" parent="Checkpoints" index="6"]
-position = Vector2( 37, 1049 )
-script = ExtResource( 11 )
+[node name="CollisionShape2D" parent="Checkpoints/3" index="0"]
+shape = SubResource( 12 )
 
-[node name="col" type="CollisionPolygon2D" parent="Checkpoints/6" index="0"]
-position = Vector2( -1906, 150 )
-polygon = PoolVector2Array( -111, 228, -112, 215, 770, -51, 776, -40 )
+[node name="4" parent="Checkpoints" index="4" instance=ExtResource( 11 )]
 
-[node name="centre" type="Position2D" parent="Checkpoints/6" index="1"]
-position = Vector2( -1488, 212 )
+[node name="CollisionShape2D" parent="Checkpoints/4" index="0"]
+shape = SubResource( 13 )
 
-[node name="7" type="Area2D" parent="Checkpoints" index="7"]
-position = Vector2( 2766, 951 )
-script = ExtResource( 11 )
+[node name="5" parent="Checkpoints" index="5" instance=ExtResource( 11 )]
 
-[node name="col" type="CollisionPolygon2D" parent="Checkpoints/7" index="0"]
-position = Vector2( -1906, 150 )
-polygon = PoolVector2Array( -127, 216, -112, 215, -117, -191, -134, -189 )
+[node name="CollisionShape2D" parent="Checkpoints/5" index="0"]
+shape = SubResource( 14 )
 
-[node name="centre" type="Position2D" parent="Checkpoints/7" index="1"]
-position = Vector2( -2029, 187 )
+[node name="6" parent="Checkpoints" index="6" instance=ExtResource( 11 )]
 
-[node name="8" type="Area2D" parent="Checkpoints" index="8"]
-position = Vector2( 3141, 117 )
-script = ExtResource( 11 )
+[node name="CollisionShape2D" parent="Checkpoints/6" index="0"]
+shape = SubResource( 15 )
 
-[node name="col" type="CollisionPolygon2D" parent="Checkpoints/8" index="0"]
-position = Vector2( -1906, 150 )
-polygon = PoolVector2Array( -127, 216, -112, 215, -124, -904, -140, -905 )
+[node name="7" parent="Checkpoints" index="7" instance=ExtResource( 11 )]
 
-[node name="centre" type="Position2D" parent="Checkpoints/8" index="1"]
-position = Vector2( -2027, 167 )
+[node name="CollisionShape2D" parent="Checkpoints/7" index="0"]
+shape = SubResource( 16 )
+
+[node name="8" parent="Checkpoints" index="8" instance=ExtResource( 11 )]
+
+[node name="CollisionShape2D" parent="Checkpoints/8" index="0"]
+shape = SubResource( 17 )
 
 [node name="0" type="Area2D" parent="Layers" index="0"]
 collision_layer = 2
@@ -418,3 +430,12 @@ shape = SubResource( 9 )
 [editable path="Overlay/Objects/RampHandler2"]
 [editable path="Overlay/Objects/RampHandler2/Ramp"]
 [editable path="Overlay/Objects/RampHandler2/Ramp/ConveyorBelt"]
+[editable path="Checkpoints/0"]
+[editable path="Checkpoints/1"]
+[editable path="Checkpoints/2"]
+[editable path="Checkpoints/3"]
+[editable path="Checkpoints/4"]
+[editable path="Checkpoints/5"]
+[editable path="Checkpoints/6"]
+[editable path="Checkpoints/7"]
+[editable path="Checkpoints/8"]

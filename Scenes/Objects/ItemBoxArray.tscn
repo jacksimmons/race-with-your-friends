@@ -8,12 +8,16 @@ script = ExtResource( 1 )
 
 [node name="ItemBox" parent="." instance=ExtResource( 2 )]
 position = Vector2( -18, 0 )
+value = 0
 
 [node name="ItemBox2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 19, 0 )
+value = 0
 
 [node name="ItemBox3" parent="." instance=ExtResource( 2 )]
 position = Vector2( -55, 0 )
+value = 0
 
 [node name="ItemBox4" parent="." instance=ExtResource( 2 )]
 position = Vector2( 56, 0 )
+value = 0

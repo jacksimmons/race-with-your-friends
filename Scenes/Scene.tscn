@@ -29,6 +29,8 @@
 
 [node name="StartPoints" type="Node2D" parent="."]
 
+[node name="Grapplables" type="Node2D" parent="."]
+
 [node name="Checkpoints" type="Node2D" parent="."]
 script = ExtResource( 7 )
 

@@ -1,0 +1,22 @@
+{ "frames": [
+   {
+    "filename": "GrapplingRope.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 1600, "h": 1600 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 1600, "h": 1600 },
+    "sourceSize": { "w": 1600, "h": 1600 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40-x64",
+  "image": "GrapplingRope.png",
+  "format": "RGBA8888",
+  "size": { "w": 1600, "h": 1600 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}

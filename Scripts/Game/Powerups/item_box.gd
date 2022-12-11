@@ -49,12 +49,11 @@ const drops = {
 	},
 
 	"Second-Last": {
-		"Rhino": 0.2,
-		""
+		"Rhino": 0.2
 	},
 
 	"Last": {
-		"Rhino": 0.4,
+		"Rhino": 0.4
 	}
 }
 
